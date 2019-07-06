@@ -1,0 +1,63 @@
+apiVersion: devops/v1alpha2
+kind: Application
+group: com.hand.hap
+code: hap-parent
+name: HAP框架
+version: ${VERSION}
+image: registry.saas.hand-china.com/hap/hap-parent:${IMAEG_TAG}
+commit: ${COMMIT}
+
+vars:
+- name: memory_limits
+  description: "内存上限"
+  value: "2048Mi"
+- name: memory_requests
+  description: "内存请求"
+  value: "1280Mi"
+
+resources:
+- name: db
+  type: mysql
+- name: redis
+  type: redis
+
+stages:
+- name: 初始化配置
+  description: '初始化配置信息'
+  type: ScriptJob
+  config:
+    scripts:
+    - 'java -jar /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/liquibase-core-3.4.2.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/tomcat/webapps/ROOT.war --changeLogFile=com/hand/hap/db/liquibase.groovy --url=jdbc:mysql://{{ db.HOST }}:{{ db.PORT }}/{{ db.SCHEMA }}  --username={{ db.USERNAME }} --password={{db.PASSWORD }} clearCheckSums ;java -Ddb.url=jdbc:mysql://{{ db.HOST }}:{{ db.PORT }}/{{ db.SCHEMA }} -Ddb.user={{ db.USERNAME }} -Ddb.password={{db.PASSWORD }} -jar /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/liquibase-core-3.4.2.jar --driver=com.mysql.jdbc.Driver --classpath=/usr/local/tomcat/webapps/ROOT.war --changeLogFile=com/hand/hap/db/liquibase.groovy --url=jdbc:mysql://{{ db.HOST }}:{{ db.PORT }}/{{ db.SCHEMA }}  --username={{ db.USERNAME }} --password={{db.PASSWORD }} update'
+- name: 部署
+  description: '部署当前服务'
+  type: Deploy
+  config:
+    port: 8080
+    env:
+    - name: REDIS_IP
+      value: "{{ redis.HOST }}"
+    - name: REDIS_DB
+      value: "{{ redis.SCHEMA }}"
+    - name: MYSQL_HOST
+      value: "{{ db.HOST }}"
+    - name: MYSQL_DB
+      value: "{{ db.SCHEMA }}"
+    - name: MYSQL_USER
+      value: "{{db.USERNAME }}"
+    - name: MYSQL_PASS
+      value: "{{ db.PASSWORD }}"
+    resources:
+      limits:
+        memory: "{{ vars.memory_limits }}"
+      requests:
+        memory: "{{ vars.memory_requests }}"
+    readinessProbe:
+      httpGet:
+        path: /
+        port: 8080
+        scheme: HTTP
+      failureThreshold: 3
+      initialDelaySeconds: 60
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 10

@@ -1,0 +1,56 @@
+kind: DeploymentConfig
+apiVersion: v1
+metadata:
+  name: $APP
+spec:
+  selector:
+    name: $APP
+  template: 
+    metadata:
+      labels:
+        name: $APP
+        commitSha: $CI_COMMIT_SHA
+    spec:
+      containers:
+      - name: $APP
+        image: registry.saas.hand-china.com/hap_dev/hap3_newtheme:$IMAGES_TAG
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+  replicas: 1
+  triggers:
+  - type: ConfigChange 
+  strategy: 
+    type: Rolling
+  paused: false 
+  revisionHistoryLimit: 2
+  minReadySeconds: 0
+---
+kind: Service
+apiVersion: v1
+metadata:
+  labels:
+    app: $APP
+  name: $APP
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    name: $APP
+---
+apiVersion: v1
+kind: Route
+metadata:
+  name: $APP
+  labels:
+    app: $APP
+spec:
+  host: $APP_HOST
+  to:
+    kind: Service
+    name: $APP
+    weight: 100
+  wildcardPolicy: None

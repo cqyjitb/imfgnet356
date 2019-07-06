@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hap-parent</artifactId>
+        <groupId>com.hand</groupId>
+        <version>3.5.6-RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>hap-pom</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-core</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <!-- 计划任务 -->
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-job</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <!-- 工作流 -->
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-workflow</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-report</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-mail</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-oauth2</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-gateway</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-interface</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-task</artifactId>
+            <classifier>classes</classifier>
+        </dependency>
+
+    </dependencies>
+
+</project>

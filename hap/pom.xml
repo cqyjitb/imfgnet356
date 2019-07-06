@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>hap-parent</artifactId>
+        <groupId>com.hand</groupId>
+        <version>3.5.6-RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hap</artifactId>
+    <packaging>war</packaging>
+    <name>hap</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-core</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-job</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-oauth2</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-report</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-mail</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-gateway</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-interface</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-task</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-workflow</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hand</groupId>
+            <artifactId>hap-db</artifactId>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <finalName>hap</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/java/</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.groovy</include>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.hand</groupId>
+                        <artifactId>hap-core</artifactId>
+                        <classifier>classes</classifier>
+                        <version>3.5.6-RELEASE</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.hand</groupId>
+                        <artifactId>hap-db</artifactId>
+                        <version>3.5.6-RELEASE</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <attachClasses>true</attachClasses>
+                    <overlays>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-core</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-job</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-report</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-mail</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-oauth2</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-gateway</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-interface</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-task</artifactId>
+                        </overlay>
+                        <overlay>
+                            <groupId>com.hand</groupId>
+                            <artifactId>hap-workflow</artifactId>
+                        </overlay>
+                    </overlays>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
