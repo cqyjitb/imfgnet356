@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.dispatch.mapper.ResultMapper">
+    <resultMap id="BaseResultMap" type="yj.core.dispatch.dto.Result">
+        <result column="id" property="id" jdbcType="DECIMAL" />
+        <result column="input_id" property="inputId" jdbcType="DECIMAL" />
+        <result column="confirmation_no" property="confirmationNo" jdbcType="VARCHAR" />
+        <result column="confirmation_pos" property="confirmationPos" jdbcType="VARCHAR" />
+        <result column="plant" property="plant" jdbcType="VARCHAR" />
+        <result column="material" property="material" jdbcType="VARCHAR" />
+        <result column="workcenter" property="workcenter" jdbcType="VARCHAR" />
+        <result column="is_reversed" property="isReversed" jdbcType="VARCHAR" />
+        <result column="mat_desc" property="matDesc" jdbcType="VARCHAR" />
+        <result column="operation_desc" property="operationDesc" jdbcType="VARCHAR" />
+        <result column="fevor" property="fevor" jdbcType="VARCHAR" />
+        <result column="fevor_txt" property="fevorTxt" jdbcType="VARCHAR" />
+
+    </resultMap>
+
+    <select id="queryResultById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT *
+        FROM confirmation_result
+        WHERE id=#{id}
+    </select>
+
+    <insert id="insertResult" parameterType="yj.core.dispatch.dto.Result">
+         INSERT INTO confirmation_result(
+        input_id,confirmation_no,confirmation_pos,plant,material,workcenter,is_reversed,mat_desc,operation_desc,fevor,fevor_txt,CREATED_BY
+        )
+        VALUES (
+       #{inputId}, #{confirmationNo},#{confirmationPos},#{plant},#{material},
+        #{workcenter},#{isReversed},#{matDesc},#{operationDesc},#{fevor},#{fevorTxt},#{created_by}
+      )
+    </insert>
+
+    <update id="updateReveseByInputId" >
+        UPDATE confirmation_result
+        SET is_reversed = '1'
+        WHERE input_id = #{inputId}
+    </update>
+
+    <update id="updateRsnumAndRspos" parameterType="yj.core.dispatch.dto.Result">
+        UPDATE confirmation_result
+        SET confirmation_no = #{confirmationNo},
+            confirmation_pos = #{confirmationPos}
+        WHERE input_id = #{inputId}
+    </update>
+
+    <select id="selectByInputId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from confirmation_result
+        <where>
+            input_id = #{inputId}
+        </where>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wiplockusers.mapper.LockUsersMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wiplockusers.dto.LockUsers">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="USERID" property="userid" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectLockUsers" parameterType="yj.core.wiplockusers.dto.LockUsers" resultMap="BaseResultMap">
+        select *,li.descriptions,li.dept_id as deptId from wip_lock_users lu,wip_lines li
+        <where>
+            lu.line_id = li.line_id
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND lu.line_id = #{lineId}
+            </if>
+        </where>
+        order by lu.werks asc,lu.line_id asc
+    </select>
+
+    <select id="isExit" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from wip_lock_users
+        <where>
+            WERKS = #{werks}
+            AND LINE_ID = #{lineId}
+            AND USERID = #{userid}
+        </where>
+    </select>
+
+    <insert id="insertLockUsers" parameterType="yj.core.wiplockusers.dto.LockUsers">
+        insert into wip_lock_users(WERKS,LINE_ID,USERID,CREATION_DATE,CREATED_BY)
+        VALUES(#{werks},#{lineId},#{userid},#{creationDate},#{createdBy})
+    </insert>
+
+    <!--<update id="updateLockUsers" parameterType="yj.core.wiplockusers.dto.LockUsers">
+        update wip_lock_users set WERKS=#{werks},LINE_ID=#{lineId},USERID = #{userid},
+        LAST_UPDATED_DATE=#{lastUpdatedDate},LAST_UPDATED_BY=#{lastUpdatedBy}
+        <where>
+            WERKS = #{werks}
+            AND LINE_ID = #{lineId}
+            AND USERID = #{userid}
+        </where>
+    </update>-->
+
+    <delete id="deleteLockUsers" parameterType="yj.core.wiplockusers.dto.LockUsers">
+        delete from wip_lock_users
+        <where>
+            WERKS = #{werks}
+            AND LINE_ID = #{lineId}
+            AND USERID = #{userid}
+        </where>
+    </delete>
+</mapper>

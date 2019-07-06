@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.zudhead.mapper.ZudheadMapper">
+    <resultMap id="BaseResultMap" type="yj.core.zudhead.dto.Zudhead">
+        <result column="ZUDNUM" property="zudnum" jdbcType="VARCHAR" />
+        <result column="UDTYPE" property="udtype" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="CRDAT" property="crdat" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectMaxNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select MAX(ZUDNUM)
+        FROM wip_zudhead
+        <where>
+            CRDAT = #{crdat}
+        </where>
+    </select>
+    <insert id="insertHead" parameterType="yj.core.zudhead.dto.Zudhead">
+        insert INTO wip_zudhead(ZUDNUM,UDTYPE,LINE_ID,CRDAT,ARBPR,STATUS,CREATION_DATE,CREATED_BY)VALUES (#{zudnum},#{udtype},#{lineId},#{crdat},#{arbpr},#{status},#{creationDate},#{createdBy})
+    </insert>
+
+    <select id="selectByZudnum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_zudhead
+        <where>
+            ZUDNUM = #{zudnum}
+        </where>
+    </select>
+
+    <update id="updateHead" parameterType="yj.core.zudhead.dto.Zudhead">
+        update wip_zudhead set LAST_UPDATE_DATE = #{lastUpdateDate},
+        LAST_UPDATED_BY = #{lastUpdatedBy},
+        STATUS = #{status}
+        <where>
+            ZUDNUM = #{zudnum}
+        </where>
+    </update>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.kbtest.mapper.KbtestMapper">
+    <resultMap id="BaseResultMap" type="yj.kanb.kbtest.dto.Kbtest">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertNewData" parameterType="java.lang.String">
+        insert INTO kbtest(id) VALUES (#{id});
+    </insert>
+</mapper>

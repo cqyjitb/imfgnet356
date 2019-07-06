@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.dispatch.mapper.InputLogMapper">
+    <resultMap id="BaseResultMap" type="yj.core.dispatch.dto.InputLog">
+        <result column="id" property="id" jdbcType="DECIMAL" />
+        <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+        <result column="orderno" property="orderno" jdbcType="VARCHAR" />
+        <result column="dispatch" property="dispatch" jdbcType="VARCHAR" />
+        <result column="operation" property="operation" jdbcType="VARCHAR" />
+        <result column="yeild" property="yeild" jdbcType="DECIMAL" />
+        <result column="work_scrap" property="workScrap" jdbcType="DECIMAL" />
+        <result column="row_scrap" property="rowScrap" jdbcType="DECIMAL" />
+        <result column="classno" property="classno" jdbcType="VARCHAR" />
+        <result column="classgrp" property="classgrp" jdbcType="VARCHAR" />
+        <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+        <result column="line" property="line" jdbcType="VARCHAR" />
+        <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+        <result column="posting_date" property="postingDate" jdbcType="VARCHAR" />
+        <result column="plant" property="plant" jdbcType="VARCHAR" />
+        <result column="attr1" property="attr1" jdbcType="VARCHAR" />
+        <result column="attr2" property="attr2" jdbcType="VARCHAR" />
+        <result column="attr3" property="attr3" jdbcType="VARCHAR" />
+        <result column="attr4" property="attr4" jdbcType="VARCHAR" />
+        <result column="attr5" property="attr5" jdbcType="VARCHAR" />
+        <result column="attr6" property="attr6" jdbcType="VARCHAR" />
+        <result column="attr7" property="attr7" jdbcType="VARCHAR" />
+        <result column="attr8" property="attr8" jdbcType="VARCHAR" />
+        <result column="attr9" property="attr9" jdbcType="VARCHAR" />
+        <result column="attr10" property="attr10" jdbcType="VARCHAR" />
+        <result column="attr11" property="attr11" jdbcType="VARCHAR" />
+        <result column="attr12" property="attr12" jdbcType="VARCHAR" />
+        <result column="attr13" property="attr13" jdbcType="VARCHAR" />
+        <result column="attr14" property="attr14" jdbcType="VARCHAR" />
+        <result column="attr15" property="attr15" jdbcType="VARCHAR" />
+        <result column="BGUUID" property="bguuid" jdbcType="VARCHAR" />
+        <result column="CXUUID" property="cxuuid" jdbcType="VARCHAR" />
+        <result column="msgty" property="msgty" jdbcType="VARCHAR" />
+        <result column="msgtx" property="msgtx" jdbcType="VARCHAR" />
+        <result column="tran_type" property="tranType" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creatDate" jdbcType="VARCHAR" />
+        <result column="LCREATION_DATE" property="logCreatDate" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+        <result column="mat_desc" property="matDesc" jdbcType="VARCHAR" />
+        <result column="is_reversed" property="isReversed" jdbcType="VARCHAR" />
+        <result column="material" property="material" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="confirmation_no" property="confirmationNo" jdbcType="VARCHAR" />
+        <result column="confirmation_pos" property="confirmationPos" jdbcType="VARCHAR" />
+        <result column="operation_desc" property="operationDesc" jdbcType="VARCHAR" />
+        <result column="fevor" property="fevor" jdbcType="VARCHAR" />
+        <result column="fevor_txt" property="fevorTxt" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="yj.core.dispatch.dto.InputLog">
+        <result column="id" property="id" jdbcType="DECIMAL" />
+        <result column="barcode" property="barcode" jdbcType="VARCHAR" />
+        <result column="orderno" property="orderno" jdbcType="VARCHAR" />
+        <result column="dispatch" property="dispatch" jdbcType="VARCHAR" />
+        <result column="operation" property="operation" jdbcType="VARCHAR" />
+        <result column="yeild" property="yeild" jdbcType="DECIMAL" />
+        <result column="work_scrap" property="workScrap" jdbcType="DECIMAL" />
+        <result column="row_scrap" property="rowScrap" jdbcType="DECIMAL" />
+        <result column="classno" property="classno" jdbcType="VARCHAR" />
+        <result column="classgrp" property="classgrp" jdbcType="VARCHAR" />
+        <result column="shop_code" property="shopCode" jdbcType="VARCHAR" />
+        <result column="line" property="line" jdbcType="VARCHAR" />
+        <result column="model_no" property="modelNo" jdbcType="VARCHAR" />
+        <result column="posting_date" property="postingDate" jdbcType="VARCHAR" />
+        <result column="plant" property="plant" jdbcType="VARCHAR" />
+        <result column="attr1" property="attr1" jdbcType="VARCHAR" />
+        <result column="attr2" property="attr2" jdbcType="VARCHAR" />
+        <result column="attr3" property="attr3" jdbcType="VARCHAR" />
+        <result column="attr4" property="attr4" jdbcType="VARCHAR" />
+        <result column="attr5" property="attr5" jdbcType="VARCHAR" />
+        <result column="attr6" property="attr6" jdbcType="VARCHAR" />
+        <result column="attr7" property="attr7" jdbcType="VARCHAR" />
+        <result column="attr8" property="attr8" jdbcType="VARCHAR" />
+        <result column="attr9" property="attr9" jdbcType="VARCHAR" />
+        <result column="attr10" property="attr10" jdbcType="VARCHAR" />
+        <result column="attr11" property="attr11" jdbcType="VARCHAR" />
+        <result column="attr12" property="attr12" jdbcType="VARCHAR" />
+        <result column="attr13" property="attr13" jdbcType="VARCHAR" />
+        <result column="attr14" property="attr14" jdbcType="VARCHAR" />
+        <result column="attr15" property="attr15" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByOrderno2" parameterType="java.lang.String" resultType="yj.core.dispatch.dto.InputLog">
+        select COALESCE(sum(il.yeild),0) as yeild,COALESCE(sum(il.work_scrap),0) as workScrap,COALESCE(sum(il.row_scrap),0) as rowScrap
+        from confirmation_input_log il,confirmation_result r,confirmation_log l,sap_afko ao,sap_afvc ac
+        <where>
+            il.id= r.input_id
+            AND l.ref_id = il.id
+            AND r.is_reversed ='0'
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            and il.operation = '0010'
+            AND ao.aufnr = il.orderno
+            AND ao.aufpl = ac.aufpl
+            and (ac.flag = '' or ac.flag is null)
+            AND ao.auart in('YZ01','YZ03','YZ04')
+            <if test="plant != null">
+                AND il.plant = #{plant}
+            </if>
+            <if test="arbpl != null">
+                AND ac.arbpl = #{arbpl}
+            </if>
+            <if test="attr4 != null">
+                AND il.attr4 = #{attr4}
+            </if>
+            <if test="attr6 != null">
+                AND il.attr6 = #{attr6}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByOrderno" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COALESCE(sum(il.yeild),0) from confirmation_input_log il,confirmation_result r,confirmation_log l,sap_afko ao,sap_afvc ac
+        <where>
+            il.id= r.input_id
+            AND l.ref_id = il.id
+            AND r.is_reversed ='0'
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            and il.operation = '0010'
+            AND ao.aufnr = il.orderno
+            AND ao.aufpl = ac.aufpl
+            and (ac.flag = '' or ac.flag is null)
+            AND ao.auart in('YZ01','YZ03','YZ04')
+            <if test="arbpl != null">
+                AND ac.arbpl = #{arbpl}
+            </if>
+            <!--<if test="orderno != null">
+                AND il.orderno = #{orderno}
+            </if>
+            <if test="fevor != null">
+                and r.fevor = #{fevor}
+            </if>-->
+            <if test="postingDateAfter != null">
+                AND il.CREATION_DATE >= #{postingDateAfter}
+            </if>
+            <if test="postingDateBefore != null">
+                AND #{postingDateBefore} >= il.CREATION_DATE
+            </if>
+        </where>
+    </select>
+
+    <select id="queryInputLogById" resultMap="BaseResultMap1">
+      SELECT *
+      FROM confirmation_input_log
+      WHERE id=#{id}
+    </select>
+
+    <insert id="insertInputLog" parameterType="yj.core.dispatch.dto.InputLog">
+        INSERT INTO confirmation_input_log(
+        barcode,orderno,dispatch,operation,yeild,work_scrap,row_scrap,classno,classgrp,shop_code,line,model_no,posting_date,plant,
+        attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10,attr11,attr12,attr13,attr14,attr15,CREATED_BY,BGUUID,CXUUID
+        )
+        VALUES (
+        #{barcode}, #{orderno},#{dispatch},
+        #{operation},#{yeild},#{workScrap},#{rowScrap},#{classno},#{classgrp},#{shopCode},#{line},#{modelNo},#{postingDate},#{plant},
+        #{attr1},#{attr2},#{attr3},#{attr4},#{attr5},#{attr6},#{attr7},#{attr8},#{attr9},#{attr10},#{attr11},#{attr12},#{attr13},#{attr14},#{attr15},#{created_by},#{bguuid},#{cxuuid}
+        )
+    </insert>
+
+    <select id="queryInputlogByJjuuidbg" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        DISTINCT
+        il.id,
+        il.barcode,
+        il.dispatch,
+        il.orderno,
+        il.operation,
+        il.CREATION_DATE,
+        il.posting_date,
+        il.yeild,
+        il.work_scrap,
+        il.row_scrap,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.plant,
+        il.CREATED_BY,
+        il.attr1,
+        il.attr2,
+        il.attr3,
+        il.attr4,
+        il.attr5,
+        il.attr6,
+        il.attr7,
+        il.attr8,
+        il.attr9,
+        il.attr10,
+        il.attr11,
+        il.attr12,
+        il.attr13,
+        il.attr14,
+        il.attr15,
+        r.mat_desc,
+        r.material,
+        r.confirmation_no,
+        r.confirmation_pos,
+        u.user_name,
+        r.operation_desc,
+        r.fevor,
+        r.fevor_txt,
+        l.msgty,
+        l.msgtx
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l
+        <where>
+            il.id= r.input_id
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            AND l.tran_type = '0'
+            And il.BGUUID = #{bguuid}
+        </where>
+
+    </select>
+
+    <select id="queryInputlogByJjuuidcx" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        DISTINCT
+        il.id,
+        il.barcode,
+        il.dispatch,
+        il.orderno,
+        il.operation,
+        il.CREATION_DATE,
+        il.posting_date,
+        il.yeild,
+        il.work_scrap,
+        il.row_scrap,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.plant,
+        il.CREATED_BY,
+        il.attr1,
+        il.attr2,
+        il.attr3,
+        il.attr4,
+        il.attr5,
+        il.attr6,
+        il.attr7,
+        il.attr8,
+        il.attr9,
+        il.attr10,
+        il.attr11,
+        il.attr12,
+        il.attr13,
+        il.attr14,
+        il.attr15,
+        r.mat_desc,
+        r.material,
+        r.confirmation_no,
+        r.confirmation_pos,
+        u.user_name,
+        r.operation_desc,
+        r.fevor,
+        r.fevor_txt,
+        l.msgty,
+        l.msgtx
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l
+        <where>
+            il.id= r.input_id
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            AND l.tran_type = '1'
+            And il.CXUUID = #{bguuid}
+        </where>
+
+    </select>
+    <!--
+       报功冲销
+   -->
+
+    <select id="queryAllWriteOff" resultMap="BaseResultMap" parameterType="yj.core.dispatch.dto.InputLog">
+        SELECT
+        DISTINCT
+        il.id,
+        il.barcode,
+        il.dispatch,
+        il.orderno,
+        il.operation,
+        il.CREATION_DATE,
+        il.posting_date,
+        il.yeild,
+        il.work_scrap,
+        il.row_scrap,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.plant,
+        il.CREATED_BY,
+        il.attr1,
+        il.attr2,
+        il.attr3,
+        il.attr4,
+        il.attr5,
+        il.attr6,
+        il.attr7,
+        il.attr8,
+        il.attr9,
+        il.attr10,
+        il.attr11,
+        il.attr12,
+        il.attr13,
+        il.attr14,
+        il.attr15,
+        r.mat_desc,
+        r.material,
+        r.confirmation_no,
+        r.confirmation_pos,
+        u.user_name,
+        r.operation_desc,
+        r.fevor,
+        r.fevor_txt
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l
+        <where>
+            il.id= r.input_id
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            AND r.is_reversed ='0'
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            <if test="plant != null">
+                 and il.plant = #{plant}
+            </if>
+            <if test="orderno != null">
+                and il.orderno = #{orderno}
+            </if>
+            <if test="operation != null">
+                and il.operation = #{operation}
+            </if>
+            <if test="material != null">
+                and r.material = #{material}
+            </if>
+            <if test="dispatch != null">
+                and il.dispatch = #{dispatch}
+            </if>
+            <if test="fevor != null">
+                and r.fevor = #{fevor}
+            </if>
+            <!--
+            <if test="creatDateAfter != null and creatDateBefore != null">
+                and il.CREATION_DATE  >=  #{creatDateAfter}  and  #{creatDateBefore} > il.CREATION_DATE
+            </if>
+            -->
+            <!--update furong.tang-->
+            <if test="creatDateAfter != null">
+                and il.CREATION_DATE  >=  #{creatDateAfter}
+            </if>
+            <if test="creatDateBefore != null">
+                and #{creatDateBefore} > il.CREATION_DATE
+            </if>
+            <!--update furong.tang-->
+
+            <!--
+            <if test="postingDateAfter != null and postingDateBefore != null">
+                and  il.posting_date  >=  #{postingDateAfter} and #{postingDateBefore} > il.posting_date
+            </if>
+            -->
+            <!--update furong.tang-->
+            <if test="postingDateAfter != null">
+                and  il.posting_date  >=  #{postingDateAfter}
+            </if>
+            <if test="postingDateBefore != null">
+                and #{postingDateBefore} > il.posting_date
+            </if>
+            <!--update furong.tang-->
+        </where>
+
+    </select>
+
+
+
+<!--报功结果-->
+    <select id="queryAllResult" resultMap="BaseResultMap" parameterType="yj.core.dispatch.dto.InputLog">
+        SELECT
+        DISTINCT
+        il.id,
+        il.orderno,
+        il.barcode,
+        il.dispatch,
+        il.operation,
+        il.CREATION_DATE,
+        il.posting_date,
+        il.yeild,
+        il.work_scrap,
+        il.row_scrap,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.plant,
+        il.CREATED_BY,
+        il.attr1,
+        il.attr2,
+        il.attr3,
+        il.attr4,
+        il.attr5,
+        il.attr6,
+        il.attr7,
+        il.attr8,
+        il.attr9,
+        il.attr10,
+        il.attr11,
+        il.attr12,
+        il.attr13,
+        il.attr14,
+        il.attr15,
+        r.is_reversed,
+        r.mat_desc,
+        r.material,
+        u.user_name,
+        r.operation_desc,
+        r.fevor,
+        r.fevor_txt
+
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l
+        <where>
+            il.id= r.input_id
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            <if test="plant != null">
+                and il.plant = #{plant}
+            </if>
+            <if test="orderno != null">
+                and il.orderno = #{orderno}
+            </if>
+            <if test="operation != null">
+                and il.operation = #{operation}
+            </if>
+            <if test="material != null">
+                and r.material = #{material}
+            </if>
+            <if test="isReversed != null">
+                and r.is_reversed = #{isReversed}
+            </if>
+            <if test="dispatch != null">
+                and il.dispatch = #{dispatch}
+            </if>
+            <if test="fevor != null">
+                and r.fevor = #{fevor}
+            </if>
+
+            <!--
+            <if test="creatDateAfter != null and creatDateBefore != null">
+                and il.CREATION_DATE  >=  #{creatDateAfter}  and  #{creatDateBefore} > il.CREATION_DATE
+            </if>
+            -->
+            <!--update furong.tang-->
+            <if test="creatDateAfter != null">
+                and il.CREATION_DATE  >=  #{creatDateAfter}
+            </if>
+            <if test="creatDateBefore != null">
+                and #{creatDateBefore} > il.CREATION_DATE
+            </if>
+            <!--update furong.tang-->
+
+            <!--
+            <if test="postingDateAfter != null and postingDateBefore != null">
+                and  il.posting_date  >=  #{postingDateAfter} and #{postingDateBefore} > il.posting_date
+            </if>
+            -->
+            <!--update furong.tang-->
+            <if test="postingDateAfter != null">
+                and  il.posting_date  >=  #{postingDateAfter}
+            </if>
+            <if test="postingDateBefore != null">
+                and #{postingDateBefore} > il.posting_date
+            </if>
+            <!--update furong.tang-->
+
+            <!--add furong.tang-->
+            <if test="attr1 != null">
+                and il.attr1 = #{attr1}
+            </if>
+            <if test="attr2 != null">
+                and il.attr2 = #{attr2}
+            </if>
+            <if test="attr3 != null">
+                and il.attr3 = #{attr3}
+            </if>
+            <if test="attr4 != null">
+                and il.attr4 = #{attr4}
+            </if>
+            <if test="attr5 != null">
+                and il.attr5 = #{attr5}
+            </if>
+            <if test="attr6 != null">
+                and il.attr6 = #{attr6}
+            </if>
+            <if test="attr7 != null">
+                and il.attr7 = #{attr7}
+            </if>
+            <!--add furong.tang-->
+        </where>
+
+    </select>
+
+    <!--
+        首工序报工记录查询
+    -->
+    <select id="queryFirstResult" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        il.orderno,
+        il.barcode,
+        il.dispatch,
+        il.operation,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.attr6,
+        il.attr7
+        FROM confirmation_input_log il,confirmation_result r,confirmation_log l
+        <where>
+                il.dispatch = #{dispatch}
+            AND il.operation = #{operation}
+            AND il.id= r.input_id
+            AND l.ref_id = il.id
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            AND r.is_reversed = '0'
+        </where>
+    </select>
+
+    <!-- 查询当前工序之前的报工成功记录 -->
+    <select id="queryBeforeResult" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        il.orderno,
+        il.barcode,
+        il.dispatch,
+        il.operation,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.attr6,
+        il.attr7
+        FROM confirmation_input_log il,confirmation_result r,confirmation_log l
+        <where>
+            il.dispatch = #{dispatch}
+            and #{operation} > il.operation
+            AND il.id= r.input_id
+            AND l.ref_id = il.id
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            AND r.is_reversed = '0'
+        </where>
+        order by il.operation ASC ;
+    </select>
+
+
+    <!--
+        报功日志
+    -->
+    <select id="queryAllLog" resultMap="BaseResultMap" parameterType="yj.core.dispatch.dto.InputLog">
+        SELECT
+        il.id,
+        il.plant,
+        il.orderno,
+        il.barcode,
+        il.dispatch,
+        il.operation,
+        il.CREATION_DATE,
+        il.posting_date,
+        il.classgrp,
+        il.classgrp,
+        il.line,
+        il.model_no,
+        il.work_scrap,
+        il.row_scrap,
+        il.yeild,
+        il.attr1,
+        il.attr2,
+        il.attr3,
+        il.attr4,
+        il.attr5,
+        il.attr6,
+        il.attr7,
+        il.attr8,
+        il.attr9,
+        il.attr10,
+        il.attr11,
+        il.attr12,
+        il.attr13,
+        il.attr14,
+        il.attr15,
+        l.msgty,
+        l.msgtx,
+        l.CREATION_DATE  AS LCREATION_DATE,
+        l.tran_type,
+        il.CREATED_BY,
+        r.mat_desc,
+        r.material,
+        u.user_name,
+        r.operation_desc,
+        r.fevor,
+        r.fevor_txt
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l
+
+        <where>
+            il.id= r.input_id
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            <if test="plant != null">
+                and il.plant = #{plant}
+            </if>
+            <if test="orderno != null">
+                and il.orderno = #{orderno}
+            </if>
+            <if test="operation != null">
+                and il.operation = #{operation}
+            </if>
+            <if test="material != null">
+                and r.material = #{material}
+            </if>
+            <if test="tranType != null">
+                and l.tran_type = #{tranType}
+            </if>
+            <if test="dispatch != null">
+                and il.dispatch = #{dispatch}
+            </if>
+            <if test="fevor != null">
+                and r.fevor = #{fevor}
+            </if>
+            <!--
+            <if test="creatDateAfter != null and creatDateBefore != null">
+                and il.CREATION_DATE  >=  #{creatDateAfter}  and  #{creatDateBefore} > il.CREATION_DATE
+            </if>
+            -->
+            <!--update furong.tang-->
+            <if test="creatDateAfter != null">
+                and il.CREATION_DATE  >=  #{creatDateAfter}
+            </if>
+            <if test="creatDateBefore != null">
+                and #{creatDateBefore} > il.CREATION_DATE
+            </if>
+            <!--update furong.tang-->
+
+            <!--
+            <if test="postingDateAfter != null and postingDateBefore != null">
+                and  il.posting_date  >=  #{postingDateAfter} and #{postingDateBefore} > il.posting_date
+            </if>
+            -->
+            <!--update furong.tang-->
+            <if test="postingDateAfter != null">
+                and  il.posting_date  >=  #{postingDateAfter}
+            </if>
+            <if test="postingDateBefore != null">
+                and #{postingDateBefore} > il.posting_date
+            </if>
+            <!--update furong.tang-->
+
+            <!--add furong.tang-->
+            <if test="attr1 != null">
+                and il.attr1 = #{attr1}
+            </if>
+            <if test="attr2 != null">
+                and il.attr2 = #{attr2}
+            </if>
+            <if test="attr3 != null">
+                and il.attr3 = #{attr3}
+            </if>
+            <if test="attr4 != null">
+                and il.attr4 = #{attr4}
+            </if>
+            <if test="attr5 != null">
+                and il.attr5 = #{attr5}
+            </if>
+            <!--add furong.tang-->
+        </where>
+
+    </select>
+    <select id="selectNextId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID()
+    </select>
+    <select id="confirmationInfoByOrdernoAndOperation" resultMap="BaseResultMap1" parameterType="yj.core.dispatch.dto.InputLog">
+        select *
+        from confirmation_input_log i
+        inner join confirmation_result r on i.id = r.input_id
+        inner join confirmation_log l on i.id = l.ref_id
+        <where>
+            i.dispatch = #{dispatch} and i.operation = #{operation} and r.is_reversed = '0' and l.msgty = 'S' and l.tran_type = '0'
+        </where>
+    </select>
+
+    <select id="queryAllGTOperation" resultMap="BaseResultMap1" parameterType="yj.core.dispatch.dto.InputLog">
+        select *
+        from confirmation_input_log i
+        inner join confirmation_result r on i.id = r.input_id
+        inner join confirmation_log l on i.id = l.ref_id
+        <where>
+            i.dispatch = #{dispatch} and i.operation > #{operation} and r.is_reversed = '0' and l.msgty = 'S' and l.tran_type = '0'
+        </where>
+    </select>
+
+    <select id="queryAllGTOperationJj" resultMap="BaseResultMap1" parameterType="yj.core.dispatch.dto.InputLog">
+        select *
+        from confirmation_input_log i
+        inner join confirmation_result r on i.id = r.input_id
+        inner join confirmation_log l on i.id = l.ref_id
+        <where>
+            i.dispatch = #{dispatch} and i.operation = #{operation} and r.is_reversed = '0' and l.msgty = 'S' and l.tran_type = '0'
+            and r.confirmation_no = #{confirmationNo} and r.confirmation_pos = #{confirmationPos}
+        </where>
+    </select>
+
+
+    <select id="confirmationBeforeMaxOperation" resultType="java.lang.String" parameterType="yj.core.dispatch.dto.InputLog">
+        select MAX(ci.operation) as operation  from confirmation_input_log ci
+          inner join confirmation_log l on l.ref_id = ci.id
+        <where>
+            ci.orderno = #{orderno}
+            and #{operation} > ci.operation
+            and l.msgty = 'S'
+        </where>
+    </select>
+
+    <select id="confirmationExistMaxOperaInfo" resultMap="BaseResultMap1">
+        select *
+        from confirmation_input_log i
+        inner join confirmation_result r on i.id = r.input_id
+        inner join confirmation_log l on i.id = l.ref_id
+        <where>
+            i.dispatch = #{dispatch}
+            and i.operation = #{operation}
+            and r.is_reversed = '0'
+            and l.msgty = 'S'
+            and l.tran_type = '0'
+        </where>
+
+    </select>
+
+    <!--add furong.tang-->
+    <select id="queryBybarcodeAndisReversed" resultMap="BaseResultMap1" parameterType="yj.core.dispatch.dto.InputLog">
+        select *
+        from confirmation_input_log i
+        inner join confirmation_result r on i.id = r.input_id
+        inner join confirmation_log l on i.id = l.ref_id
+        <where>
+            i.barcode = #{barcode}
+            and r.is_reversed = "0"
+            and l.msgty = 'S'
+            and l.tran_type = '0'
+        </where>
+    </select>
+    <!--add furong.tang-->
+
+    <select id="selectConfirmationSuccess" resultMap="BaseResultMap1" parameterType="yj.core.dispatch.dto.InputLog">
+        select *
+        from confirmation_input_log i
+        inner join confirmation_result r on i.id = r.input_id
+        inner join confirmation_log l on i.id = l.ref_id
+        <where>
+            i.dispatch = #{dispatch} and i.operation = #{operation} and r.is_reversed = '0' and l.msgty = 'S' and l.tran_type = '0'
+        </where>
+    </select>
+
+    <!-- 查询派工单的当前工序-->
+    <select id="queryDispatchMaxOperation" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT MAX(il.operation) AS operation
+        from confirmation_input_log il
+        INNER JOIN confirmation_result r on il.id = r.input_id
+        INNER JOIN confirmation_log l on l.ref_id = il.id
+        <where>
+            r.is_reversed = '0'
+            and l.tran_type = '0'
+            and l.msgty = 'S'
+            and il.dispatch = #{dispatch}
+        </where>
+
+    </select>
+
+    <select id="queryByDispatchAndOperation" resultMap="BaseResultMap" parameterType="yj.core.dispatch.dto.InputLog">
+        SELECT
+        DISTINCT
+        il.id,
+        il.barcode,
+        il.dispatch,
+        il.orderno,
+        il.operation,
+        il.CREATION_DATE,
+        il.posting_date,
+        il.yeild,
+        il.work_scrap,
+        il.row_scrap,
+        il.classgrp,
+        il.model_no,
+        il.line,
+        il.plant,
+        il.CREATED_BY,
+        il.attr1,
+        il.attr2,
+        il.attr3,
+        il.attr4,
+        il.attr5,
+        il.attr6,
+        il.attr7,
+        il.attr8,
+        il.attr9,
+        il.attr10,
+        il.attr11,
+        il.attr12,
+        il.attr13,
+        il.attr14,
+        il.attr15,
+        r.mat_desc,
+        r.material,
+        r.confirmation_no,
+        r.confirmation_pos,
+        u.user_name,
+        r.operation_desc,
+        r.fevor,
+        r.fevor_txt
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l
+        <where>
+            il.id= r.input_id
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            AND r.is_reversed ='0'
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            AND il.dispatch = #{dispatch}
+            and il.operation = #{operation}
+        </where>
+    </select>
+
+    <update id="updateCxuuid" parameterType="yj.core.dispatch.dto.InputLog">
+        update confirmation_input_log SET
+               CXUUID = #{cxuuid}
+               <where>
+                   id = #{id}
+               </where>
+    </update>
+
+    <select id="querySumInputlogForShotnum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+        sum(il.yeild) as yeild,
+        sum(il.work_scrap) as work_scrap,
+        sum(il.row_scrap) as row_scrap
+        FROM confirmation_input_log il,confirmation_result r,sys_user u,confirmation_log l,sap_afko af,sap_afvc afvc
+        <where>
+            il.id= r.input_id
+            and il.orderno = af.aufnr
+            and af.aufpl = afvc.aufpl and il.operation = afvc.vornr
+            AND il.CREATED_BY = u.user_id
+            AND l.ref_id = il.id
+            AND l.ref_id = il.id
+            AND r.is_reversed ='0'
+            AND l.tran_type = '0'
+            AND l.msgty = 'S'
+            and il.plant = '1001'
+            and il.operation = '0010'
+            AND ( afvc.flag is null or afvc.flag = '' )
+            and af.auart in ('YZ01','YZ03','YZ04')
+            <if test="matnr != null">
+                and r.material = #{matnr}
+            </if>
+            <if test="arbpl != null">
+                and afvc.arbpl = #{arbpl}
+            </if>
+            <if test="attr6 != null">
+                and il.attr6 = #{attr6}
+            </if>
+            <if test="attr4 != null">
+                and il.attr4 = #{attr4}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByBgUuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from confirmation_input_log
+        <where>
+            BGUUID = #{bguuid}
+        </where>
+    </select>
+
+    <select id="selectByCxUuid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from confirmation_input_log
+        <where>
+            CXUUID = #{cxuuid}
+        </where>
+    </select>
+</mapper>

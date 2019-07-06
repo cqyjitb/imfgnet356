@@ -1,0 +1,1248 @@
+<!--
+    不合格品审理单2查询 918100064
+-->
+<#include "../include/header.html">
+<style>
+    span[class='k-window-title'] {
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+
+    .action_ok {
+        color: #5fb760;
+    }
+
+    .action_dangerous {
+        color: #eeac5f;
+    }
+
+    .label {
+        color: red;
+    }
+
+</style>
+<script type="text/javascript">
+    var viewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        comboboxZbanz: [
+        {
+            text: "A班",
+            value: "A"
+        }, {
+            text: "B班",
+            value: "B"
+        }, {
+            text: "C班",
+            value: "C"
+        }],
+        comboboxType: [
+        {
+            text: "已加工未入库产品",
+            value: "Q1"
+        }, {
+            text: "未加工线边库毛坯",
+            value: "Q2"
+        }, {
+            text: "已入库成品",
+            value: "Q3"
+        }],
+        resetForm: function () {
+            var formData = viewModel.model.toJSON();
+            for (var k in formData) {
+                if(k != "werks"){
+                    viewModel.model.set(k, null);
+                }
+            }
+            $('#Grid').data('kendoGrid').dataSource.read();
+        },
+        queryGrid: function (e) {
+            var werks = document.getElementById("werks").value;
+            var gytype = document.getElementById("gytype").value;
+            var deptId = document.getElementById("deptId").value;
+            var line_id = document.getElementById("line_id").value;
+            var zbanz = document.getElementById("zbanz").value;
+            var gstrp = document.getElementById("gstrp").value;
+            if (werks == "" || gytype == "" || deptId == "" || line_id == "" || zbanz == "" || gstrp == "") {
+                kendo.ui.showErrorDialog({
+                    title: '错误',
+                    message: "请完整输入必输查询条件后进行查询！"
+                });
+            } else {
+                $('#Grid').data('kendoGrid').dataSource.read();
+            }
+        }
+    });
+</script>
+<div id="content-container">
+    <div id="page-content">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="test">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工厂&nbsp;<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="werks" style="width: 100%" class="k-textbox" readonly="readonly" data-bind="value:model.werks">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产车间&nbsp;<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="deptId" class="k-textbox" data-bind="value:model.deptResponsible" style="width: 100%">
+                                        <script>
+                                            $("#deptId").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_FEVOR")}, {
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产线&nbsp;<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="line_id" class="k-textbox" data-bind="value:model.lineid" style="width: 100%">
+                                        <script>
+                                            $("#line_id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                query: function (e) {
+                                                    e.param['deptId'] = document.getElementById("deptId").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }))
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">班组&nbsp;<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="zbanz" name="shift" required placeholder="请选择班组"
+                                               data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: comboboxZbanz, value:model.shift" style="width: 100%;"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">产品所处工艺状态&nbsp;<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="gytype" name="type" required placeholder="请选择产品所处工艺状态"
+                                               data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: comboboxType, value:model.sourcetype" style="width: 100%;"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产日期&nbsp;<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="gstrp" style="width: 100%" data-role="datepicker" data-bind="value:model.gstrp" class="k-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row" style="margin-right: -8px;">
+                <div class="pull-right" style="margin-right:15px">
+                    <span class="btn btn-primary" data-bind="click:queryGrid" type="submit">
+                        <i class="fa fa-search" style="margin-right:3px;"></i>
+                        <@spring.message "hap.query"/></span>
+                    <span class="btn btn-default" type="button" data-bind="click:resetForm">
+                            <i class="fa fa-eraser" style="margin-right:3px;"></i>
+                            <@spring.message "hap.reset"/></span>
+                    <span class="btn btn-info" type="button" id="panel_hidden" onclick="test()">
+                        <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                       <@spring.message "hap.panel_hidden"/></span>
+                    <span class="btn btn-info" type="button" id="panel_show" onclick="test()" style="display: none">
+                        <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                       <@spring.message "hap.panel_show"/></span>
+                </div>
+            </div>
+            <div style="clear:both">
+                <div id="Grid"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content'), viewModel);
+    function test() {
+        var apply = $("#test");
+        var button_hidden = $("#panel_hidden");
+        var button_show = $("#panel_show");
+        if (apply.is(":hidden")) {
+            button_hidden.show();
+            button_show.hide();
+            apply.show();    //如果元素为隐藏,则将它显现
+        } else {
+            button_hidden.hide();
+            button_show.show();
+            apply.hide();     //如果元素为显现,则将其隐藏
+        }
+        Hap.autoResizeGrid("#Grid");
+
+    }
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/qcaudithead/selectForQcaudithead",
+                type: "POST",
+                dataType: "json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type)
+
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "recordid",
+                fields: {
+                    werks: {type: "string"},
+                    recordid: {type: "string"},
+                    sourcetype: {type: "string"},
+                    deptResponsible: {type: "string"},
+                    lineid: {type: "string"},
+                    shift: {type: "string"},
+                    gstrp: {type: "date"}
+                }
+            }
+        }
+    });
+    $("#Grid").kendoGrid({
+        dataSource: dataSource,
+        autoBind:false,
+        height: '100%',
+        resizable: true,
+        scrollable: true,
+        navigatable: false,
+        pageable: {
+            pageSizes: ["all"],
+            refresh: true,
+            buttonCount: 10
+        },
+        columns: [
+            {
+                field: "werks",
+                title: '工厂',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "recordid",
+                title: '记录ID',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "sourcetype",
+                title: '来源类别',
+                width: 150,
+                template:function (e) {
+                    if(e.sourcetype == "Q1"){
+                        return "已加工未入库产品";
+                    }else if(e.sourcetype == "Q2"){
+                        return "未加工线边库毛坯";
+                    }else if(e.sourcetype == "Q3"){
+                        return "已入库成品";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "deptResponsible",
+                title: '责任部门',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"name",
+                title:"部门名称",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "lineid",
+                title: '责任首工作中心/产线',
+                width: 110,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "lineDesc",
+                title: '责任首工作中心/产线描述',
+                width: 160,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "shift",
+                title: '责任班组',
+                width: 80,
+                template:function (e) {
+                    if(e.shift == "A"){
+                        return "A班";
+                    }else if(e.shift == "B"){
+                        return "B班";
+                    }else if(e.shift == "C"){
+                        return "C班";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "kunnr",
+                title: '客户编码',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "kunnrDesc",
+                title: '客户名称',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zpgdbar",
+                title: '订单号/工序流转卡',
+                width: 160,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "matnr",
+                title: '成品物料',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "maktx",
+                title: '成品物料描述',
+                width: 280,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "matnr2",
+                title: '毛坯物料',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                }
+
+            },
+            {
+                field: "maktx2",
+                title: '毛坯物料描述',
+                width: 320,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zqxdm",
+                title: '缺陷代码',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                }
+
+            },
+            {
+                field:"kurztext",
+                title:"缺陷描述",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"tlevelcode2",
+                title:"二级缺陷代码",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"ztext",
+                title:"二级缺陷描述",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "charg",
+                title: '生产批次',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "sfflg",
+                title: '班标',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: " diecd",
+                title: '模号',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "gstrp2",
+                title: '生产日期',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+
+            {
+                field: "vornr",
+                title: '责任工序/工位',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "responsible",
+                title: '责任人',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "dfectQty",
+                title: '不合格件数',
+                width: 90,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "gmein",
+                title: '计量单位',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "oaPresscls",
+                title: '流程类别',
+                width: 90,
+                template:function (e) {
+                    if(e.oaPresscls == "1"){
+                        return "质管部长审批";
+                    }else if(e.oaPresscls == "2"){
+                        return "分管副总审批";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "oaStatus",
+                title: 'OA流程状态',
+                width: 90,
+                template:function (e) {
+                    if(e.oaStatus == "0"){
+                        return "未提交";
+                    }else if(e.oaStatus == "1"){
+                        return "流程中";
+                    }else if(e.oaStatus == "2"){
+                        return "已归档";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "defctType",
+                title: '不合格品类别',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "handleResults1",
+                title: '是否报废',
+                width: 80,
+                template:function (e) {
+                    if(e.handleResults1 == "0"){
+                        return "不报废";
+                    }else if(e.handleResults1 == "1"){
+                        return "报废";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "handleResults2",
+                title: '是否返工返修',
+                width: 100,
+                template:function (e) {
+                    if(e.handleResults2 == "0"){
+                        return "不返工";
+                    }else if(e.handleResults2 == "1"){
+                        return "返工";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "handleResults3",
+                title: '是否让步接收',
+                width: 100,
+                template:function (e) {
+                    if(e.handleResults3 == "0"){
+                        return "不让步";
+                    }else if(e.handleResults3 == "1"){
+                        return "让步";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "scrapQty",
+                title: '报废数量',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "rworkQty",
+                title: '返工返修数量',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+
+            {
+                field: "conssQty",
+                title: '让步接收数量',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "dfectTxt",
+                title: '不合格品描述',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "reportDept",
+                title: '报告部门',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "reportor",
+                title: '报告人',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "reportDate2",
+                title: '报告时间',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditTxt",
+                title: '评审结论',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "qcEnger",
+                title: '产品质量工程师',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor1",
+                title: '评审人员1责任车间主任',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle1",
+                title: '评审意见1责任车间主任',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate1",
+                title: '评审日期1责任车间主任',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor2",
+                title: '评审人员2责任部门部长',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle2",
+                title: '评审意见2责任部门部长',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate2",
+                title: '评审日期2责任部门部长',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor3",
+                title: '评审人员3压铸质量工程师',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle3",
+                title: '评审意见3压铸质量工程师',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate3",
+                title: '评审日期3压铸质量工程师',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor4",
+                title: '评审人员4机加质量工程师',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle4",
+                title: '评审意见4机加质量工程师',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate4",
+                title: '评审日期4机加质量工程师',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor5",
+                title: '评审人员5压铸技术员',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle5",
+                title: '评审意见5压铸技术员',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate5",
+                title: '评审日期5压铸技术员',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor6",
+                title: '评审人员6汽车技术开发部技术员',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle6",
+                title: '评审意见6汽车技术开发部技术员',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate6",
+                title: '评审日期6汽车技术开发部技术员',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor7",
+                title: '评审人员7压铸质管部长',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle7",
+                title: '评审意见7压铸质管部长',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate7",
+                title: '评审日期7压铸质管部长',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor8",
+                title: '评审人员8机加质管部长',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle8",
+                title: '评审意见8机加质管部长',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate8",
+                title: '评审日期8机加质管部长',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor9",
+                title: '评审人员9主管副总',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle9",
+                title: '评审意见9主管副总',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate9",
+                title: '评审日期9主管副总',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditor10",
+                title: '审批人10总经理',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditHandle10",
+                title: '审批意见10总经理',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "auditDate10",
+                title: '审批日期10总经理',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "handleResults",
+                title: '责任部门处理结果',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "qmNotification",
+                title: '质量通知单',
+                width: 90,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "qmNotntype",
+                title: '质量通知单类型',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "qmNotncrtdt",
+                title: '质量通知单创建日期',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "reworkOrder",
+                title: '返工返修订单',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "reworkOrdercrtdt",
+                title: '返工返修订单创建日期',
+                width: 120,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "rwkQty",
+                title: '返工返修数量',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "rwkQlfqty",
+                title: '合格数量',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "rwkScrapqty",
+                title: '报废数量',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "customerConfirm",
+                title: '客户确认',
+                width: 80,
+                template:function (e) {
+                    if(e.customerConfirm == "0"){
+                        return "不需要";
+                    }else if(e.customerConfirm == "1"){
+                        return "需要";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ],
+        editable: false
+    });
+
+    Hap.autoResizeGrid("#Grid");
+</script>
+</body>
+</html>

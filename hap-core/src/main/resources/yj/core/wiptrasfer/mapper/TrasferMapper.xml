@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wiptrasfer.mapper.TrasferMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wiptrasfer.dto.Trasfer">
+        <result column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="TRANSDAT" property="transdat" jdbcType="DATE" />
+        <result column="TRANSTIM" property="transtim" jdbcType="DATE" />
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="FROMLOC" property="fromloc" jdbcType="VARCHAR" />
+        <result column="FROMLOCTXT" property="fromloctxt" jdbcType="VARCHAR" />
+        <result column="FROMLOCTP" property="fromloctp" jdbcType="VARCHAR" />
+        <result column="FROMLOCNO" property="fromlocno" jdbcType="VARCHAR" />
+        <result column="GAMNG" property="gamng" jdbcType="DECIMAL" />
+        <result column="TOLOC" property="toloc" jdbcType="VARCHAR" />
+        <result column="TOLOCTXT" property="toloctxt" jdbcType="VARCHAR" />
+        <result column="TOLOCTP" property="toloctp" jdbcType="VARCHAR" />
+        <result column="TOLOCNO" property="tolocno" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insertTrasfer" parameterType="yj.core.wiptrasfer.dto.Trasfer">
+        INSERT INTO wip_trasfer (ID,WERKS,ZPGDBAR,TRANSDAT,TRANSTIM,AUFNR,MATNR,FROMLOC,FROMLOCTXT,FROMLOCTP,FROMLOCNO,GAMNG,TOLOC,TOLOCTXT,TOLOCTP,TOLOCNO,CREATION_DATE,CREATED_BY)
+        VALUES (#{id},#{werks},#{zpgdbar},#{transdat},#{transtim},#{aufnr},#{matnr},#{fromloc},#{fromloctxt},#{fromloctp},#{fromlocno},#{gamng},#{toloc},#{toloctxt},#{toloctp},#{tolocno},#{creationDate},#{createdBy})
+    </insert>
+</mapper>

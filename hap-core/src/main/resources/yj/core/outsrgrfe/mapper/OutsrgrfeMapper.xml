@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.outsrgrfe.mapper.OutsrgrfeMapper">
+    <resultMap id="BaseResultMap" type="yj.core.outsrgrfe.dto.Outsrgrfe">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR" />
+        <result column="VSNDA" property="vsnda" jdbcType="VARCHAR" />
+        <result column="EBELN" property="ebeln" jdbcType="VARCHAR" />
+        <result column="EBELP" property="ebelp" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="LOEKZ" property="loekz" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_Outsrgrfe
+        <where>
+            WERKS = #{werks}
+            AND AUFNR = #{aufnr}
+            AND MATNR = #{matnr}
+            AND VORNR = #{vornr}
+            AND LIFNR = #{lifnr}
+            <if test="ebeln != null">
+                AND EBELN = #{ebeln}
+            </if>
+            <if test="ebelp != null">
+                AND EBELP = #{ebelp}
+            </if>
+--             AND LOEKZ = ''
+        </where>
+    </select>
+
+    <insert id="insertOutsrgrfe" parameterType="yj.core.outsrgrfe.dto.Outsrgrfe">
+        insert into wip_Outsrgrfe(WERKS,AUFNR,MATNR,VORNR,LIFNR,KTSCH,SORTL,VSNDA,EBELN,EBELP,MENGE,LOEKZ,CREATION_DATE,CREATED_BY)VALUES(
+        #{werks},#{aufnr},#{matnr},#{vornr},#{lifnr},#{ktsch},#{sortl},#{vsnda},#{ebeln},#{ebelp},#{menge},#{loekz},#{creationDate},#{createdBy})
+    </insert>
+
+    <update id="updateByCondition" parameterType="yj.core.outsrgrfe.dto.Outsrgrfe">
+        update wip_outsrgrfe SET LOEKZ = #{loekz},
+                              MENGE = #{menge},
+                              LAST_UPDATE_DATE = #{lastUpdateDate},
+                              LAST_UPDATED_BY = #{lastUpdatedBy}
+                    <where>
+                        WERKS = #{werks}
+                        AND AUFNR = #{aufnr}
+                        AND MATNR = #{matnr}
+                        AND VORNR = #{vornr}
+                        AND LIFNR = #{lifnr}
+                        AND EBELN = #{ebeln}
+                        AND EBELP = #{ebelp}
+                    </where>
+    </update>
+
+    <select id="selectForSortl" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgrfe
+        <where>
+            LIFNR = #{lifnr}
+        </where>
+    </select>
+
+    <select id="selectAllLifnr" resultMap="BaseResultMap">
+        select DISTINCT lifnr,sortl from wip_outsrgrfe
+    </select>
+
+    <select id="sapquery" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT WERKS,
+                        MATNR,
+                        KTSCH,
+                        LIFNR
+                        FROM wip_outsrgrfe
+                        <where>
+                            1 = 1
+                            <if test="werks != null">
+                                and WERKS = #{werks}
+                            </if>
+                            <if test="matnr != null">
+                                and matnr = #{matnr}
+                            </if>
+                            <if test="matnr_l != null">
+                                and matnr >= #{matnr_l}
+                            </if>
+                            <if test="matnr_h != null">
+                                and #{matnr_h} >= #{matnr_h}
+                            </if>
+                            <if test="lifnr != null">
+                                and lifnr = #{lifnr}
+                            </if>
+                            <if test="lifnr_l != null">
+                                and lifnr >= #{lifnr_l}
+                            </if>
+                            <if test="lifnr_h != null">
+                                and #{lifnr_h} >= lifnr
+                            </if>
+                            <if test="ktsch != null">
+                                and ktsch = #{ktsch}
+                            </if>
+                            <if test="ktsch_l != null">
+                                and ktsch >= #{ktsch_l}
+                            </if>
+                            <if test="ktsch_h != null">
+                                and #{ktsch_h} >= ktsch
+                            </if>
+                        </where>
+    </select>
+</mapper>

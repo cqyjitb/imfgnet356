@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.assembonline.mapper.AssembliesOnlineMapper">
+    <resultMap id="BaseResultMap" type="yj.core.assembonline.dto.AssembliesOnline">
+        <result column="ASSY_ID" property="assyId" jdbcType="VARCHAR" />
+        <result column="OPERATION_CODE" property="operationCode" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR" />
+        <result column="LIFNR_DATE" property="lifnrDate" jdbcType="DATE" />
+        <result column="LIFNR_LOTN" property="lifnrLotn" jdbcType="VARCHAR" />
+        <result column="CARTON_TYP" property="cartonTyp" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZSXNUM" property="zsxnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="ZZXQTY" property="zzxqty" jdbcType="DECIMAL" />
+        <result column="ZQJQTY" property="zqjqty" jdbcType="DECIMAL" />
+        <result column="ZDFTQTY" property="zdftqty" jdbcType="DECIMAL" />
+        <result column="UNITQTY" property="unitqty" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="VARCHAR" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <insert id="insertNewData" parameterType="yj.core.assembonline.dto.AssembliesOnline">
+        insert into wip_assemblies_online(ASSY_ID,OPERATION_CODE,VORNR,MATNR,LINE_ID,MATNR2,CHARG,LGORT,LIFNR,SORTL,
+        LIFNR_DATE,LIFNR_LOTN,CARTON_TYP,ZXHBAR,ZSXNUM,GMEIN,ZZXQTY,ZQJQTY,ZDFTQTY,UNITQTY,CREATION_DATE,CREATED_BY)
+        VALUES (#{assyId},#{operationCode},#{vornr},#{matnr},#{lineId},#{matnr2},#{charg},#{lgort},#{lifnr},#{sortl},#{lifnrDate}
+        ,#{lifnrLotn},#{cartonTyp},#{zxhbar},#{zsxnum},#{gmein},#{zzxqty},#{zqjqty},#{zdftqty},#{unitqty},#{creationDate},#{createdBy})
+    </insert>
+
+    <select id="selectByZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_assemblies_online
+        <where>
+            ZXHBAR = #{zxhbar}
+        </where>
+    </select>
+
+    <delete id="deleteData" parameterType="java.lang.String">
+        delete FROM  wip_assemblies_online
+        <where>
+            ASSY_ID = #{assid}
+        </where>
+    </delete>
+</mapper>

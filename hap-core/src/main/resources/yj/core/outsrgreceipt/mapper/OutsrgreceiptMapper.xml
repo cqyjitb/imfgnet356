@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.outsrgreceipt.mapper.OutsrgreceiptMapper">
+    <resultMap id="BaseResultMap" type="yj.core.outsrgreceipt.dto.Outsrgreceipt">
+        <result column="RECEIPTNM" property="receiptnm" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="DECIMAL" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ISSUENM" property="issuenm" jdbcType="VARCHAR" />
+        <result column="ISSUENMITEM" property="issuenmitem" jdbcType="VARCHAR" />
+        <result column="VSNDA" property="vsnda" jdbcType="VARCHAR" />
+        <result column="EBELN" property="ebeln" jdbcType="VARCHAR" />
+        <result column="EBELP" property="ebelp" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="TXZ01" property="txz01" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="MATKL" property="matkl" jdbcType="VARCHAR" />
+        <result column="TTRECEIPTS" property="ttreceipts" jdbcType="DECIMAL" />
+        <result column="ZSHNUM" property="zshnum" jdbcType="DECIMAL" />
+        <result column="ZLFNUM" property="zlfnum" jdbcType="DECIMAL" />
+        <result column="ZGFNUM" property="zgfnum" jdbcType="DECIMAL" />
+        <result column="ZLOST" property="zlost" jdbcType="DECIMAL" />
+        <result column="ZTHNUM" property="zthnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="MBLNR" property="mblnr" jdbcType="VARCHAR" />
+        <result column="ZEILE" property="zeile" jdbcType="VARCHAR" />
+        <result column="MJAHR" property="mjahr" jdbcType="VARCHAR" />
+        <result column="RUECK" property="rueck" jdbcType="VARCHAR" />
+        <result column="RMZHL" property="rmzhl" jdbcType="VARCHAR" />
+        <result column="DEDUCTNTENM" property="deductntenm" jdbcType="VARCHAR" />
+        <result column="ZDSDAT" property="zdsdat" jdbcType="VARCHAR" />
+        <result column="ZDSTIM" property="zdstim" jdbcType="VARCHAR" />
+        <result column="ZDSUSER" property="zdsuser" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByEbeln" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgreceipt a
+        INNER join wip_outsrgreceipthead b on a.receiptnm = b.receiptnm
+        <where>
+            a.EBELN = #{ebeln}
+            and a.STATUS = '0'
+            and b.STATUS = '0'
+        </where>
+    </select>
+
+    <select id="selectByZpgdbarAndStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgreceipt
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByZpgdbarAndStatusM" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgreceipt
+        <where>
+            ZPGDBAR = #{barcode}
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByReceiptDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgreceipt
+        <where>
+            RECEIPTNM = #{receiptnm}
+        </where>
+        order by item DESC
+    </select>
+
+    <insert id="insertNewRow" parameterType="yj.core.outsrgreceipt.dto.Outsrgreceipt">
+        insert into wip_outsrgreceipt (RECEIPTNM,ITEM,WERKS,ZPGDBAR,VORNR,ISSUENM,ISSUENMITEM,VSNDA,EBELN,EBELP,KTSCH,TXZ01,LIFNR,MATNR,DIECD,SFFLG,MENGE,MATKL,
+        TTRECEIPTS,ZSHNUM,ZLFNUM,ZGFNUM,ZLOST,ZTHNUM,GMEIN,CHARG,STATUS,MBLNR,ZEILE,MJAHR,RUECK,RMZHL,DEDUCTNTENM,ZDSDAT,ZDSTIM,ZDSUSER,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)
+        values (#{receiptnm},#{item},#{werks},#{zpgdbar},#{vornr},#{issuenm},#{issuenmitem},#{vsnda},#{ebeln},#{ebelp},#{ktsch},#{txz01},#{lifnr},#{matnr},#{diecd},
+        #{sfflg},#{menge},#{matkl},#{ttreceipts},#{zshnum},#{zlfnum},#{zgfnum},#{zlost},#{zthnum},#{gmein},#{charg},#{status},#{mblnr},#{zeile},#{mjahr},#{rueck},#{rmzhl},#{deductntenm},#{zdsdat},
+        #{zdstim},#{zdsuser},#{creationDate},#{createdBy},#{lastUpdateDate},#{lastUpdatedBy})
+    </insert>
+
+    <update id="updateOutsrgreceipt" parameterType="yj.core.outsrgreceipt.dto.Outsrgreceipt">
+        UPDATE wip_outsrgreceipt set STATUS = #{status},
+        LAST_UPDATE_DATE = #{lastUpdateDate},
+        LAST_UPDATED_BY = #{lastUpdatedBy},
+        ZSHNUM = #{zshnum},
+        ZLFNUM = #{zlfnum},
+        ZGFNUM = #{zgfnum},
+        ZLOST = #{zlost},
+        TTRECEIPTS = #{ttreceipts},
+        ZDSDAT = #{zdsdat},
+        ZDSTIM = #{zdstim},
+        ZDSUSER = #{zdsuser},
+        MJAHR   = #{mjahr},
+        RUECK   = #{rueck},
+        RMZHL   = #{rmzhl},
+        MBLNR   = #{mblnr},
+        ZEILE   = #{zeile} ,
+        ZPGDBAR = #{zpgdbar}
+        <where>
+            RECEIPTNM = #{receiptnm}
+            and ITEM = #{item}
+        </where>
+    </update>
+
+
+</mapper>

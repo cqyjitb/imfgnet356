@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.outsrgreceipthead.mapper.OutsrgreceiptheadMapper">
+    <resultMap id="BaseResultMap" type="yj.core.outsrgreceipthead.dto.Outsrgreceipthead">
+        <result column="RECEIPTNM" property="receiptnm" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="ZDPDAT" property="zdpdat" jdbcType="VARCHAR" />
+        <result column="ZDPTIM" property="zdptim" jdbcType="VARCHAR" />
+        <result column="ZDPUSER" property="zdpuser" jdbcType="DECIMAL" />
+        <result column="ZIPDAT" property="zipdat" jdbcType="VARCHAR" />
+        <result column="ZIPTIM" property="ziptim" jdbcType="VARCHAR" />
+        <result column="ZIPUSER" property="zipuser" jdbcType="DECIMAL" />
+        <result column="PRTFLAG" property="prtflag" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByMatnrAndLifnrDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgreceipthead
+        <where>
+            MATNR = #{matnr}
+            and LIFNR = #{lifnr}
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+        </where>
+        order by RECEIPTNM DESC
+    </select>
+
+    <insert id="insertNewRow" parameterType="yj.core.outsrgreceipthead.dto.Outsrgreceipthead">
+        insert INTO wip_outsrgreceipthead (RECEIPTNM,WERKS,LIFNR,MATNR,STATUS,ZDPDAT,ZDPTIM,ZDPUSER,ZIPDAT,ZIPTIM,ZIPUSER,PRTFLAG,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)
+        VALUES (#{receiptnm},#{werks},#{lifnr},#{matnr},#{status},#{zdpdat},#{zdptim},#{zdpuser},#{zipdat},#{ziptim},#{zipuser},#{prtflag},#{creationDate},#{createdBy},#{lastUpdateDate},#{lastUpdatedBy})
+    </insert>
+
+    <update id="updateOutsrgreceipthead" parameterType="yj.core.outsrgreceipthead.dto.Outsrgreceipthead">
+        update wip_outsrgreceipthead set STATUS = #{status},
+                                         ZIPDAT = #{zipdat},
+                                         ZIPTIM = #{ziptim},
+                                         ZIPUSER = #{zipuser},
+                                         PRTFLAG = #{prtflag},
+                                         LAST_UPDATE_DATE = #{lastUpdateDate},
+                                         LAST_UPDATED_BY = #{lastUpdatedBy}
+                                         <where>
+                                             RECEIPTNM = #{receiptnm}
+                                         </where>
+    </update>
+
+    <select id="selectAllDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgreceipthead order by RECEIPTNM DESC
+    </select>
+
+    <select id="getMaxNo" resultType="java.lang.String">
+        select Max(RECEIPTNM) FROM wip_outsrgreceipthead;
+    </select>
+</mapper>

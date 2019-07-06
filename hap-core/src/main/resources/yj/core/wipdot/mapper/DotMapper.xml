@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipdot.mapper.DotMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipdot.dto.Dot">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL"/>
+        <result column="DESCRIPTIONS2" property="descriptions2" jdbcType="VARCHAR"/>
+        <result column="POINT_ID" property="pointId" jdbcType="DECIMAL"/>
+        <result column="DESCRIPTIONS3" property="descriptions3" jdbcType="VARCHAR"/>
+        <result column="DOT_ID" property="dotId" jdbcType="DECIMAL"/>
+        <result column="DOT_CODE" property="dotCode" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="FIRST_FLAG" property="firstFlag" jdbcType="VARCHAR"/>
+        <result column="END_FLAG" property="endFlag" jdbcType="VARCHAR"/>
+        <result column="MONITOR_FLAG" property="monitorFlag" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="VARCHAR"/>
+        <result column="END_DATE" property="endDate" jdbcType="VARCHAR"/>
+        <result column="ALERT_FLAG" property="alertFlag" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectByLineId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from wip_dot
+        <where>
+            line_id = #{lineId}
+        </where>
+    </select>
+
+    <select id="selectFromPage" parameterType="yj.core.wipdot.dto.Dot" resultMap="BaseResultMap">
+        select do.*,li.dept_id,li.descriptions as descriptions2,do.point_id as pointId,
+                (select descriptions from wip_points where point_id = pointId) as descriptions3
+                from wip_dot do,wip_lines li
+        <where>
+            do.line_id = li.line_id
+            <if test="werks != null">
+                AND do.werks = #{werks}
+            </if>
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND do.line_id = #{lineId}
+            </if>
+            <if test="dotCode != null">
+                AND do.dot_code = #{dotCode}
+            </if>
+            <if test="descriptions != null">
+                AND do.descriptions = #{descriptions}
+            </if>
+            <if test="enableFlag != null">
+                AND do.enable_flag = #{enableFlag}
+            </if>
+            <if test="startDateAfter != null">
+                AND do.start_date >= #{startDateAfter}
+            </if>
+            <if test="startDateBefore != null">
+                AND #{startDateBefore} >= do.start_date
+            </if>
+            <if test="endDateAfter != null">
+                AND do.end_date >= #{endDateAfter}
+            </if>
+            <if test="endDateBefore != null">
+                AND #{endDateBefore} >= do.end_date
+            </if>
+            <if test="firstFlag != null">
+                AND do.first_flag = #{firstFlag}
+            </if>
+            <if test="endFlag != null">
+                AND do.end_flag = #{endFlag}
+            </if>
+            <if test="monitorFlag != null">
+                AND do.monitor_flag = #{monitorFlag}
+            </if>
+            <if test="alertFlag != null">
+                AND do.alert_flag = #{alertFlag}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDot" parameterType="yj.core.wipdot.dto.Dot">
+        UPDATE wip_dot SET WERKS=#{werks},LINE_ID=#{lineId},POINT_ID=#{pointId},DOT_ID=#{dotId},DOT_CODE=#{dotCode},
+                DESCRIPTIONS=#{descriptions},FIRST_FLAG=#{firstFlag},END_FLAG=#{endFlag},MONITOR_FLAG=#{monitorFlag},
+                ENABLE_FLAG=#{enableFlag},END_DATE=#{endDate},ALERT_FLAG=#{alertFlag},LAST_UPDATED_BY=#{lastUpdatedBy},
+                LAST_UPDATED_DATE=#{lastUpdatedDate}
+        <where>
+            DOT_ID=#{dotId}
+        </where>
+    </update>
+
+    <insert id="insertDot" parameterType="yj.core.wipdot.dto.Dot">
+        INSERT INTO wip_dot(WERKS,LINE_ID,POINT_ID,DOT_ID,DOT_CODE,DESCRIPTIONS,FIRST_FLAG,END_FLAG,MONITOR_FLAG,
+                              ENABLE_FLAG,START_DATE,END_DATE,ALERT_FLAG,CREATED_BY,CREATION_DATE)
+        VALUES (#{werks},#{lineId},#{pointId},#{dotId},#{dotCode},#{descriptions},#{firstFlag},#{endFlag},#{monitorFlag},
+                 #{enableFlag},#{startDate},#{endDate},#{alertFlag},#{createdBy},#{creationDate})
+    </insert>
+
+    <select id="selectPoints" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from wip_dot
+        <where>
+            POINT_ID = #{pointId}
+        </where>
+    </select>
+
+</mapper>

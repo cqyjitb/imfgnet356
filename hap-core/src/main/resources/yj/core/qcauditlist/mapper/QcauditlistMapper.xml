@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.qcauditlist.mapper.QcauditlistMapper">
+    <resultMap id="BaseResultMap" type="yj.core.qcauditlist.dto.Qcauditlist">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="RECORDID" property="recordid" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR" />
+        <result column="RGHITEM" property="rghitem" jdbcType="VARCHAR"/>
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="DATE" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="YCHARG" property="ycharg" jdbcType="VARCHAR" />
+        <result column="YSHIFT" property="yshift" jdbcType="VARCHAR" />
+        <result column="YZBANC" property="yzbanc" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="YGSTRP" property="ygstrp" jdbcType="DATE" />
+        <result column="CODE" property="code" jdbcType="VARCHAR" />
+        <result column="REFLAG" property="reflag" jdbcType="DECIMAL"/>
+        <result column="TLEVELCODE" property="tlevelcode" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="DFECT_QTY" property="dfectQty" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertNewRow" parameterType="yj.core.qcauditlist.dto.Qcauditlist">
+        insert into wip_qcauditlist(WERKS,RECORDID,ITEM,ZQJJLH,ZGJBAR,ZPGDBAR,ZXHBAR,MATNR,CHARG,ZBANC,SHIFT,GSTRP,MATNR2,YCHARG,YSHIFT,
+        YZBANC,SFFLG,DIECD,YGSTRP,CODE,REFLAG,TLEVELCODE,MENGE,DFECT_QTY,GMEIN,CREATION_DATE,CREATED_BY,STATUS)
+        VALUES (#{werks},#{recordid},#{item},#{zqjjlh},#{zgjbar},#{zpgdbar},#{zxhbar},#{matnr},#{charg},#{zbanc},#{shift},#{gstrp},
+        #{matnr2},#{ycharg},#{yshift},#{yzbanc},#{sfflg},#{diecd},#{ygstrp},#{code},#{reflag},#{tlevelcode},#{menge},#{dfectQty},
+        #{gmein},#{creationDate},#{createdBy},#{status});
+    </insert>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_qcauditlist
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+            and STATUS = '0'
+        </where>
+    </select>
+
+    <select id="selectCounts" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_qcauditlist
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+        </where>
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete FROM wip_qcauditlist
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+        </where>
+    </delete>
+
+    <select id="selectBatch" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_qcauditlist
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+            and ITEM = #{item}
+        </where>
+    </select>
+
+    <update id="updateStatus" parameterType="yj.core.qcauditlist.dto.Qcauditlist">
+        update wip_qcauditlist set STATUS = '1'
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+            and ITEM = #{item}
+        </where>
+    </update>
+</mapper>

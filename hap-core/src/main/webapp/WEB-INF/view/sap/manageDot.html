@@ -1,0 +1,550 @@
+<!--
+    机加采集点配置维护 918100064
+-->
+<#include "../include/header.html" >
+<style>
+    span[class='k-window-title'] {
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+    .action_ok {
+        color: #5fb760;
+    }
+    .action_dangerous {
+        color: #eeac5f;
+    }
+    #label{
+        color: red;
+    }
+</style>
+<script type="text/javascript">
+    var viewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        alertFlagSource: [
+        {
+            text: "正常",
+            value: "0"
+        }, {
+            text: "提示",
+            value: "1"
+        }, {
+            text: "警告",
+            value: "2"
+        },{
+            text: "拒绝",
+            value: "3"
+        }],
+        createFunction: function () {
+            var url = 'manageDot_edit.html?0';
+            newData(url);
+        },
+        saveFunction: function () {
+            var selections = grid.selectedDataItems();
+            if(selections.length == 1){
+                var url = 'manageDot_edit.html?1';
+                newData(url);
+            }else{
+                kendo.ui.showInfoDialog({
+                    message: '请先选择一行数据'
+                })
+            }
+        },
+        queryResource: function (e) {
+            viewModel.model.set("enableFlag",$("input[name='enableFlag']:checked").val());
+            viewModel.model.set("firstFlag",$("input[name='firstFlag']:checked").val());
+            viewModel.model.set("endFlag",$("input[name='endFlag']:checked").val());
+            viewModel.model.set("monitorFlag",$("input[name='monitorFlag']:checked").val());
+            $('#Grid').data('kendoGrid').dataSource.page(1);
+        }
+    });
+    function newData(url) {
+        var dialog = $("#newWin").kendoWindow({
+            actions: ["Close"],
+            width: 900,
+            height: 600,
+            title: '<@spring.message "hap.edit"/>',
+            content: url,
+            iframe: true,
+            visible: false,
+            resizable: false,
+            modal: true,
+            close: function () {
+                //window 关闭  刷新 本页面的  Grid
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+        }).data("kendoWindow");
+        dialog.center().open();
+    }
+</script>
+<body>
+<div id="newWin" style="display: none"></div>
+<div id="page-content">
+    <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+        <form class="form-horizontal" id="myForm">
+            <div class="panel-body">
+                <div id="condition">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">工厂</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">生产车间</label>
+								<div class="col-sm-8">
+									<input id="unit_code" class="k-textbox" data-bind="value:model.deptId" style="width: 100%">
+									<script>
+										$("#unit_code").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+											query: function (e) {
+												e.param['enabledFlag'] = 'Y';
+											}
+										}));
+									</script>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label class="col-sm-4 control-label">生产线</label>
+								<div class="col-sm-8">
+									<input id="line-id" class="k-textbox" data-bind="value:model.lineId" style="width: 100%">
+									<script>
+										$("#line-id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+											query: function (e) {
+												e.param['deptId'] = document.getElementById("unit_code").value;
+												e.param['enabledFlag'] = 'Y';
+											}
+										}));
+									</script>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">采集点代码</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%" data-bind="value:model.dotCode" class="k-textbox">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">采集点名称</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%" data-bind="value:model.descriptions" class="k-textbox">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">生效标志</label>
+                                <div class="col-sm-8">
+                                    <input type="radio" name="enableFlag" value="" class="t-textbox" checked>全部&nbsp;&nbsp;
+                                    <input type="radio" name="enableFlag" value="1" class="t-textbox" >是&nbsp;&nbsp;
+                                    <input type="radio" name="enableFlag" value="0" class="t-textbox" >否&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<div class="row">
+						<div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">生效日期</label>
+                                <div class="col-sm-4">
+                                    <input style="width: 100%;" data-role="datepicker" data-bind="value:model.startDateAfter" class="k-datepicker">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" style="width: 100%;" data-role="datepicker" data-bind="value:model.startDateBefore" class="k-datepicker">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">失效日期</label>
+                                <div class="col-sm-4">
+                                    <input style="width: 100%;" data-role="datepicker" data-bind="value:model.endDateAfter" class="k-datepicker">
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" style="width: 100%;" data-role="datepicker" data-bind="value:model.endDateBefore" class="k-datepicker">
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">首标志</label>
+                                <div class="col-sm-8">
+                                    <input type="radio" name="firstFlag" value="" class="t-textbox" checked>全部&nbsp;&nbsp;
+                                    <input type="radio" name="firstFlag" value="1" class="t-textbox" >是&nbsp;&nbsp;
+                                    <input type="radio" name="firstFlag" value="0" class="t-textbox" >否&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">尾标志</label>
+                                <div class="col-sm-8">
+                                    <input type="radio" name="endFlag" value="" class="t-textbox" checked>全部&nbsp;&nbsp;
+                                    <input type="radio" name="endFlag" value="1" class="t-textbox" >是&nbsp;&nbsp;
+                                    <input type="radio" name="endFlag" value="0" class="t-textbox" >否&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">监控标志</label>
+                                <div class="col-sm-8">
+                                    <input type="radio" name="monitorFlag" value="" class="t-textbox" checked>全部&nbsp;&nbsp;
+                                    <input type="radio" name="monitorFlag" value="1" class="t-textbox" >是&nbsp;&nbsp;
+                                    <input type="radio" name="monitorFlag" value="0" class="t-textbox" >否&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+						<div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">前点漏采</label>
+                                <div class="col-sm-8">
+                                    <input name="alertFlag" required placeholder="前点漏采" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: alertFlagSource, value:model.alertFlag" style="width: 100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script>
+            kendo.bind($('#myForm'), viewModel);
+        </script>
+    </div>
+    <div class="pull-left" id="toolbar-btn" style="padding-bottom:10px;">
+        <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:createFunction"><@spring.message "hap.new"/></span>
+		<span onclick="deleteData()" class="btn btn-danger" style="float:left;margin-right:5px;"><@spring.message "hap.delete"/></span>
+        <span class="btn btn-success k-grid-save-changes" data-bind="click:saveFunction" type="submit" style="float:left;margin-right:5px;">修改</span>
+    </div>
+    <script>kendo.bind($('#toolbar-btn'), viewModel);</script>
+    <div class="pull-right" id="query-form" style="padding-bottom:10px;">
+        <span class="btn btn-primary" style="float:left;width:70px" data-bind="click:queryResource" type="submit"><@spring.message "hap.query"/></span>
+        <div style="clear:both"></div>
+    </div>
+    <script>kendo.bind($('#query-form'), viewModel);</script>
+    <div style="clear:both">
+        <div id="Grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/dot/queryDot",
+                type: "POST",
+                dataType: "json"
+            },
+            destroy: {
+                url: BaseUrl + "/wip/dot/removeDot",
+                type: "POST",
+                contentType: "application/json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "dotId",
+                fields: {
+                    werks: {type: "string",editable: false,defaultValue: "1001"},
+                    dotId: {type:"number"},
+                    dotCode: {type:"string"},
+                    alertFlag:{type:"string"}
+                }
+            }
+        }
+    });
+    $("#Grid").kendoGrid({
+        dataSource:dataSource,
+        height:'100%',
+        resizable:true,
+        scrollable:true,
+        navigatable:false,
+        sortable: true,
+        editable: false,
+        selectable:'multiple,rowbox',
+        pageable:{
+            pageSizes:[5,10,20,50,"all"],
+            refresh:true,
+            buttonCount:5
+        },
+        columns:[
+            {
+                field:"werks",
+                title:"工厂",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"deptId",
+                title:"生产车间",
+                width:280,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lineId",
+                title:"生产线",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"descriptions2",
+                title:"生产线描述",
+                width:240,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"pointId",
+                title:"工序",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"descriptions3",
+                title:"工序描述",
+                width:140,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"dotId",
+                title:"采集点ID",
+                width:80,
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"dotCode",
+                title:"采集点代码",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"descriptions",
+                title:"采集点名称",
+                width:140,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"enableFlag",
+                title:"生效标志",
+                width:80,
+                template:function (e) {
+                    if(e.enableFlag == "0"){
+                        return "失效";
+                    }else if(e.enableFlag == "1"){
+                        return "生效";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"startDate",
+                title:"生效日期",
+                width:100,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"endDate",
+                title:"失效日期",
+                width:100,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"firstFlag",
+                title:"首标志",
+                width:80,
+                template:function (e) {
+                    if(e.firstFlag == "0"){
+                        return "否";
+                    }else if(e.firstFlag == "1"){
+                        return "是";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"endFlag",
+                title:"尾标志",
+                width:80,
+                template:function (e) {
+                    if(e.endFlag == "0"){
+                        return "否";
+                    }else if(e.endFlag == "1"){
+                        return "是";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+			{
+                field:"monitorFlag",
+                title:"监控标志",
+                width:80,
+                template:function (e) {
+                    if(e.monitorFlag == "0"){
+                        return "否";
+                    }else if(e.monitorFlag == "1"){
+                        return "是";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+			{
+                field:"alertFlag",
+                title:"前点漏采",
+                width:80,
+                template:function (e) {
+                    if(e.alertFlag == "0"){
+                        return "正常";
+                    }else if(e.alertFlag == "1"){
+                        return "提示";
+                    }else if(e.alertFlag == "2"){
+                        return "警告";
+                    }else if(e.alertFlag == "3"){
+                        return "拒绝";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ]
+    });
+    var grid = $('#Grid').data("kendoGrid");
+    function deleteData() {
+        var data = grid.selectedDataItems();
+        if(data.length >= 1){
+            Hap.deleteGridSelection({
+                grid: $('#Grid')
+            });
+        }else{
+            kendo.ui.showInfoDialog({
+                message: '请至少选择一行数据'
+            })
+        }
+    }
+    Hap.autoResizeGrid("#Grid");
+</script>
+
+</body>
+</html>

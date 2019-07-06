@@ -1,0 +1,443 @@
+<!--
+    机加产线产品配置维护 918100064
+-->
+<#include "../include/header.html">
+<script type="text/javascript">
+    var viewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        createFunction: function () {
+            var url = 'manageProductsCfg_edit.html?0';
+            newData(url);
+        },
+        saveFunction: function () {
+            var selections = grid.selectedDataItems();
+            if(selections.length == 1){
+                var url = 'manageProductsCfg_edit.html?1';
+                newData(url);
+            }else{
+                kendo.ui.showInfoDialog({
+                    message: '请先选择一行数据'
+                })
+            }
+        },
+        /*queryFunction:function () {
+            var selections = grid.selectedDataItems();
+            if(selections.length == 1){
+                var url = 'manageProductsCfg_edit.html?2';
+                newData(url);
+            }else{
+                kendo.ui.showInfoDialog({
+                    message: '请先选择一行数据'
+                })
+            }
+        },*/
+        queryResource: function (e) {
+            $('#Grid').data('kendoGrid').dataSource.page(1);
+        },
+    });
+</script>
+<body>
+<div id="newWin" style="display: none"></div>
+<div id="page-content">
+    <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+        <form class="form-horizontal" id="myForm">
+            <div class="panel-body">
+                <div id="condition">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">工厂</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">产线ID</label>
+                                <div class="col-sm-8">
+                                    <input id="lineId" class="k-textbox" data-bind="value:model.lineId" style="width: 100%">
+                                    <script>
+                                        $("#lineId").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE")}, {
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            },
+                                            dataTextField:'lineId'
+                                        }));
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">产品编码</label>
+                                <div class="col-sm-8">
+                                    <input id="pmatnr" class="k-textbox" data-bind="value:model.pmatnr" style="width: 100%">
+                                    <script>
+                                        $("#pmatnr").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_MATNR")}, {
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            },
+                                            dataTextField:'matnr'
+                                        }));
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script>
+            kendo.bind($('#myForm'), viewModel);
+        </script>
+    </div>
+    <div class="pull-left" id="toolbar-btn" style="padding-bottom:10px;">
+        <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:createFunction"><@spring.message "hap.new"/></span>
+        <span class="btn btn-success k-grid-save-changes" data-bind="click:saveFunction" type="submit" style="float:left;margin-right:5px;">更改</span>
+        <span onclick="deleteData()" class="btn btn-danger" style="float:left;margin-right:5px;"><@spring.message "hap.delete"/></span>
+        <!--<span class="btn btn-primary" style="float:left;margin-right:5px;" data-bind="click:queryFunction" type="submit">查看</span>-->
+    </div>
+    <script>kendo.bind($('#toolbar-btn'), viewModel);</script>
+    <div class="pull-right" id="query-form" style="padding-bottom:10px;">
+        <span class="btn btn-primary" style="float:left;width:70px" data-bind="click:queryResource" type="submit"><@spring.message "hap.query"/></span>
+        <div style="clear:both"></div>
+    </div>
+    <script>kendo.bind($('#query-form'), viewModel);</script>
+    <div style="clear:both">
+        <div id="Grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/products/cfg/queryProductsCfg",
+                type: "POST",
+                dataType: "json"
+            },
+            destroy: {
+                url: BaseUrl + "/wip/products/cfg/removeProductsCfg",
+                type: "POST",
+                contentType: "application/json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "pmatnr",
+                parentId:"lineId",
+                fields: {
+                    werks: {type: "string",editable: false,defaultValue: "1001"},
+                    lineId: {type: "long"},
+                    pmatnr: {type: "string"},
+                    matnr: {type: "string"},
+                    maktx: {type: "string"},
+                    kunnr1: {type: "string"},
+                    custbarcodeynCarton:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    custbarcodeynBox:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'}
+                }
+            }
+        }
+    });
+    $("#Grid").kendoGrid({
+        dataSource:dataSource,
+        height:'100%',
+        resizable:true,
+        scrollable:true,
+        navigatable:false,
+        sortable: true,
+        editable: false,
+        selectable:'multiple,rowbox',
+        pageable:{
+            pageSizes:[5,10,20,50,"all"],
+            refresh:true,
+            buttonCount:5
+        },
+        columns:[
+            {
+                field:"werks",
+                title:"工厂",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lineId",
+                title:"产线ID",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"descriptions",
+                title:"产线描述",
+                width:240,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"pmatnr",
+                title:"产品编码",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"maktx",
+                title:"产品描述",
+                width:320,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"matnr2",
+                title:"BOM组件",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"maktx2",
+                title:"物料描述",
+                width:320,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lgort",
+                title:"压铸物料线边库",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lgortassy",
+                title:"装箱件库",
+                width:150,
+                editable:false,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lgortrew",
+                title:"返修库",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"kunnr1",
+                title:"客户编码",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"name1",
+                title:"客户名称",
+                width:240,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"custmantr",
+                title:"客户物料",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"custbarcodeynCarton",
+                title:"绑定客户托条码",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"custbarcodeynBox",
+                title:"绑定客户箱条码",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"spostCarton",
+                title:"客户物料在客户托条码起始位置",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"epostCarton",
+                title:"客户物料在客户托条码结束位置",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"spostBox",
+                title:"客户物料在客户箱条码起始位置",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"epostBox",
+                title:"客户物料在客户箱条码结束位置",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"sxmin",
+                title:"最小上线批量",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"sxmax",
+                title:"最大上线批量",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ]
+    });
+    var grid = $('#Grid').data("kendoGrid");
+    function deleteData() {
+        var selections = grid.selectedDataItems();
+        if(selections.length >= 1){
+            Hap.deleteGridSelection({
+                grid: $('#Grid')
+            });
+        }else{
+            kendo.ui.showInfoDialog({
+                message: '请至少选择一行数据'
+            })
+        }
+    }
+    function newData(url) {
+        var dialog = $("#newWin").kendoWindow({
+            actions: ["Close"],
+            width: 900,
+            height: 500,
+            title: '<@spring.message "hap.edit"/>',
+            content: url,
+            iframe: true,
+            visible: false,
+            resizable: false,
+            modal: true,
+            close: function () {
+                //window 关闭  刷新 本页面的  Grid
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+        }).data("kendoWindow");
+        dialog.center().open();
+    }
+    Hap.autoResizeGrid("#Grid");
+</script>
+
+</body>
+</html>

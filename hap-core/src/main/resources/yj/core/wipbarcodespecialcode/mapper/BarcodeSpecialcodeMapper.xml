@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipbarcodespecialcode.mapper.BarcodeSpecialcodeMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipbarcodespecialcode.dto.BarcodeSpecialcode">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="SPEC_ROW_ID" property="specRowId" jdbcType="DECIMAL"/>
+        <result column="HEADER_ID" property="headerId" jdbcType="DECIMAL"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="START_POS" property="startPos" jdbcType="DECIMAL"/>
+        <result column="END_POS" property="endPos" jdbcType="DECIMAL"/>
+        <result column="CODE_TYPE" property="codeType" jdbcType="DECIMAL"/>
+        <result column="SPECIALL_CODE" property="speciallCode" jdbcType="VARCHAR"/>
+        <result column="CHECK_UP_DATA" property="checkUpData" jdbcType="DECIMAL"/>
+        <result column="CHECK_DOWN_DATA" property="checkDownData" jdbcType="DECIMAL"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="PKG_QTY" property="pkgQty" jdbcType="DECIMAL"/>
+        <result column="TUO_QTY" property="tuoQty" jdbcType="DECIMAL"/>
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectFromPage" parameterType="yj.core.wipbarcodespecialcode.dto.BarcodeSpecialcode" resultMap="BaseResultMap">
+        select * from wip_barcode_specialcode
+        <where>
+            HEADER_ID=#{headerId}
+        </where>
+    </select>
+
+    <delete id="deleteBarcodeSpecialcode" parameterType="java.lang.Integer">
+        delete from wip_barcode_specialcode
+        <where>
+            HEADER_ID=#{headerId}
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.qcaudithead.mapper.QcauditheadMapper">
+    <resultMap id="BaseResultMap" type="yj.core.qcaudithead.dto.Qcaudithead">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="RECORDID" property="recordid" jdbcType="VARCHAR" />
+        <result column="SOURCETYPE" property="sourcetype" jdbcType="VARCHAR" />
+        <result column="DEPT_RESPONSIBLE" property="deptResponsible" jdbcType="VARCHAR" />
+        <result column="LINEID" property="lineid" jdbcType="VARCHAR" />
+        <result column="LINE_DESC" property="lineDesc" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="KUNNR" property="kunnr" jdbcType="VARCHAR" />
+        <result column="KUNNR_DESC" property="kunnrDesc" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="MAKTX2" property="maktx2" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="DATE" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="RESPONSIBLE" property="responsible" jdbcType="VARCHAR" />
+        <result column="DFECT_QTY" property="dfectQty" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="OA_PRESSCLS" property="oaPresscls" jdbcType="VARCHAR" />
+        <result column="OA_STATUS" property="oaStatus" jdbcType="VARCHAR" />
+        <result column="DEFCT_TYPE" property="defctType" jdbcType="VARCHAR" />
+        <result column="HANDLE_RESULTS1" property="handleResults1" jdbcType="VARCHAR" />
+        <result column="HANDLE_RESULTS2" property="handleResults2" jdbcType="VARCHAR" />
+        <result column="HANDLE_RESULTS3" property="handleResults3" jdbcType="VARCHAR" />
+        <result column="SCRAP_QTY" property="scrapQty" jdbcType="DECIMAL" />
+        <result column="RWORK_QTY" property="rworkQty" jdbcType="DECIMAL" />
+        <result column="CONSS_QTY" property="conssQty" jdbcType="VARCHAR" />
+        <result column="DFECT_TXT" property="dfectTxt" jdbcType="VARCHAR" />
+        <result column="REPORT_DEPT" property="reportDept" jdbcType="VARCHAR" />
+        <result column="REPORTOR" property="reportor" jdbcType="VARCHAR" />
+        <result column="REPORT_DATE" property="reportDate" jdbcType="DATE" />
+        <result column="AUDIT_TXT" property="auditTxt" jdbcType="VARCHAR" />
+        <result column="QC_ENGER" property="qcEnger" jdbcType="VARCHAR" />
+        <result column="AUDITOR1" property="auditor1" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE1" property="auditHandle1" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE1" property="auditDate1" jdbcType="DATE" />
+        <result column="AUDITOR2" property="auditor2" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE2" property="auditHandle2" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE2" property="auditDate2" jdbcType="DATE" />
+        <result column="AUDITOR3" property="auditor3" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE3" property="auditHandle3" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE3" property="auditDate3" jdbcType="DATE" />
+        <result column="AUDITOR4" property="auditor4" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE4" property="auditHandle4" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE4" property="auditDate4" jdbcType="DATE" />
+        <result column="AUDITOR5" property="auditor5" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE5" property="auditHandle5" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE5" property="auditDate5" jdbcType="DATE" />
+        <result column="AUDITOR6" property="auditor6" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE6" property="auditHandle6" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE6" property="auditDate6" jdbcType="DATE" />
+        <result column="AUDITOR7" property="auditor7" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE7" property="auditHandle7" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE7" property="auditDate7" jdbcType="DATE" />
+        <result column="AUDITOR8" property="auditor8" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE8" property="auditHandle8" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE8" property="auditDate8" jdbcType="DATE" />
+        <result column="AUDITOR9" property="auditor9" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE9" property="auditHandle9" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE9" property="auditDate9" jdbcType="DATE" />
+        <result column="AUDITOR10" property="auditor10" jdbcType="VARCHAR" />
+        <result column="AUDIT_HANDLE10" property="auditHandle10" jdbcType="VARCHAR" />
+        <result column="AUDIT_DATE10" property="auditDate10" jdbcType="DATE" />
+        <result column="HANDLE_RESULTS" property="handleResults" jdbcType="VARCHAR" />
+        <result column="QM_NOTIFICATION" property="qmNotification" jdbcType="VARCHAR" />
+        <result column="QM_NOTNTYPE" property="qmNotntype" jdbcType="VARCHAR" />
+        <result column="QM_NOTNCRTDT" property="qmNotncrtdt" jdbcType="DATE" />
+        <result column="REWORK_ORDER" property="reworkOrder" jdbcType="VARCHAR" />
+        <result column="REWORK_ORDERCRTDT" property="reworkOrdercrtdt" jdbcType="DATE" />
+        <result column="RWK_QTY" property="rwkQty" jdbcType="DECIMAL" />
+        <result column="RWK_QLFQTY" property="rwkQlfqty" jdbcType="DECIMAL" />
+        <result column="RWK_SCRAPQTY" property="rwkScrapqty" jdbcType="DECIMAL" />
+        <result column="CUSTOMER_CONFIRM" property="customerConfirm" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectForQcaudithead" parameterType="yj.core.qcaudithead.dto.Qcaudithead" resultMap="BaseResultMap">
+        select qh.*,qh.gstrp as gstrp2,qh.report_date as reportDate2,qh.zqxdm as zqxdm,
+        qh.dept_responsible as deptResponsible,qh.tlevelcode as tlevelcode2,
+        (select kurztext from sap_qpcd where code = zqxdm limit 1) as kurztext,
+        (select name from hr_org_unit_b where unit_code = deptResponsible limit 1) as name,
+        (select ztext from sap_dftdtl where tlevelcode = tlevelcode2 limit 1) as ztext
+        from wip_qcaudithead qh
+        <where>
+            1 = 1
+            <if test="werks != null">
+                AND qh.werks = #{werks}
+            </if>
+            <!--<if test="deptResponsible != null">-->
+                <!--AND qh.dept_responsible = #{deptResponsible}-->
+            <!--</if>-->
+            <if test="lineid != null">
+                AND qh.lineid = #{lineid}
+            </if>
+            <if test="shift != null">
+                AND qh.shift = #{shift}
+            </if>
+            <if test="sourcetype != null">
+                AND qh.sourcetype = #{sourcetype}
+            </if>
+            <if test="gstrp != null">
+                AND qh.gstrp = #{gstrp}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+                select qh.*,qh.gstrp as gstrp2,qh.report_date as reportDate2,qh.zqxdm as zqxdm,
+                qh.dept_responsible as deptResponsible,qh.tlevelcode as tlevelcode2,
+                (select kurztext from sap_qpcd where code = zqxdm limit 1) as kurztext,
+                (select name from hr_org_unit_b where unit_code = deptResponsible limit 1) as name,
+                (select ztext from sap_dftdtl where tlevelcode = tlevelcode2 limit 1) as ztext
+                from wip_qcaudithead qh
+                <where>
+                    qh.werks = #{werks}
+                    and qh.recordid = #{recordid}
+                </where>
+    </select>
+
+    <select id="selectMaxRecordId" parameterType="java.lang.String" resultType="java.lang.String">
+
+        select Max(RECORDID) FROM  wip_qcaudithead
+        <where>
+              WERKS = #{werks}
+            and GSTRP = #{gstrp}
+        </where>
+    </select>
+
+    <insert id="insertNewRow" parameterType="yj.core.qcaudithead.dto.Qcaudithead">
+        insert into wip_qcaudithead(WERKS,RECORDID,SOURCETYPE,DEPT_RESPONSIBLE,LINEID,LINE_DESC,SHIFT,KUNNR,KUNNR_DESC,
+        ZPGDBAR,MATNR,MAKTX,MATNR2,MAKTX2,CHARG,SFFLG,DIECD,GSTRP,VORNR,
+        RESPONSIBLE,DFECT_QTY,GMEIN,OA_PRESSCLS,OA_STATUS,DEFCT_TYPE,HANDLE_RESULTS1,HANDLE_RESULTS2,HANDLE_RESULTS3,SCRAP_QTY,
+        RWORK_QTY,CONSS_QTY,DFECT_TXT,REPORT_DEPT,REPORTOR,REPORT_DATE,AUDIT_TXT,QC_ENGER,AUDITOR1,AUDIT_HANDLE1,
+        AUDIT_DATE1,AUDITOR2,AUDIT_HANDLE2,AUDIT_DATE2,AUDITOR3,AUDIT_HANDLE3,AUDIT_DATE3,AUDITOR4,AUDIT_HANDLE4,AUDIT_DATE4,
+        AUDITOR5,AUDIT_HANDLE5,AUDIT_DATE5,AUDITOR6,AUDIT_HANDLE6,AUDIT_DATE6,AUDITOR7,AUDIT_HANDLE7,AUDIT_DATE7,AUDITOR8,
+        AUDIT_HANDLE8,AUDIT_DATE8,AUDITOR9,AUDIT_HANDLE9,AUDIT_DATE9,AUDITOR10,AUDIT_HANDLE10,AUDIT_DATE10,HANDLE_RESULTS,QM_NOTIFICATION,
+        QM_NOTNTYPE,QM_NOTNCRTDT,REWORK_ORDER,REWORK_ORDERCRTDT,RWK_QTY,RWK_QLFQTY,RWK_SCRAPQTY,CUSTOMER_CONFIRM,CREATION_DATE,CREATED_BY,STATUS)
+        VALUES (#{werks},#{recordid},#{sourcetype},#{deptResponsible},#{lineid},#{lineDesc},#{shift},#{kunnr},#{kunnrDesc},#{zpgdbar},
+        #{matnr},#{maktx},#{matnr2},#{maktx2},#{charg},#{sfflg},#{diecd},#{gstrp},#{vornr},#{responsible},
+        #{dfectQty},#{gmein},#{oaPresscls},#{oaStatus},#{defctType},#{handleResults1},#{handleResults2},#{handleResults3},#{scrapQty},#{rworkQty},
+        #{conssQty},#{dfectTxt},#{reportDept},#{reportor},#{reportDate},#{auditTxt},#{qcEnger},#{auditor1},#{auditHandle1},#{auditDate1},
+        #{auditor2},#{auditHandle2},#{auditDate2},#{auditor3},#{auditHandle3},#{auditDate3},#{auditor4},#{auditHandle4},#{auditDate4},#{auditor5},
+        #{auditHandle5},#{auditDate5},#{auditor6},#{auditHandle6},#{auditDate6},#{auditor7},#{auditHandle7},#{auditDate7},#{auditor8},#{auditHandle8},
+        #{auditDate8},#{auditor9},#{auditHandle9},#{auditDate9},#{auditor10},#{auditHandle10},#{auditDate10},#{handleResults},#{qmNotification},#{qmNotntype},
+        #{qmNotncrtdt},#{reworkOrder},#{reworkOrdercrtdt},#{rwkQty},#{rwkQlfqty},#{rwkScrapqty},#{customerConfirm},#{creationDate},#{createdBy},#{status})
+    </insert>
+
+    <update id="updateRow" parameterType="yj.core.qcaudithead.dto.Qcaudithead">
+        update wip_qcaudithead set WERKS = #{werks},
+        SOURCETYPE= #{sourcetype},
+        DEPT_RESPONSIBLE = #{deptResponsible},
+        LINEID = #{lineid},
+        LINE_DESC = #{lineDesc},
+        VORNR = #{vornr},
+        RESPONSIBLE = #{responsible},
+        LAST_UPDATE_DATE = #{lastUpdateDate},
+        LAST_UPDATED_BY = #{lastUpdatedBy}
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+        </where>
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete FROM wip_qcaudithead
+        <where>
+            WERKS = #{werks}
+            and RECORDID = #{recordid}
+        </where>
+    </delete>
+</mapper>

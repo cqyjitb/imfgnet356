@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SI_WEIDU_Sender_Syn" targetNamespace="http://www.cq-yj.com/HAP/WEIDU/Sender"
+                  xmlns:p1="http://www.cq-yj.com/HAP/WEIDU/Sender"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:documentation/>
+    <wsp:UsingPolicy wsdl:required="true"/>
+    <wsp:Policy wsu:Id="OP_SI_WEIDU_Sender_Syn"/>
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.cq-yj.com/HAP/WEIDU/Sender" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                    xmlns="http://www.cq-yj.com/HAP/WEIDU/Sender">
+            <xsd:element name="MT_WEIDU_Req" type="DT_WEIDU_Req"/>
+            <xsd:element name="MT_WEIDU_Res" type="DT_WEIDU_Res"/>
+            <xsd:complexType name="DT_WEIDU_Req">
+                <xsd:annotation>
+                    <xsd:appinfo source="http://sap.com/xi/VersionID">9321cb33c2ed11e8a0e20000002ad1ea</xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="ITEM">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="WERKS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            3433442fc2ed11e8b8ac4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>工厂</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MATNR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            34334430c2ed11e89f684ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>物料</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZBANB" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            34334431c2ed11e88da84ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>班标</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZMODEL" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            34334432c2ed11e8aadb4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>模号</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZXHBAR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            34334433c2ed11e88ce74ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>箱号条码</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DT_WEIDU_Res">
+                <xsd:annotation>
+                    <xsd:appinfo source="http://sap.com/xi/VersionID">bdaa5af4cabc11e8b07a0000002ad1ea</xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="MTYPE" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">70d2ef54c2ee11e8c4b44ccc6a9ffd24
+                            </xsd:appinfo>
+                            <xsd:documentation>消息类型</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="MTMSG" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">70d2ef55c2ee11e8bd0c4ccc6a9ffd24
+                            </xsd:appinfo>
+                            <xsd:documentation>消息内容</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="WEIDUFLG" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">5ec8ecc0cabc11e884b64ccc6a9ffd24
+                            </xsd:appinfo>
+                            <xsd:documentation>围堵标识</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="T_ZTPP0012" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">70d2ef60c2ee11e89c254ccc6a9ffd24
+                            </xsd:appinfo>
+                            <xsd:documentation>压铸批次围堵表头</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="WERKS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef56c2ee11e8b28b4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>工厂</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MATNR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef57c2ee11e8a3ba4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>物料</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZBANB" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef58c2ee11e8acab4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>班标</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZMODEL" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef59c2ee11e8ad034ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>模号</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MAKTX" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef5ac2ee11e899be4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>物料描述</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MEINS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef5bc2ee11e8c21f4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>基本计量单位</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="STATUS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef5cc2ee11e8ad814ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>围堵记录状态</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="STATXT" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef5dc2ee11e893d54ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>R/2 表</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="CONNAM" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef5ec2ee11e880ec4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>操作人</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="BEIZ" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef5fc2ee11e88ee94ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>备注</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="T_ZTPP0013" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">70d2ef66c2ee11e88fae4ccc6a9ffd24
+                            </xsd:appinfo>
+                            <xsd:documentation>压铸批次围堵明细表(白名单)</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="ZXHBAR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef61c2ee11e8cee54ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>箱号条码</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZBANB" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef62c2ee11e891bc4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>班标</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="WERKS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef63c2ee11e8b38e4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>工厂</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MATNR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef64c2ee11e8a7c54ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>物料</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZMODEL" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            70d2ef65c2ee11e8a5334ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>模号</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="MT_WEIDU_Req">
+        <wsdl:documentation/>
+        <wsdl:part name="MT_WEIDU_Req" element="p1:MT_WEIDU_Req"/>
+    </wsdl:message>
+    <wsdl:message name="MT_WEIDU_Res">
+        <wsdl:documentation/>
+        <wsdl:part name="MT_WEIDU_Res" element="p1:MT_WEIDU_Res"/>
+    </wsdl:message>
+    <wsdl:portType name="SI_WEIDU_Sender_Syn">
+        <wsdl:documentation/>
+        <wsdl:operation name="SI_WEIDU_Sender_Syn">
+            <wsdl:documentation/>
+            <wsp:Policy>
+                <wsp:PolicyReference URI="#OP_SI_WEIDU_Sender_Syn"/>
+            </wsp:Policy>
+            <wsdl:input message="p1:MT_WEIDU_Req"/>
+            <wsdl:output message="p1:MT_WEIDU_Res"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SI_WEIDU_Sender_SynBinding" type="p1:SI_WEIDU_Sender_Syn">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"
+                      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        <wsdl:operation name="SI_WEIDU_Sender_Syn">
+            <soap:operation soapAction="http://sap.com/xi/WebService/soap1.1"
+                            xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            <wsdl:input>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SI_WEIDU_Sender_SynService">
+        <wsdl:port name="HTTP_Port" binding="p1:SI_WEIDU_Sender_SynBinding">
+            <soap:address
+                    location="http://pidev1:50000/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_HAP_DEV&amp;receiverParty=&amp;receiverService=&amp;interface=SI_WEIDU_Sender_Syn&amp;interfaceNamespace=http%3A%2F%2Fwww.cq-yj.com%2FHAP%2FWEIDU%2FSender"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+        <wsdl:port name="HTTPS_Port" binding="p1:SI_WEIDU_Sender_SynBinding">
+            <soap:address
+                    location="https://pidev1:50001/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_HAP_DEV&amp;receiverParty=&amp;receiverService=&amp;interface=SI_WEIDU_Sender_Syn&amp;interfaceNamespace=http%3A%2F%2Fwww.cq-yj.com%2FHAP%2FWEIDU%2FSender"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

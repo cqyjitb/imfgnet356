@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.crhd.mapper.CrhdMapper">
+    <resultMap id="BaseResultMap" type="yj.core.crhd.dto.Crhd">
+        <result column="OBJID" property="objid" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="VERWE" property="verwe" jdbcType="VARCHAR" />
+        <result column="LVORM" property="lvorm" jdbcType="VARCHAR" />
+        <result column="AEDAT" property="aedat" jdbcType="DATE" />
+        <result column="VERAN" property="veran" jdbcType="VARCHAR" />
+        <result column="KETXT" property="ketxt" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByVeran2" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select cr.*,fe.txt,fe.shift_seq as shiftSeq from sap_crhd cr,sap_fevor fe
+        <where>
+            cr.veran = fe.fevor
+            AND (cr.lvorm = '' or cr.lvorm is null)
+            AND cr.veran like '4%'
+            <if test="werks != null">
+                AND cr.werks = #{werks}
+            </if>
+            order by cr.arbpl asc
+        </where>
+    </select>
+
+    <select id="selectnumByObjid" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from sap_crhd
+        <where>
+            OBJID = #{objid}
+        </where>
+    </select>
+
+    <update id="updateRow" parameterType="yj.core.crhd.dto.Crhd">
+        update sap_crhd set WERKS = #{werks},
+                            ARBPL = #{arbpl},
+                            VERWE = #{verwe},
+                            LVORM = #{lvorm},
+                            AEDAT = #{aedat},
+                            VERAN = #{veran},
+                            KETXT = #{ketxt},
+                            LAST_UPDATE_DATE = #{lastUpdatedDate},
+                            LAST_UPDATED_BY = #{lastUpdatedBy}
+                <where>
+                    OBJID = #{objid}
+                </where>
+
+    </update>
+    <insert id="insertRow" parameterType="yj.core.crhd.dto.Crhd">
+        insert into sap_crhd(OBJID,WERKS,ARBPL,VERWE,LVORM,AEDAT,VERAN,KETXT,ATTR1,ATTR2,ATTR3,ATTR4,ATTR5,ATTR6,ATTR7,CREATION_DATE,CREATED_BY)
+        VALUES (#{objid},#{werks},#{arbpl},#{verwe},#{lvorm},#{aedat},#{veran},#{ketxt},#{attr1},#{attr2},#{attr3},#{attr4},#{attr5},#{attr6},#{attr7},#{creationDate},#{createdBy})
+    </insert>
+    <select id="selectByVeran" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select cr.*,fe.txt,fe.shift_seq as shiftSeq from sap_crhd cr,sap_fevor fe
+        <where>
+            cr.veran = fe.fevor
+            AND (cr.lvorm = '' or cr.lvorm is null)
+            <if test="werks != null">
+                AND cr.werks = #{werks}
+            </if>
+            <if test="veran != null">
+                AND cr.veran = #{veran}
+            </if>
+            <if test="arbpl != null">
+                AND cr.arbpl = #{arbpl}
+            </if>
+            order by cr.arbpl asc
+        </where>
+    </select>
+
+    <select id="selecByWerksAndArbpl" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_crhd
+        <where>
+            1 = 1
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="arbpl != null">
+                AND arbpl = #{arbpl}
+            </if>
+        </where>
+    </select>
+</mapper>

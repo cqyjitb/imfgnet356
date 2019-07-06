@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.viewdataschemaline.mapper.ViewdataschemalineMapper">
+<resultMap id="BaseResultMap" type="yj.kanb.viewdataschemaline.dto.Viewdataschemaline">
+    <result column="bukrs" property="bukrs" jdbcType="VARCHAR"/>
+    <result column="werks" property="werks" jdbcType="VARCHAR"/>
+    <result column="groupId" property="groupId" jdbcType="VARCHAR"/>
+    <result column="product" property="product" jdbcType="VARCHAR"/>
+    <result column="workshopId" property="workshopId" jdbcType="VARCHAR"/>
+    <result column="matnr" property="matnr" jdbcType="VARCHAR"/>
+    <result column="maktx" property="maktx" jdbcType="VARCHAR"/>
+    <result column="kunnr" property="kunnr" jdbcType="VARCHAR"/>
+    <result column="name1" property="name1" jdbcType="VARCHAR"/>
+    <result column="sortl" property="sortl" jdbcType="VARCHAR"/>
+    <result column="shift" property="shift" jdbcType="VARCHAR"/>
+    <result column="classgrp" property="classgrp" jdbcType="VARCHAR"/>
+    <result column="erdat" property="erdat" jdbcType="VARCHAR"/>
+    <result column="shifttimebegin" property="shifttimebegin" jdbcType="VARCHAR"/>
+    <result column="shifttimeend" property="shifttimeend" jdbcType="VARCHAR"/>
+    <result column="lineLeader" property="lineLeader" jdbcType="VARCHAR"/>
+    <result column="lineLeaderEn" property="lineLeaderEn" jdbcType="VARCHAR"/>
+    <result column="leaderPhone" property="leaderPhone" jdbcType="VARCHAR"/>
+    <result column="cycletime" property="cycletime" jdbcType="DECIMAL"/>
+    <result column="workshopName" property="workshopName" jdbcType="VARCHAR"/>
+    <result column="planqty" property="planqty" jdbcType="DECIMAL"/>
+    <result column="actqty" property="actqty" jdbcType="DECIMAL"/>
+    <result column="insufqty" property="insufqty" jdbcType="DECIMAL"/>
+    <result column="jdcqqty" property="jdcqqty" jdbcType="DECIMAL"/>
+    <result column="qcRate" property="qcRate" jdbcType="DECIMAL"/>
+    <result column="creation_date" property="creationDate" jdbcType="VARCHAR"/>
+    <result column="created_by" property="createdBy" jdbcType="DECIMAL"/>
+    <result column="last_updated_by" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+    <result column="last_update_date" property="lastUpdateDate" jdbcType="VARCHAR"/>
+</resultMap>
+
+    <select id="selectforKanb" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from view_data_schema_line
+        <where>
+            werks = #{werks}
+            and bukrs = #{bukrs}
+            and groupId = #{groupId}
+            and product = #{matnr}
+            and workshopId = #{deptId}
+        </where>
+    </select>
+
+    <insert id="insertforKanb" parameterType="yj.kanb.viewdataschemaline.dto.Viewdataschemaline">
+        INSERT INTO  view_data_schema_line(bukrs,werks,groupId,product,workshopId,matnr,maktx,
+                        kunnr,name1,sortl,shift,erdat,shifttimebegin,shifttimeend,
+                        lineLeader,leaderPhone,cycletime,workshopName,planqty,actqty,insufqty,
+                        jdcqqty,qcRate,oeeRate,creation_date,created_by,classgrp,lineLeaderEn)
+        VALUES (#{bukrs},#{werks},#{groupId},#{product},#{workshopId},#{matnr},#{maktx},
+                #{kunnr},#{name1},#{sortl},#{shift},#{erdat},#{shifttimebegin},#{shifttimeend},
+                #{lineLeader},#{leaderPhone},#{cycletime},#{workshopName},#{planqty},#{actqty},#{insufqty},
+                #{jdcqqty},#{qcRate},#{oeeRate},#{creationDate},#{createdBy},#{classgrp},#{lineLeaderEn})
+    </insert>
+
+    <update id="updateforKanb" parameterType="yj.kanb.viewdataschemaline.dto.Viewdataschemaline">
+        update view_data_schema_line set kunnr = #{kunnr},
+                                         name1 = #{name1},
+                                         sortl = #{sortl},
+                                         shift = #{shift},
+                                         classgrp = #{classgrp},
+                                         erdat = #{erdat},
+                                         shifttimebegin = #{shifttimebegin},
+                                         shifttimeend = #{shifttimeend},
+                                         lineLeader = #{lineLeader},
+                                         lineLeaderEn = #{lineLeaderEn},
+                                         leaderPhone = #{leaderPhone},
+                                         cycletime = #{cycletime},
+                                         planqty = #{planqty},
+                                         actqty = #{actqty},
+                                         insufqty = #{insufqty},
+                                         jdcqqty = #{jdcqqty},
+                                         qcRate = #{qcRate},
+                                         oeeRate = #{oeeRate},
+                                         last_updated_by = #{lastUpdatedBy},
+                                         last_update_date = #{lastUpdateDate}
+
+
+        <where>
+            groupId = #{groupId}
+            and werks = #{werks}
+            and bukrs = #{bukrs}
+            and product = #{product}
+            and workshopId = #{workshopId}
+        </where>
+    </update>
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.appidconf.mapper.AppidconfMapper">
+    <resultMap id="BaseResultMap" type="yj.core.appidconf.dto.Appidconf">
+        <result column="APPID" property="appid" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="APPID_TXT" property="appidTxt" jdbcType="VARCHAR" />
+        <result column="KTSCH_TXT" property="ktschTxt" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="isExit" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        FROM  sap_appidconf
+        <where>
+            APPID = #{appid}
+        </where>
+    </select>
+
+    <!--<insert id="insert" parameterType="yj.core.appidconf.dto.Appidconf">-->
+        <!--INSERT into sap_appidconf(APPID,KTSCH,APPID_TXT,KTSCH_TXT) VALUES (#{appid},#{ktsch},#{appid_txt},#{ktsch_txt})-->
+    <!--</insert>-->
+
+    <update id="update" parameterType="yj.core.appidconf.dto.Appidconf">
+        update sap_appidconf SET KTSCH = #{ktsch},APPID_TXT = #{appidTxt},KTSCH_TXT = #{ktschTxt}
+        <where>
+            APPID = #{appid}
+        </where>
+    </update>
+
+    <select id="selectByAppid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  sap_appidconf
+        <where>
+            APPID = #{appid}
+        </where>
+    </select>
+</mapper>

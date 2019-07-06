@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.zrwklist.mapper.ZrwklistMapper">
+    <resultMap id="BaseResultMap" type="yj.core.zrwklist.dto.Zrwklist">
+        <result column="ZRWKNUM" property="zrwknum" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZRNUM" property="zrnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG2" property="charg2" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="DATE" />
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR" />
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR" />
+        <result column="ZRWKTIMES" property="zrwktimes" jdbcType="DECIMAL" />
+        <result column="REVIEWC" property="reviewc" jdbcType="VARCHAR" />
+        <result column="MARK" property="mark" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.zrwklist.dto.Zrwklist">
+        <result column="ZRWKNUM" property="zrwknum" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZRNUM" property="zrnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG2" property="charg2" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="DATE" />
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR" />
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="ZRWKTIMES" property="zrwktimes" jdbcType="DECIMAL" />
+        <result column="REVIEWC" property="reviewc" jdbcType="VARCHAR" />
+        <result column="MARK" property="mark" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="ZOTYPE" property="zotype" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectZrwklist" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select distinct zl.*,li.descriptions, ma.maktx, re.zotype
+            from wip_zrwklist zl, wip_zrwkhead zh, wip_lines li,sap_marc ma, wip_in_out_record re
+            <where>
+                zh.zrwknum = zl.zrwknum
+                AND li.line_id = zl.line_id
+                AND ma.matnr = zl.matnr2
+                AND re.zqjjlh = zl.zqjjlh
+                <if test="status != null">
+                    AND zl.STATUS = #{status}
+                </if>
+                <if test="deptId != null">
+                    AND li.dept_id = #{deptId}
+                </if>
+                <if test="lineId != null">
+                    AND (zl.line_id = #{lineId} or li.pline_id = #{lineId})
+                </if>
+                <if test="creationDateAfter != null">
+                    AND zh.creation_date >= #{creationDateAfter}
+                </if>
+                <if test="creationDateBefore != null">
+                    AND #{creationDateBefore} >= zh.creation_date
+                </if>
+                <if test="zrwknum != null">
+                    AND zh.zrwknum = #{zrwknum}
+                </if>
+                <if test="createdBy != null">
+                    AND zh.created_by = #{createdBy}
+                </if>
+            </where>
+    </select>
+
+    <insert id="insertItem" parameterType="yj.core.zrwklist.dto.Zrwklist">
+        insert into wip_zrwklist(ZRWKNUM,ITEM,LINE_ID,ARBPR,ZQJJLH,ZPGDBAR,VORNR,ZXHBAR,ZPGDBAR2,MATNR,MATNR2,ZGJBAR,ZRNUM,GMEIN,CHARG2,CHARG,DIECD,SFFLG,ZQXDM,GSTRP,ZBANZ,ZBANC,ZRWKTIMES,REVIEWC,MARK,CREATION_DATE,CREATED_BY)
+        VALUES (#{zrwknum},#{item},#{lineId},#{arbpr},#{zqjjlh},#{zpgdbar},#{vornr},#{zxhbar},#{zpgdbar2},#{matnr},#{matnr2},#{zgjbar},#{zrnum},#{gmein},#{charg2},#{charg},#{diecd},#{sfflg},
+        #{zqxdm},#{gstrp},#{zbanz},#{zbanc},#{zrwktimes},#{reviewc},#{mark},#{creationDate},#{createdBy})
+    </insert>
+
+
+</mapper>

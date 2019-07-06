@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.wippassrate.mapper.PassRateMapper">
+    <resultMap id="BaseResultMap" type="yj.kanb.wippassrate.dto.PassRate">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="ERDAT" property="erdat" jdbcType="DATE"/>
+        <result column="GMNGA" property="gmnga" jdbcType="DECIMAL"/>
+        <result column="XMNGA" property="xmnga" jdbcType="DECIMAL"/>
+        <result column="RMNGA" property="rmnga" jdbcType="DECIMAL"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryByMouth" parameterType="yj.kanb.wippassrate.dto.PassRate" resultMap="BaseResultMap">
+        select COALESCE(sum(GMNGA),0) as gmnga,COALESCE(sum(xmnga),0) as xmnga,COALESCE(sum(rmnga),0) as rmnga
+        from wip_pass_rate
+        <where>
+            1 = 1
+            <if test="werks != ''">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != ''">
+                AND line_id = #{lineId}
+            </if>
+            <if test="matnr != ''">
+                AND matnr = #{matnr}
+            </if>
+            <if test="dateStart != ''">
+                AND erdat >= #{dateStart}
+            </if>
+            <if test="dateEnd != ''">
+                AND #{dateEnd} >= erdat
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPassRate" parameterType="yj.kanb.wippassrate.dto.PassRate" resultMap="BaseResultMap">
+        select * from wip_pass_rate
+        <where>
+            1 = 1
+            <if test="werks != ''">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != ''">
+                AND line_id = #{lineId}
+            </if>
+            <if test="matnr != ''">
+                AND matnr = #{matnr}
+            </if>
+            <if test="dateStart != ''">
+                AND erdat >= #{dateStart}
+            </if>
+            <if test="dateEnd != ''">
+                AND #{dateEnd} >= erdat
+            </if>
+        </where>
+        ORDER by erdat asc
+    </select>
+
+    <insert id="insertPassRate" parameterType="yj.kanb.wippassrate.dto.PassRate">
+        insert into wip_pass_rate(werks,dept_id,line_id,matnr,maktx,erdat,gmnga,xmnga,rmnga,gmein,created_by,creation_date)
+        values(#{werks},#{deptId},#{lineId},#{matnr},#{maktx},#{erdat},#{gmnga},#{xmnga},#{rmnga},#{gmein},#{createdBy},#{creationDate})
+    </insert>
+
+    <update id="updatePassRate" parameterType="yj.kanb.wippassrate.dto.PassRate">
+        update wip_pass_rate set gmnga = #{gmnga},xmnga = #{xmnga},rmnga = #{rmnga},last_updated_by = #{lastUpdatedBy},last_update_date = #{lastUpdateDate}
+        <where>
+            werks = #{werks}
+            AND dept_id = #{deptId}
+            AND line_id = #{lineId}
+            AND matnr = #{matnr}
+            AND erdat = #{erdat}
+        </where>
+    </update>
+</mapper>

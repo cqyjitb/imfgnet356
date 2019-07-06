@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.imfpmcheckcycle.mapper.CheckcycleMapper">
+    <resultMap id="BaseResultMap" type="yj.core.imfpmcheckcycle.dto.Checkcycle">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CHECKCYCLE" property="checkcycle" jdbcType="VARCHAR"/>
+        <result column="CRDATE" property="crdate" jdbcType="DATE"/>
+        <result column="CRTIME" property="crtime" jdbcType="TIME"/>
+        <result column="CRUSER" property="cruser" jdbcType="VARCHAR"/>
+        <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR"/>
+        <result column="CHDATE" property="chdate" jdbcType="DATE"/>
+        <result column="CHTIME" property="chtime" jdbcType="TIME"/>
+        <result column="CHUSER" property="chuser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectCheckcycle" parameterType="yj.core.imfpmcheckcycle.dto.Checkcycle" resultMap="BaseResultMap">
+        select * from imf_pm_checkcycle
+        <where>
+            1 = 1
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="checkcycle != null">
+                and checkcycle = #{checkcycle}
+            </if>
+        </where>
+        order by id asc
+    </select>
+    <select id="selectMaxCheckcycle" resultType="java.lang.Integer">
+        select COALESCE(Max(id),0) from imf_pm_checkcycle
+    </select>
+    <update id="updateCheckcycle" parameterType="yj.core.imfpmcheckcycle.dto.Checkcycle">
+        UPDATE imf_pm_checkcycle SET ID=#{id},CHECKCYCLE=#{checkcycle},DELETE_FLAG=#{deleteFlag},CHDATE=#{chdate},CHTIME=#{chtime},CHUSER=#{chuser}
+        <where>
+            ID = #{id}
+        </where>
+    </update>
+    <insert id="insertCheckcycle" parameterType="yj.core.imfpmcheckcycle.dto.Checkcycle">
+        INSERT INTO imf_pm_checkcycle (ID,CHECKCYCLE,CRDATE,CRTIME,CRUSER)
+                VALUES (#{id},#{checkcycle},#{crdate},#{crtime},#{cruser})
+    </insert>
+</mapper>

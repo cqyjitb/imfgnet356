@@ -1,0 +1,1077 @@
+<#include "../include/header.html" >
+    <body>
+    <div class="col-xs-12">
+
+        <div id="tabstrip">
+            <ul>
+                <li class="k-state-active">
+                    组合生产订单管理
+                </li>
+
+            </ul>
+            <div id="div1">
+                <div id="content-container">
+                    <div id="page-content">
+                        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+                            <form class="form-horizontal" id="myForm">
+                                <div class="panel-body">
+                                    <div id="condition">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">工厂</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.werks" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">公司</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.bukrs" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">生产订单号</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.aufnr" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">订单开始日期</label>
+                                                    <div class="col-sm-8">
+                                                        <input style="width: 100%" data-role="datepicker"
+                                                               data-bind="value:model.gstrp" class="k-datepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">基本完成日期</label>
+                                                    <div class="col-sm-8">
+                                                        <input style="width: 100%" data-role="datepicker"
+                                                               data-bind="value:model.gltrp" class="k-datepicker">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">订单类型</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.auart" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">物料编码</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.plnbez" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">生产管理员</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.fevor" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label">MRP控制者</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" style="width: 100%"
+                                                               data-bind="value:model.dispo" class="k-textbox">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-right: -8px;">
+                                        <div class="pull-right" style="margin-right:15px">
+                                                <span class="btn btn-primary" data-bind="click:queryGrid"
+                                                      type="submit">
+                                                        <i class="fa fa-search" style="margin-right:3px;"></i>
+                                                    <@spring.message "hap.query"/></span>
+                                            <span class="btn btn-default" type="button" data-bind="click:resetForm">
+                                                        <i class="fa fa-eraser" style="margin-right:3px;"></i>
+                                                    <@spring.message "hap.reset"/></span>
+                                            <span class="btn btn-info" type="button" id="panel_hidden" onclick="test()">
+                                                        <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                                                    <@spring.message "hap.panel_hidden"/></span>
+                                            <span class="btn btn-info" type="button" id="panel_show" onclick="test()"
+                                                  style="display: none">
+                                                        <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                                                    <@spring.message "hap.panel_show"/></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="newWin" style="display: none"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- grid 的控制程序段 必须放在 页面显示之前-->
+                <script>
+
+                    var tabCounter = 0;
+                    var grid_num = null;
+                    var viewModel_gird1 = kendo.observable({
+                        model: {},
+                        resetForm: function () {
+                            var formData = viewModel_gird1.model.toJSON();
+                            for (var k in formData) {
+                                viewModel_gird1.model.set(k, null);
+                            }
+                            $('#grid').data('kendoGrid').dataSource.read();
+                        },
+                        queryGrid: function (e) {
+                            $('#grid').data('kendoGrid').dataSource.page(1);
+                        }
+                    });
+
+
+                    kendo.bind($('#page-content'), viewModel_gird1);
+
+
+                    function test() {
+                        var apply = $("#condition");
+                        var button_hidden = $("#panel_hidden");
+                        var button_show = $("#panel_show");
+                        if (apply.is(":hidden")) {
+                            button_hidden.show();
+                            button_show.hide();
+                            apply.show();    //如果元素为隐藏,则将它显现
+                        } else {
+                            button_hidden.hide();
+                            button_show.show();
+                            apply.hide();     //如果元素为显现,则将其隐藏
+                        }
+                        Hap.autoResizeGrid("#grid");
+
+                    }
+
+                    $(document).ready(function () {
+                        var BaseUrl = _basePath;
+                        var dataSource = new kendo.data.DataSource({
+                            transport: {
+                                read: {
+                                    url: BaseUrl + "/sap/afko/queryZuhe",
+                                    type: "POST",
+                                    dataType: "json",
+                                },
+
+                                parameterMap: function (options, type) {
+                                    if (type !== "read" && options.models) {
+                                        var datas = Hap.prepareSubmitParameter(options, type)
+
+                                        return kendo.stringify(datas);
+                                    } else if (type === "read") {
+                                        return Hap.prepareQueryParameter(viewModel_gird1.model.toJSON(), options)
+                                    }
+                                }
+                            },
+                            batch: true,
+                            serverPaging: true,
+                            pageSize: 10,
+                            schema: {
+                                data: 'rows',
+                                total: 'total',
+                                model: {
+                                    id: "id",
+                                    fields: {
+                                        cursum: {type: "double", editable: true},
+                                        cansum:{type:"double",editable:false},
+                                        werks: {type: "string", editable: false},
+                                        bukrs: {type: "string", editable: false},
+                                        aufnr: {type: "string", editable: false},
+                                        auart: {type: "string", editable: false},
+                                        gstrp: {type: "date", editable: false},
+                                        gltrp: {type: "date", editable: false},
+                                        plnbez: {type: "string", editable: false},
+                                        fevor: {type: "string", editable: false},
+                                        dispo: {type: "string", editable: false},
+                                        auart_txt:{type:"string",editable:false},
+                                        gamng:{type:"string",editable:false},
+                                        gmein:{type:"string",editable:false},
+                                        umrez:{type:"string",editable:false},
+                                        txt:{type:"string",editable:false},
+                                        maktx:{type:"string",editable:false},
+                                        groes:{type:"string",editable:false}
+                                    }
+                                }
+                            }
+
+                        });
+
+                        $("#grid").kendoGrid({
+                            autoBind: false,
+                            dataSource: dataSource,
+                            height: '100%',
+                            resizable: true,
+                            scrollable: true,
+                            navigatable: true,
+                            selectable: 'rowbox',
+                            pageable: {
+                                pageSizes: [20, 50, 100, 500, 1000],
+                                refresh: true,
+                                buttonCount: 10
+                            },
+                            toolbar: [{
+                                name: "create",
+                                template: '<span id="selectedBtn" class="btn btn-success">创建工序流转卡</span>'
+                            }],
+                            columns: [
+                                {
+                                    field: "aufnr",
+                                    title: '压铸生产订单',
+                                    width: 120,
+                                    locked: true,
+                                    lockable: false,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "cansum",
+                                    title: "可创建数量",
+                                    width: 100,
+                                    locked: true,
+                                    lockable: false,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                }, {
+                                    field: "cursum",
+                                    title: "本次创建数量",
+                                    width: 100,
+                                    locked: true,
+                                    lockable: false,
+                                    editable:true,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "bukrs",
+                                    title: '公司代码',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "werks",
+                                    title: '工厂代码',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "gltrp",
+                                    title: '订单开始日期',
+                                    format: "{0:yyyy-MM-dd}",
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "gstrp",
+                                    title: '订单完成日期',
+                                    format: "{0:yyyy-MM-dd}",
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "auart",
+                                    title: '订单类型',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "auart_txt",
+                                    title: '订单类型描述',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "gamng",
+                                    title: '订单数量',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    }
+
+                                },
+                                {
+                                    field: "gmein",
+                                    title: '单位',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "umrez",
+                                    title: '标准装框量',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "flgrg",
+                                    title: '压铸浮动报工率',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+
+                                {
+                                    field: "fevor",
+                                    title: '生产管理员',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "txt",
+                                    title: '生产管理员描述',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "dispo",
+                                    title: 'MRP控制者',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "plnbez",
+                                    title: '物料编码',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                }, {
+                                    field: "maktx",
+                                    title: '物料描述',
+                                    width: 300,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "groes",
+                                    title: '铝材牌号',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "qaufnr",
+                                    title: '关联机加生产订单',
+                                    width: 150,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "qmatnr",
+                                    title: '机加物料',
+                                    width: 100,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+                                {
+                                    field: "qmaktx",
+                                    title: '机加物料描述',
+                                    width: 300,
+                                    headerAttributes: {
+                                        style: "text-align: center;"
+                                    },
+                                    attributes: {
+                                        style: "text-align: center;"
+                                    }
+                                },
+
+
+                            ],
+                            editable:true
+                        });
+                        Hap.autoResizeGrid("#grid");
+                        $('#selectedBtn').on('click', function () {
+                            var grid = $("#grid").data("kendoGrid"),
+                                selections = grid.selectedDataItems();
+                            if (selections.length > 0) {
+
+                                if (selections["0"].cursum == 0 || selections["0"].cursum == null) {
+                                    kendo.ui.showErrorDialog({
+                                        title: '错误',
+                                        message: "请点击选中行-本次可创建数量列，输入本次可创建数量！"
+                                    });
+                                } else if (selections["0"].cursum > selections["0"].cansum) {
+                                    kendo.ui.showErrorDialog({
+                                        title: '错误',
+                                        message: "本次创建数量大于可创建数量！"
+                                    });
+
+                                } else {
+                                    var tab = $('#tabstrip').data('kendoTabStrip');
+                                    var index = tab.tabGroup["0"].children.length;
+                                    if (index == 2) {
+                                        kendo.ui.showErrorDialog({
+                                            title: '错误',
+                                            message: "请先保存其他订单的流转卡数据后创建新的流转卡！"
+                                        });
+                                    } else {
+                                        var txt1 = "新流转卡记录-" + selections["0"].aufnr + " ";
+                                        var flag = 0;
+                                        var curtxt = null;
+                                        for (var i = 0; i < index; i++) {
+                                            curtxt = tab.tabGroup["0"].children[i].innerText;
+                                            if (curtxt == txt1) {
+                                                flag = 1;
+                                            }
+                                        }
+                                        if (flag == 0) {
+                                            var viewModel = kendo.observable({
+                                                model: {
+                                                    aufpl: selections["0"].aufpl,
+                                                    aufnr: selections["0"].aufnr,
+                                                    charg: selections["0"].charg,
+                                                    werks: selections["0"].werks,
+                                                    maxno: selections["0"].maxno,
+                                                    cansum: selections["0"].cansum,
+                                                    cursum: selections["0"].cursum,
+                                                    plnbez: selections["0"].plnbez,
+                                                    gamng: selections["0"].gamng,
+                                                    umrez: selections["0"].umrez,
+                                                    gmein: selections["0"].gmein,
+                                                    auart: selections["0"].auart,
+                                                    gstrp: selections["0"].gstrp,
+                                                    gltrp: selections["0"].gltrp,
+                                                    qaufnr:selections["0"].qaufnr,
+                                                    qmatnr:selections["0"].qmatnr,
+                                                    bukrs:selections["0"].bukrs,
+                                                    groes:selections["0"].groes
+
+                                                }
+                                            });
+                                            grid_num = selections["0"].aufnr;
+                                            tab.append({
+                                                tabid: 'Item-' + (++tabCounter),
+                                                text: '新流转卡记录-' + selections["0"].aufnr + ' <span class="k-icon k-i-close"></span>',
+                                                encoded: false,
+                                                content: '<div id="grid2"></div>'
+                                            });
+                                        }
+
+
+                                        var dataSource2 = new kendo.data.DataSource({
+                                            transport: {
+                                                read: {
+                                                    url: BaseUrl + "/sap/cardh/makecardZuhe",
+                                                    type: "POST",
+                                                    dataType: "json",
+                                                },
+                                                parameterMap: function (options, operation) {
+                                                    if (operation == "read") {
+                                                        return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                                                    }
+                                                }
+
+                                            },
+                                            batch: true,
+                                            serverPaging: true,
+                                            schema: {
+                                                data: 'rows',
+                                                total: 'total',
+                                                model: {
+                                                    //id: "id",
+                                                    fields: {
+                                                        aufpl: {type: "string"},
+                                                        aufnr: {type: "string"},
+                                                        werks: {type: "string"},
+                                                        maxno: {type: "string"},
+                                                        gstrp: {type: "string"},
+                                                        gltrp: {type: "string"},
+                                                        cansum: {type: "int"}
+
+                                                    }
+                                                }
+
+                                            }
+                                        });
+
+                                        $("#grid2").kendoGrid({
+                                            autoBind: true,
+                                            dataSource: dataSource2,
+                                            height: '100%',
+                                            resizable: true,
+                                            scrollable: true,
+                                            navigatable: true,
+                                            selectable: 'rowbox,multiple',
+                                            toolbar: [{
+                                                name: "create2",
+                                                template: '<span id="saveCard" class="btn btn-success">保存条码</span>'
+                                            }],
+                                            columns: [
+                                                {
+                                                    field: "zpgdbar",
+                                                    title: '流转卡号',
+                                                    width: 120,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "zpgdbh",
+                                                    title: '流转卡编号',
+                                                    width: 80,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                }, {
+                                                    field: "zxhnum",
+                                                    title: '箱号',
+                                                    width: 80,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "ztype",
+                                                    title: '流转卡类型',
+                                                    width: 80,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "werks",
+                                                    title: '工厂',
+                                                    width: 80,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "matnr",
+                                                    title: '物料编码',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "aufnr",
+                                                    title: '来源订单',
+                                                    width: 100,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "auart",
+                                                    title: '来源订单类型',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "aufnr2",
+                                                    title: '关联订单',
+                                                    width: 100,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "auart2",
+                                                    title: '关联订单类型',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "stdqt",
+                                                    title: '标准装框数量',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "plqty",
+                                                    title: '流转卡计划数量',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "menge",
+                                                    title: '流转卡绑定数量',
+                                                    width: 100,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "gamng",
+                                                    title: '来源订单数量',
+                                                    width: 100,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "gmein",
+                                                    title: '单位',
+                                                    width: 60,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "charg",
+                                                    title: '来源订单批次',
+                                                    width: 120,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "status",
+                                                    title: '流转卡当前状态',
+                                                    width: 120,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "status2",
+                                                    title: '流转卡上一状态',
+                                                    width: 120,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "aufpl",
+                                                    title: '工艺路线号',
+                                                    width: 100,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "gstrp",
+                                                    title: '流转卡计划开始日期',
+                                                    width: 150,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "schst",
+                                                    title: '流转卡计划开始时间',
+                                                    width: 150,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "gltrp",
+                                                    title: '流转卡计划完成日期',
+                                                    width: 150,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "schdt",
+                                                    title: '流转卡计划完成时间',
+                                                    width: 150,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "stwks",
+                                                    title: '首工序工作中心',
+                                                    width: 150,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "mtlbd",
+                                                    title: '铝材牌号',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "lgort",
+                                                    title: '在制存储区',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "flgrg",
+                                                    title: '浮动报工率',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "relzpgdbar",
+                                                    title: '关联流转卡',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+                                                {
+                                                    field: "relaufnr",
+                                                    title: '关联生产订单',
+                                                    width: 95,
+                                                    headerAttributes: {
+                                                        style: "text-align: center;"
+                                                    },
+                                                    attributes: {
+                                                        style: "text-align: center;"
+                                                    }
+                                                },
+
+
+                                            ],
+                                            editable: false
+                                        });
+
+                                        tab.select(tab.tabGroup.children().length - 1);
+                                        Hap.autoResizeGrid("#grid2");
+
+                                        $('#saveCard').on('click', function (e) {
+                                            $('#grid2').data('kendoGrid').dataSource.read();
+                                            var grid2 = $("#grid2").data("kendoGrid"),
+                                                selections2 = grid2.selectedDataItems();
+                                            if (selections2.length > 0) {
+                                                var dataarray = new Array();
+                                                for (var i = 0; i < selections2.length; i++) {
+                                                    var index = i;
+                                                    var viewModel3 = kendo.observable({
+                                                        model: {
+                                                            zpgdbar: selections2[index].zpgdbar,
+                                                            zpgdbh: selections2[index].zpgdbh,
+                                                            zxhnum: selections2[index].zxhnum,
+                                                            werks: selections2[index].werks,
+                                                            matnr: selections2[index].matnr,
+                                                            aufnr: selections2[index].aufnr,
+                                                            auart: selections2[index].auart,
+                                                            menge: selections2[index].menge,
+                                                            gamng: selections2[index].gamng,
+                                                            gmein: selections2[index].gmein,
+                                                            charg: selections2[index].charg,
+                                                            gstrp: selections2[index].gstrp,
+                                                            gltrp: selections2[index].gltrp,
+                                                            aufpl: selections2[index].aufpl,
+                                                            status: selections2[index].status,
+                                                            status2:selections2[index].status2,
+                                                            stwks:selections2[index].stwks,
+                                                            aufnr2:selections2[index].aufnr2,
+                                                            auart2:selections2[index].auart2,
+                                                            plqty:selections2[index].plqty,
+                                                            gstrp:selections2[index].gstrp,
+                                                            schst:selections2[index].schst,
+                                                            gltrp:selections2[index].gltrp,
+                                                            schdt:selections2[index].schdt,
+                                                            lgort:selections2[index].lgort,
+                                                            relaufnr:selections2[index].relaufnr,
+                                                            relzpgdbar:selections2[index].relzpgdbar,
+                                                            ztype:selections2[index].ztype,
+                                                            mtlbd:selections2[index].mtlbd
+                                                        }
+                                                    });
+                                                    dataarray[i] = viewModel3.model.toJSON();
+                                                }
+                                                var data = JSON.stringify(dataarray);
+                                                if (data.length > 0) {
+                                                    kendo.ui.showConfirmDialog({
+                                                        title: '提示',
+                                                        message: '确定创建流转卡及相关数据么?'
+                                                    }).done(function (e) {
+                                                        if (e.button == "OK") {
+                                                            $.ajax({
+                                                                url: "${base.contextPath}/sap/cardh/createcardZuhe",
+                                                                type: "POST",
+                                                                data: data,
+                                                                async: false,
+                                                                contentType: "application/json; charset=utf-8",
+                                                                success: function (res) {
+                                                                    var rows = res.rows;
+                                                                    if (rows.length > 0) {
+                                                                        var message = '';
+                                                                        for (var i = 0; i < rows.length; i++) {
+                                                                            message = message + rows[i];
+                                                                        }
+                                                                        kendo.ui.showConfirmDialog({
+                                                                            title: '提示',
+                                                                            message: message
+                                                                        }).done(function (e) {
+                                                                            if (e.button == "OK") {
+                                                                                $('#grid').data('kendoGrid').dataSource.page(1);
+                                                                                var tabstrip = $("#tabstrip").kendoTabStrip({
+                                                                                    height: '100%',
+                                                                                    animation: false
+                                                                                }).data("kendoTabStrip");
+                                                                                var tabselect = tabstrip.select();
+                                                                                var prevtab = tabselect.prev();
+                                                                                tabstrip.remove(tabselect);
+                                                                                tabstrip.select(prevtab);
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                },
+                                                                error: function (res) {
+                                                                    kendo.ui.showErrorDialog({
+                                                                        title: '错误',
+                                                                        message: "创建流转卡失败，请联系系统管理员！"
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+
+                                            } else {
+                                                kendo.ui.showErrorDialog({
+                                                    message: '请选择需要保存的记录！'
+                                                });
+                                            }
+
+                                        });
+                                    }
+                                }
+
+
+                            } else {
+                                kendo.ui.showErrorDialog({
+                                    message: '请至少选择一条记录进行操作！'
+                                });
+                            }
+                        });
+
+                    });
+
+                </script>
+
+                <div id="grid"></div>
+            </div>
+        </div>
+        <script>
+            var tabstrip = $("#tabstrip").kendoTabStrip({
+                height: '100%',
+                animation: false
+            }).data("kendoTabStrip");
+            tabstrip.tabGroup.on("click", ".k-i-close", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                var item = $(e.target).closest(".k-item");
+                var index = item.index(),
+                    prev = item.next().length == 1 ? item.next() : item.prev();
+                tabstrip.remove(item.index());
+                tabstrip.select(prev)
+            });
+        </script>
+
+    </div>
+    </body>
+    </html>

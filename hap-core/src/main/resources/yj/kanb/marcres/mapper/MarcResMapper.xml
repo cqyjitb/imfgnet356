@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.marcres.mapper.MarcResMapper">
+    <resultMap id="BaseResultMap" type="yj.kanb.marcres.dto.MarcRes">
+        <result column="bukrs" property="bukrs" jdbcType="VARCHAR"/>
+        <result column="werks" property="werks" jdbcType="VARCHAR" />
+        <result column="matnr" property="matnr" jdbcType="VARCHAR" />
+        <result column="fileIda" property="fileidA" jdbcType="DECIMAL" />
+        <result column="fileIdb" property="fileidB" jdbcType="DECIMAL" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByMatnr" parameterType="java.lang.String" resultType="yj.kanb.marcres.dto.MarcRes">
+        select * from vb_marc_res
+        <where>
+            1 = 1
+            <if test="bukrs != null">
+                AND bukrs = #{bukrs}
+            </if>
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertMarcRes" parameterType="yj.kanb.marcres.dto.MarcRes">
+        insert into vb_marc_res(bukrs,werks,matnr,fileIda,fileIdb,created_by,creation_date)
+        values(#{bukrs},#{werks},#{matnr},#{fileidA},#{fileidB},#{createdBy},#{creationDate})
+    </insert>
+
+    <update id="updateMarcRes" parameterType="yj.kanb.marcres.dto.MarcRes">
+        update vb_marc_res set bukrs = #{bukrs},werks = #{werks},matnr = #{matnr},fileIda=#{fileidA},
+        fileIdb=#{fileidB},last_updated_by = #{lastUpdatedBy},last_update_date = #{lastUpdateDate}
+        <where>
+            bukrs = #{bukrs}
+            AND werks = #{werks}
+            AND matnr = #{matnr}
+        </where>
+    </update>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wippoints.mapper.PointsMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wippoints.dto.Points">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL"/>
+        <result column="POINT_ID" property="pointId" jdbcType="DECIMAL"/>
+        <result column="POINT_NUM" property="pointNum" jdbcType="DECIMAL"/>
+        <result column="PAR_POINT_ID" property="parPointId" jdbcType="DECIMAL"/>
+        <result column="POINT_CODE" property="pointCode" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="PRNTBARCODE_FLAG" property="prntbarcodeFlag" jdbcType="VARCHAR"/>
+        <result column="ASSEMBLY_FLAG" property="assemblyFlag" jdbcType="VARCHAR"/>
+        <result column="GP12_FLAG" property="gp12Flag" jdbcType="VARCHAR"/>
+        <result column="FIRST_FLAG" property="firstFlag" jdbcType="VARCHAR"/>
+        <result column="END_FLAG" property="endFlag" jdbcType="VARCHAR"/>
+        <result column="KEY_FLAG" property="keyFlag" jdbcType="VARCHAR"/>
+        <result column="CHECK_FLAG" property="checkFlag" jdbcType="VARCHAR"/>
+        <result column="MONITOR_FLAG" property="monitorFlag" jdbcType="VARCHAR"/>
+        <result column="PLAN_FLAG" property="planFlag" jdbcType="VARCHAR"/>
+        <result column="CUST_ENG_NM" property="custEngNm" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="DATE"/>
+        <result column="END_DATE" property="endDate" jdbcType="DATE"/>
+        <result column="TAKT_TIME" property="taktTime" jdbcType="DECIMAL"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectFromPage" parameterType="yj.core.wippoints.dto.Points" resultMap="BaseResultMap">
+        select *,CREATED_BY,CREATION_DATE,LAST_UPDATED_BY,LAST_UPDATED_DATE  from wip_points
+        <where>
+            1 = 1
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != null">
+                AND line_id = #{lineId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectLineId" resultMap="BaseResultMap">
+        select distinct line_id as lineId,(select descriptions from wip_lines where line_id = lineId) as descriptions from wip_points
+        <where>
+            <if test="lineId != null">
+                line_id = #{lineId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPointId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from wip_points
+        <where>
+            line_id = #{lineId}
+            <if test="pointId != null">
+                AND point_id = #{pointId}
+            </if>
+            <if test="pointCode != null">
+                AND point_code = #{pointCode}
+            </if>
+        </where>
+    </select>
+
+    <update id="updatePoints" parameterType="yj.core.wippoints.dto.Points">
+        update wip_points set WERKS = #{werks},LINE_ID = #{lineId},POINT_ID=#{pointId},POINT_NUM=#{pointNum},PAR_POINT_ID=#{parPointId},POINT_CODE=#{pointCode},
+        DESCRIPTIONS=#{descriptions},ARBPL=#{arbpl},PRNTBARCODE_FLAG=#{prntbarcodeFlag},ASSEMBLY_FLAG=#{assemblyFlag},GP12_FLAG=#{gp12Flag},
+        FIRST_FLAG=#{firstFlag},END_FLAG=#{endFlag},KEY_FLAG=#{keyFlag},CHECK_FLAG=#{checkFlag},MONITOR_FLAG=#{monitorFlag},
+        PLAN_FLAG=#{planFlag},ENABLE_FLAG=#{enableFlag},START_DATE=#{startDate},END_DATE=#{endDate},TAKT_TIME=#{taktTime},CUST_ENG_NM=#{custEngNm},
+        CREATION_DATE=#{creationDate},CREATED_BY=#{createdBy},LAST_UPDATED_DATE=#{lastUpdatedDate},LAST_UPDATED_BY=#{lastUpdatedBy}
+        <where>
+            POINT_ID=#{pointId}
+        </where>
+    </update>
+
+    <insert id="insertPoints" parameterType="yj.core.wippoints.dto.Points">
+        insert into wip_points(WERKS,LINE_ID,POINT_ID,POINT_NUM,PAR_POINT_ID,POINT_CODE,DESCRIPTIONS,PRNTBARCODE_FLAG,ASSEMBLY_FLAG,
+                                ARBPL,GP12_FLAG,FIRST_FLAG,END_FLAG,KEY_FLAG,CHECK_FLAG,MONITOR_FLAG,PLAN_FLAG,ENABLE_FLAG,
+                                CUST_ENG_NM,START_DATE,END_DATE,TAKT_TIME,CREATION_DATE,CREATED_BY)
+        values (#{werks},#{lineId},#{pointId},#{pointNum},#{parPointId},#{pointCode},#{descriptions},#{prntbarcodeFlag},#{assemblyFlag},
+                #{arbpl},#{gp12Flag},#{firstFlag},#{endFlag},#{keyFlag},#{checkFlag},#{monitorFlag},#{planFlag},#{enableFlag},
+                #{custEngNm},#{startDate},#{endDate},#{taktTime},#{creationDate},#{createdBy})
+    </insert>
+
+    <select id="isExit" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from wip_points
+        <where>
+            POINT_ID=#{pointId}
+        </where>
+    </select>
+
+    <delete id="deletePoints" parameterType="yj.core.wippoints.dto.Points">
+        delete from wip_points
+        <where>
+            point_id = #{pointId}
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.seversetting.mapper.ServerSettingMapper">
+    <resultMap id="BaseResultMap" type="yj.core.seversetting.dto.ServerSetting">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
+        <result column="DB_PORT" property="dbPort" jdbcType="VARCHAR" />
+        <result column="DB_NAME" property="dbName" jdbcType="VARCHAR" />
+        <result column="DB_USERNAME" property="dbUsername" jdbcType="VARCHAR" />
+        <result column="DB_PASSWORD" property="dbPassword" jdbcType="VARCHAR" />
+        <result column="LAST_PUSH_DATE" property="lastPushDate" jdbcType="DATE" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByLineId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from wip_server_setting
+        <where>
+            WERKS = #{werks}
+            and LINE_ID = #{lineId}
+        </where>
+    </select>
+
+</mapper>

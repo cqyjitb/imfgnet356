@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.imfpmimptttemp.mapper.ImpttTempMapper">
+    <resultMap id="BaseResultMap" type="yj.core.imfpmimptttemp.dto.ImpttTemp">
+        <result column="MPOBJ" property="mpobj" jdbcType="VARCHAR"/>
+        <result column="EQKTU" property="eqktu" jdbcType="VARCHAR"/>
+        <result column="POINT" property="point" jdbcType="VARCHAR"/>
+        <result column="PTTXT" property="pttxt" jdbcType="VARCHAR"/>
+        <result column="CHECKSEQ" property="checkseq" jdbcType="DECIMAL"/>
+        <result column="CHECKREQ" property="checkreq" jdbcType="VARCHAR"/>
+        <result column="CHECKCYCLE" property="checkcycle" jdbcType="VARCHAR"/>
+        <result column="CHECKDE" property="checkde" jdbcType="VARCHAR"/>
+        <result column="CHECKDATE" property="checkdate" jdbcType="DATE"/>
+        <result column="CHECKTIME" property="checktime" jdbcType="TIME"/>
+        <result column="CHECKSHIFT" property="checkshift" jdbcType="VARCHAR"/>
+        <result column="CHECKUSER" property="checkuser" jdbcType="VARCHAR"/>
+        <result column="CHECKKEY" property="checkkey" jdbcType="VARCHAR"/>
+        <result column="CHECKPLAN" property="checkplan" jdbcType="VARCHAR"/>
+        <result column="MRONOTICE" property="mronotice" jdbcType="VARCHAR"/>
+        <result column="IWERK" property="iwerk" jdbcType="VARCHAR"/>
+        <result column="TPLNR" property="tplnr" jdbcType="VARCHAR"/>
+        <result column="PLTXT" property="pltxt" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR"/>
+        <result column="CHECKOBJECT" property="checkobject" jdbcType="VARCHAR"/>
+        <result column="CHECKPLAN_ID" property="checkplanId" jdbcType="DECIMAL"/>
+        <result column="CODCT" property="codct" jdbcType="VARCHAR"/>
+        <result column="CODGR" property="codgr" jdbcType="VARCHAR"/>
+        <result column="ATINN" property="atinn" jdbcType="VARCHAR"/>
+        <result column="DECIM" property="decim" jdbcType="DECIMAL"/>
+        <result column="MRMIN" property="mrmin" jdbcType="VARCHAR"/>
+        <result column="MRMAX" property="mrmax" jdbcType="VARCHAR"/>
+        <result column="MRNGU" property="mrngu" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+</mapper>

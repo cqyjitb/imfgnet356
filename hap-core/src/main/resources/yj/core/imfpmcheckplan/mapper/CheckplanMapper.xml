@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.imfpmcheckplan.mapper.CheckplanMapper">
+    <resultMap id="BaseResultMap" type="yj.core.imfpmcheckplan.dto.Checkplan">
+        <result column="MPOBJ" property="mpobj" jdbcType="VARCHAR"/>
+        <result column="POINT" property="point" jdbcType="VARCHAR"/>
+        <result column="PTTXT" property="pttxt" jdbcType="VARCHAR"/>
+        <result column="CHECKREQUEST" property="checkrequest" jdbcType="VARCHAR"/>
+        <result column="CHECKCYCLE" property="checkcycle" jdbcType="VARCHAR"/>
+        <result column="CHECKDE" property="checkde" jdbcType="VARCHAR"/>
+        <result column="IWERK" property="iwerk" jdbcType="VARCHAR"/>
+        <result column="TPLNR" property="tplnr" jdbcType="VARCHAR"/>
+        <result column="PLTXT" property="pltxt" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR"/>
+        <result column="CHECKPLAN_ID" property="checkplanId" jdbcType="DECIMAL"/>
+        <result column="EXECUTE_FLAG" property="executeFlag" jdbcType="VARCHAR"/>
+        <result column="CHECKDATE" property="checkdate" jdbcType="DATE"/>
+        <result column="CHECKSHIFT" property="checkshift" jdbcType="VARCHAR"/>
+        <result column="CRDATE" property="crdate" jdbcType="DATE"/>
+        <result column="CRTIME" property="crtime" jdbcType="TIME"/>
+        <result column="CRUSER" property="cruser" jdbcType="VARCHAR"/>
+        <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR"/>
+        <result column="CHDATE" property="chdate" jdbcType="DATE"/>
+        <result column="CHTIME" property="chtime" jdbcType="TIME"/>
+        <result column="CHUSER" property="chuser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectCheckcycleAndCheckreq" parameterType="yj.core.imfpmcheckplan.dto.Checkplan" resultMap="BaseResultMap">
+        SELECT * from imf_pm_checkplan
+        <where>
+            1 = 1
+            <if test="checkcycle != null">
+                AND checkcycle = #{checkcycle}
+            </if>
+            <if test="checkrequest != null">
+                AND checkrequest = #{checkrequest}
+            </if>
+        </where>
+    </select>
+
+</mapper>

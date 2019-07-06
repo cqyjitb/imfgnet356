@@ -1,0 +1,775 @@
+<!--
+    不合格品处理
+-->
+<#include "../include/header.html" />
+<body>
+<style>
+    span[class='k-window-title'] {
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+
+    .action_ok {
+        color: #5fb760;
+    }
+
+    .action_dangerous {
+        color: #eeac5f;
+    }
+
+    #mask2 {
+        background-color: #434343;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        z-index: 1001;
+    }
+
+    .label{
+        color: red;
+    }
+</style>
+<script type="text/javascript">
+    var LODOP; //声明为全局变量
+    var viewModel = kendo.observable({
+        model: {},
+        comboboxSource: [{
+            text: "A班",
+            value: "A"
+        }, {
+            text: "B班",
+            value: "B"
+        }, {
+            text: "C班",
+            value: "C"
+        }],
+        resetForm: function () {
+            var formData = viewModel.model.toJSON();
+            for (var k in formData) {
+                viewModel.model.set(k, null);
+            }
+            $('#Grid').data('kendoGrid').dataSource.read();
+        },
+        queryGrid: function (e) {
+            var line_id = document.getElementById("line_id").value;
+
+
+            if (line_id == null || line_id == "" || line_id == ''){
+                kendo.ui.showErrorDialog({
+                    title: '错误',
+                    message: "查询条件:生产线,必输！"
+                });
+            }else{
+                    $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+        }
+
+    });
+</script>
+<div id="content-container">
+    <div id="page-content">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="test">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产车间<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="unit_code" class="k-textbox" data-bind="value:model.deptId" style="width: 100%">
+                                        <script>
+                                            $("#unit_code").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产线<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="line_id" class="k-textbox" data-bind="value:model.line_id" style="width: 100%">
+                                        <script>
+                                            $("#line_id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                query: function (e) {
+                                                    e.param['deptId'] = document.getElementById("unit_code").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }))
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">产品</label>
+                                    <div class="col-sm-8">
+                                        <input id="matnr2" class="k-textbox" data-bind="value:model.matnr2" style="width: 100%">
+                                        <script>
+                                            $("#matnr2").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_PRODUCTS")}, {
+                                                query: function (e) {
+                                                    e.param['lineId'] = document.getElementById("line_id").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }))
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">开始时间</label>
+                                    <div class="col-sm-8">
+                                        <input id="creationDateBefore" style="width: 100%" data-bind="value:model.creationDateBefore" class="k-datetimepicker">
+                                        <script>
+                                            $("#creationDateBefore").kendoDateTimePicker({
+                                                format:"yyyy-MM-dd HH:mm:ss"
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">结束时间</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" id="creationDateAfter" data-bind="value:model.creationDateAfter" class="k-datetimepicker">
+                                        <script>
+                                            $("#creationDateAfter").kendoDateTimePicker({
+                                                format:"yyyy-MM-dd HH:mm:ss"
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">班组</label>
+                                    <div class="col-sm-8">
+                                        <input id="combobox" name="combobox" required placeholder="班组" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: comboboxSource, value:model.classgrp" style="width: 100%;"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">包含线边不良品</label>
+                                        <div class="col-sm-8">
+                                            <input  type="checkbox" id="isInclude" data-bind="checked:isInclude,value:model.isInclude"
+                                                    data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-right: -8px;">
+                        <!--<div class="pull-left" style="margin-right:15px;">-->
+                        <!--<div style="margin-top: 6px"><font size="3">-->
+                        <!--<div style="float: left">成功：</div>-->
+                        <!--<div id="s" style="float: left;">0</div>-->
+                        <!--<div style="float: left;margin-left: 20px">失败：</div>-->
+                        <!--<div style="float: left" id="e">0</div>-->
+                        <!--</font></div>-->
+                        <!--</div>-->
+                        <div class="pull-right" style="margin-right:15px">
+                                <span class="btn btn-primary" data-bind="click:queryGrid"
+                                      type="submit">
+                                <i class="fa fa-search" style="margin-right:3px;"></i>
+                            <@spring.message "hap.query"/></span>
+                            <span class="btn btn-default" type="button" data-bind="click:resetForm">
+                                <i class="fa fa-eraser" style="margin-right:3px;"></i>
+                            <@spring.message "hap.reset"/></span>
+                            <span class="btn btn-info" type="button" id="panel_hidden" onclick="test()">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_hidden"/></span>
+                            <span class="btn btn-info" type="button" id="panel_show" onclick="test()"
+                                  style="display: none">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_show"/></span>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="clear:both">
+            <div id="Grid"></div>
+        </div>
+    </div>
+</div>
+<div id="mask2">
+</div>
+<script type="text/javascript">
+    var dMask2 = document.getElementById("mask2");
+    dMask2.style.display = "none";//不显示遮罩
+    kendo.bind($('#page-content'), viewModel);
+
+    function test() {
+        var apply = $("#test");
+        var button_hidden = $("#panel_hidden");
+        var button_show = $("#panel_show");
+        if (apply.is(":hidden")) {
+            button_hidden.show();
+            button_show.hide();
+            apply.show();    //如果元素为隐藏,则将它显现
+        } else {
+            button_hidden.hide();
+            button_show.show();
+            apply.hide();     //如果元素为显现,则将其隐藏
+        }
+        Hap.autoResizeGrid("#Grid");
+
+    }
+
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/inoutrecord/selectforZud",
+                type: "POST",
+                dataType: "json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        //pageSize:10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id:"id",
+                fields: {
+                    line_id: {type: "string",editable: false},
+                    zbanz: {type: "string",editable: false},
+                    zpgdbar: {type: "string",editable: false},
+                    zbpjc: {type: "string",editable: true},
+                    matnr2: {type: "string",editable: false},
+                    maktx: {type: "string",editable: false},
+                    zbanc: {type: "string",editable: false},
+                    zgjbar: {type: "string",editable: false},
+                    sfflg: {type: "string",editable: false},
+                    diecd: {type: "string",editable: false},
+                    charg2: {type: "string",editable: false},
+                    charg: {type: "string",editable: false},
+                    zqxdm:{type:"string",editable: true},
+                    zissuetxt:{type:"string",editable:true},
+                    zdnum: {type: "string",editable: false},
+                    rspart: {type: "string",editable: true},
+                    rcode: {type: "string",editable: false},
+                    vornr_old: {type: "string",editable: false},
+                    vornr: {type: "string",editable: true},
+                    zoplo: {type: "string",editable: true},
+                    rsname: {type: "string",editable: true},
+                    reviewc: {type: "string",editable: false},
+                    mark: {type: "string",editable: true},
+                    kunnr:{type: "string",editable: false}
+                }
+            }
+        }
+    });
+
+    var gird = $("#Grid").kendoGrid({
+        dataSource: dataSource,
+        autoBind: false,
+        height: '100%',
+        resizable: true,
+        scrollable: true,
+        navigatable: false,
+        selectable: 'rowbox,multiple',
+
+        pageable:{
+            pageSizes: ['all'],
+            refresh: true
+        },
+        toolbar: [
+            {
+                name: "createZud",
+                template: '<span id="createZud" class="btn btn-success">创建不合格品审理单</span>'
+            }],
+        columns: [
+            {
+                field: "lineId",
+                title: '生产线',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "zbanz",
+                title: '班组',
+                width: 70,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "zpgdbar",
+                title: '流转卡号',
+                width: 200,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "zbpjc",
+                title: '客户名称',
+                width: 170,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['zbpjc'] || ''//如果不加，此行会根据field添写字段
+                },
+                editor : function (container, options) {
+                    $('<input name="' + options.field + '"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_CUST"/>,
+                        {
+                            textField: 'name1',//显示的字段
+                            model    : options.model//将lov选中数据放在model中
+
+                        }));
+                }
+            }, {
+                field: "name1",
+                title: '客户简称',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+//                editor:function (container, options){
+//                    container.html(options.model.sortl);
+//                }
+            },{
+                field: "rcode",
+                title: '取件原因',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "vornr_old",
+                title: '发现工序号',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },{
+                field: "matnr2",
+                title: '产品型号',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },{
+                field: "maktx",
+                title: '产品描述',
+                width: 180,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "zqxdm",
+                title: '不合格品类别',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['zqxdm'] || ''//如果不加，此行会根据field添写字段
+                },
+                editor : function (container, options) {
+                    $('<input name="' + options.field + '"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_QPCD1"/>,
+                        {
+                            textField: 'kurztext',//显示的字段
+                            model    : options.model//将lov选中数据放在model中
+                        }));
+                }
+            }, {
+                field: "zissuetxt",
+                title: '不合格品描述',
+                width: 200,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;color:red"
+                },
+                template: function (dataItem) {
+                    return dataItem['zissuetxt'] || ''//如果不加，此行会根据field添写字段
+                },
+                editor : function (container, options) {
+                    $('<input name="' + options.field + '"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_DFTDTL"/>,
+                        {
+                            query: function(e) {
+                                //在query事件中做级联查询，设置参数名为"roleName",值为"管理员",查询出的数据将会是所有角色名为“管理员”的数据
+                                e.param['code'] = options.model.zqxdm;
+                                e.param['matnr'] = options.model.matnr2;
+                            },
+                            textField: 'ztext',//显示的字段
+                            model    : options.model//将lov选中数据放在model中
+                        }));
+                }
+            }, {
+                field: "zdnum",
+                title: '不合格品数量',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "rspart",
+                title: '责任部门编码',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['rspart'] || ''//如果不加，此行会根据field添写字段
+                },
+                editor : function (container, options) {
+                    $('<input name="' + options.field + '"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_UNIT_NEW"/>,
+                        {
+                            textField: 'name',//显示的字段
+                            model    : options.model//将lov选中数据放在model中
+                        }));
+                }
+            },{
+                field: "name",
+                title: '责任部门名称',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zbanc",
+                title: '班次',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zgjbar",
+                title: '工件二维码',
+                width: 140,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "sfflg",
+                title: '压铸班标',
+                width: 140,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "diecd",
+                title: '模号',
+                width: 70,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+
+            }, {
+                field: "charg2",
+                title: '机加批次',
+                width: 150,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }, {
+                field: "charg",
+                title: '毛坯批次',
+                width: 150,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+
+            },
+            {
+                field: "vornr",
+                title: '发生机台/工序号',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zoplo",
+                title: '工位',
+                width: 70,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "rsname",
+                title: '责任人',
+                width: 70,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "reviewc",
+                title: '评审结论',
+                width: 70,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "mark",
+                title: "备注",
+                width: 70,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+
+        ],
+        editable: true
+    });
+
+    Hap.autoResizeGrid("#Grid");
+</script>
+<script>
+
+    $('#createZud').on('click', function (){
+        //检查是否勾选记录
+        var l_error = "";
+        var dataarray = new Array();
+        var grid =  $("#Grid").data("kendoGrid"),
+            selections = grid.selectedDataItems();
+        if (selections.length > 0){
+            var plineId = document.getElementById("line_id").value;
+            for(var i=0;i<selections.length;i++){
+                if (selections[i].zbpjc == "" || selections[i].zbpjc == '' || selections[i].zbpjc == null ){
+                    l_error = "客户名称为必输选项";
+                    break;
+                }
+
+                if (selections[i].rspart == "" || selections[i].rspart == '' || selections[i].rspart == null ){
+                    l_error = "责任部门为必输选项";
+                    break;
+                }
+
+
+                if (selections[i].zqxdm == "" || selections[i].zqxdm == '' || selections[i].zqxdm == null ){
+                    l_error = "不合格品类别为必输选项";
+                    break;
+                }
+
+                if (selections[i].zissuetxt == "" || selections[i].zissuetxt == '' || selections[i].zissuetxt == null ){
+                    l_error = "不合格品描述为必输选项！"
+                    break;
+                }
+                if(selections[i].mark != null && selections[i].mark.length > 40){
+                    l_error = "备注的字段长度不能大于40！";
+                    break;
+                }
+                if(selections[i].vornr != null && selections[i].vornr.length > 10){
+                    l_error = "发生机台/工序号的字段长度不能大于10！";
+                    break;
+                }
+                /*if(selections[i].vornr_old != null && selections[i].vornr_old.length > 10) {
+                    l_error = "发现工序号的字段长度不能大于10！";
+                    break;
+                }*/
+                if(selections[i].zoplo != null && selections[i].zoplo.length > 2){
+                    l_error = "工位的字段长度不能大于2！";
+                    break;
+                }
+                if(selections[i].rsname != null && selections[i].rsname.length > 10){
+                    l_error = "责任人的字段长度不能大于10！";
+                    break;
+                }
+
+                var viewModel3 = kendo.observable({
+                    model: {
+                        plineId:plineId,
+                        lineId:selections[i].lineId,
+                        zbanz:selections[i].zbanz,
+                        zbanc:selections[i].zbanc,
+                        zpgdbar:selections[i].zpgdbar,
+                        zbpjc:selections[i].kunnr,
+                        matnr2:selections[i].matnr2,
+                        zgjbar:selections[i].zgjbar,
+                        sfflg:selections[i].sfflg,
+                        diecd:selections[i].diecd,
+                        charg2:selections[i].charg2,
+                        charg:selections[i].charg,
+                        zqxdm:selections[i].zqxdm,
+                        zissuetxt:selections[i].zissuetxt,
+                        zdnum:selections[i].zdnum,
+                        rspart:selections[i].rspart,
+                        rcode:selections[i].rcode,
+                        vornr_old:selections[i].vornr_old,
+                        vornr:selections[i].vornr,
+                        rsname:selections[i].rsname,
+                        reviewc:selections[i].reviewc,
+                        mark:selections[i].mark,
+                        zxhbar:selections[i].zxhbar,
+                        zpgdbar2:selections[i].zpgdbar2,
+                        arbpr:selections[i].arbpr,
+                        zoplo:selections[i].zoplo,
+                        zqjjlh:selections[i].zqjjlh,
+                        udtype:selections[i].udtype,
+                        matnr:selections[i].matnr,
+                        gmein:selections[i].gmein,
+                        gstrp:selections[i].gstrp,
+                        zctype:selections[i].zctype
+                    }
+                });
+                    dataarray[i] = viewModel3.model.toJSON();
+
+            }
+                if (l_error != ""){
+                    kendo.ui.showErrorDialog({
+                        title: '错误',
+                        message: l_error
+                    });
+                }else{
+                    var data = JSON.stringify(dataarray);
+                    dMask2.style.display = "";//添加遮罩
+                    $.ajax({
+                        url:"${base.contextPath}/wip/zudhead/createZud",
+                        type: "POST",
+                        data:data,
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            if (res.code == 'S'){
+                                $('#Grid').data('kendoGrid').dataSource.page(1);
+                                Hap.autoResizeGrid("#Grid");
+                                kendo.ui.showConfirmDialog({
+                                    title: '成功',
+                                    message: res.message
+                                });
+                                dMask2.style.display = "none";
+                            }else {
+                                $('#Grid').data('kendoGrid').dataSource.page(1);
+                                Hap.autoResizeGrid("#Grid");
+                                dMask2.style.display = "none";
+                                kendo.ui.showErrorDialog({
+                                    title: '错误',
+                                    message: res.message
+                                });
+                                dMask2.style.display = "none"
+                                $('#Grid').data('kendoGrid').dataSource.page(1);
+                                Hap.autoResizeGrid("#Grid");
+                            }
+                        },
+                        error:function (res) {
+
+                        }
+                    });
+                }
+        }else{
+            kendo.ui.showErrorDialog({
+                title: '错误',
+                message: "请选择需要进行处理的不合格品记录！"
+            });
+            dMask2.style.display = "none"
+        }
+    });
+</script>
+</body>
+</html>

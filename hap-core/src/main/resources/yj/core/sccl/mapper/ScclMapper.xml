@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.sccl.mapper.ScclMapper">
+    <resultMap id="BaseResultMap" type="yj.core.sccl.dto.Sccl">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="ZSCCL" property="zsccl" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByMatnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  sap_sccl
+        <where>
+            WERKS = #{werks}
+            and MATNR = #{matnr}
+        </where>
+    </select>
+
+    <select id="isExit" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        FROM  sap_sccl
+        <where>
+            MATNR = #{matnr}
+            and WERKS = #{werks}
+        </where>
+    </select>
+
+    <update id="updateSccl" parameterType="yj.core.sccl.dto.Sccl">
+        update sap_sccl set ZSCCL = #{zsccl} <where>
+        MATNR = #{matnr}
+        AND WERKS = #{werks}
+    </where>
+    </update>
+
+    <insert id="insertSccl" parameterType="yj.core.sccl.dto.Sccl">
+        insert INTO  sap_sccl(WERKS,MATNR,ZSCCL)VALUES (#{werks},#{matnr},#{zsccl})
+    </insert>
+</mapper>

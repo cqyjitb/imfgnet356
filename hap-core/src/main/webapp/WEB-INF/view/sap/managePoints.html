@@ -1,0 +1,504 @@
+<!--
+    产线工序配置维护 918100064
+-->
+<#include "../include/header.html" />
+<body>
+<style>
+    span[class='k-window-title'] {
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+    .action_ok {
+        color: #5fb760;
+    }
+
+    .action_dangerous {
+        color: #eeac5f;
+    }
+    #label{
+        color: red;
+    }
+
+</style>
+<script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var selections =  window.parent.$('#Grid').data('kendoGrid').selectedDataItems();
+    var newViewModel = kendo.observable({
+        model: {
+            werks: selections["0"].werks,
+            lineId: selections["0"].lineId,
+            description: selections["0"].descriptions
+        },
+        create2Function: function (e) {
+            $('#Grid2').data('kendoGrid').addRow();
+        },
+        save2Function:function () {
+            var data = grid.selectedDataItems();
+            if(data.length >= 1){
+                $('#Grid2').data('kendoGrid').saveChanges();
+                var tabstrip = window.parent.$("#tabstrip").kendoTabStrip({
+                    height: '100%',
+                    animation: false
+                }).data("kendoTabStrip");
+                var tabselect = tabstrip.select();
+                var prevtab = tabselect.prev();
+                tabstrip.remove(tabselect);
+                tabstrip.select(prevtab);
+            }else{
+                kendo.ui.showInfoDialog({
+                    message: '请至少选择一行数据'
+                })
+            }
+        }
+    });
+</script>
+<div id="content-container2">
+    <div id="page-content2">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm2">
+                <div class="panel-body">
+                    <div id="condition2">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工厂</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">产线ID</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.lineId" class="k-textbox" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">产线描述</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.description" class="k-textbox" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="pull-left" id="toolbar-btn2" style="padding-bottom:10px;">
+            <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:create2Function">添加</span>
+            <span onclick="deleteData()" class="btn btn-danger" style="float:left;margin-right:5px;">移除</span>
+        </div>
+        <div class="pull-right">
+            <span class="btn btn-success" data-bind="click:save2Function" style="float:left;margin-right:5px;">保存</span>
+        </div>
+        <div style="clear:both">
+            <div id="Grid2"></div>
+        </div>
+    </div>
+    <script>kendo.bind($('#page-content2'), newViewModel);</script>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content2'), newViewModel);
+    var BaseUrl = _basePath;
+    var dataSource2 = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/points/queryPoints",
+                type: "POST",
+                dataType: "json"
+            },
+            update: {
+                url: BaseUrl + "/wip/points/submitPoints",
+                type: "POST",
+                contentType: "application/json"
+            },
+            destroy: {
+                url: BaseUrl + "/wip/points/removePoints",
+                type: "POST",
+                contentType: "application/json"
+            },
+            create: {
+                url: BaseUrl + "/wip/points/submitPoints",
+                type: "POST",
+                contentType: "application/json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(newViewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "pointId",
+                fields: {
+                    werks:{defaultValue:selections[0].werks,type:"string"},
+                    lineId:{defaultValue:selections[0].lineId,type:"long"},
+                    pointId:{type:"number"},
+                    pointNum:{type:"number"},
+                    pointCode:{type:"string"},
+                    descriptions:{type:"string"},
+                    prntbarcodeFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    assemblyFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    gp12Flag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    firstFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    endFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    keyFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    checkFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    monitorFlag:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    enableFlag:{defaultValue: '1', type: 'boolean', checkedValue: '1', uncheckedValue: '0'},
+                    startDate: {type: "date"},
+                    endDate: {type: "date",defaultValue:null},
+                    lastUpdatedDate:{type:"string",editable:false},
+                    lastUpdatedBy:{type:"string",editable:false}
+                }
+            }
+        }
+    });
+    $("#Grid2").kendoGrid({
+        dataSource:dataSource2,
+        height:'100%',
+        resizable:true,
+        scrollable:true,
+        navigatable:false,
+        sortable: true,
+        editable: true,
+        selectable:'multiple,rowbox',
+        pageable:{
+            pageSizes:[5,10,20,50,"all"],
+            refresh:true,
+            buttonCount:5
+        },
+        columns:[
+            {
+                field:"werks",
+                title:"工厂",
+                width:80,
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lineId",
+                title:"生产线Id",
+                width:120,
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"pointId",
+                title:"工序ID",
+                width:80,
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"pointNum",
+                title:"工序序号",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"pointCode",
+                title:"工序编码",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"descriptions",
+                title:"工序描述",
+                width:120,
+                readonly: true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"prntbarcodeFlag",
+                title:"是否打印二维码工序",
+                width:140,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"assemblyFlag",
+                title:"是否配置工序",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"gp12Flag",
+                title:"是否GP12工序",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"firstFlag",
+                title:"是否首工序",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"endFlag",
+                title:"是否末工序",
+                width:100,
+                editable:false,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"keyFlag",
+                title:"是否关键工序",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"checkFlag",
+                title:"是否检查工序",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"monitorFlag",
+                title:"是否监控工序",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"enableFlag",
+                title:"生效标志",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"startDate",
+                title:"生效日期",
+                width:100,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"endDate",
+                title:"失效日期",
+                width:100,
+                format: "{0: yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"taktTime",
+                title:"工序节拍",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"custEngNm",
+                title:"客户工程图号",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"parPointId",
+                title:"父工序",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['parPointId'] || ''
+                },
+                editor : function (container, options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_POINTS_NEW2"/>,
+                        {
+                            query: function(e) {
+                                e.param['lineId'] = selections[0].lineId;
+                            },
+                            textField: 'description',
+                            model: options.model
+                        }));
+                }
+            },
+            {
+                field:"arbpl",
+                title:"工作中心",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"createdBy",
+                title:"创建人",
+                width:120,
+                hidden: true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"creationDate",
+                title:"创建日期",
+                width:200,
+                format: "{0:yyyy-MM-dd HH:mm:ss}",
+                hidden: true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lastUpdatedBy",
+                title:"更改人",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"lastUpdatedDate",
+                title:"更改日期",
+                width:200,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ]
+    });
+    var grid = $('#Grid2').data("kendoGrid");
+    function deleteData() {
+        var data = grid.selectedDataItems();
+        if(data.length >= 1){
+            Hap.deleteGridSelection({
+                grid: $('#Grid2')
+            });
+        }else{
+            kendo.ui.showInfoDialog({
+                message: '请至少选择一行数据'
+            })
+        }
+    }
+    Hap.autoResizeGrid("#Grid2");
+</script>
+</body>
+</html>

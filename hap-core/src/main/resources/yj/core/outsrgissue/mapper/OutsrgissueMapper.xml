@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.outsrgissue.mapper.OutsrgissueMapper">
+    <resultMap id="BaseResultMap" type="yj.core.outsrgissue.dto.Outsrgissue">
+        <result column="ISSUENM" property="issuenm" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="DECIMAL" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="VSNDA" property="vsnda" jdbcType="VARCHAR" />
+        <result column="EBELN" property="ebeln" jdbcType="VARCHAR" />
+        <result column="EBELP" property="ebelp" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="TXZ01" property="txz01" jdbcType="VARCHAR" />
+        <result column="ETENR" property="etenr" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="MATKL" property="matkl" jdbcType="VARCHAR" />
+        <result column="ZISNUM" property="zisnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="ZISDAT" property="zisdat" jdbcType="VARCHAR" />
+        <result column="ZISTIM" property="zistim" jdbcType="VARCHAR" />
+        <result column="ZISUSER" property="zisuser" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByContidion" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissue a
+        INNER join wip_outsrgissuehead b on a.issuenm = b.issuenm
+        <where>
+            a.WERKS = #{werks}
+            AND a.EBELN = #{ebeln}
+            AND a.EBELP = #{ebelp}
+            AND a.MATNR = #{matnr}
+            AND a.LIFNR = #{lifnr}
+            AND a.STATUS != '1'
+--             AND b.STATUS = '0'
+        </where>
+    </select>
+
+
+
+    <select id="selectByIssuenmDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissue
+        <where>
+            ISSUENM = #{issuenm}
+        </where>
+        order by ITEM DESC;
+    </select>
+
+    <insert id="insertNewRow" parameterType="yj.core.outsrgissue.dto.Outsrgissue">
+        insert into  wip_outsrgissue (ISSUENM,ITEM,WERKS,ZPGDBAR,VORNR,VSNDA,EBELN,EBELP,KTSCH,TXZ01,ETENR,LIFNR,MATNR,DIECD,
+        SFFLG,MENGE,MATKL,ZISNUM,GMEIN,CHARG,STATUS,ZISDAT,ZISTIM,ZISUSER,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)
+        VALUES (#{issuenm},#{item},#{werks},#{zpgdbar},#{vornr},#{vsnda},#{ebeln},#{ebelp},#{ktsch},#{txz01},#{etenr},
+        #{lifnr},#{matnr},#{diecd},#{sfflg},#{menge},#{matkl},#{zisnum},#{gmein},#{charg},#{status},#{zisdat},#{zistim},#{zisuser},#{creationDate},#{createdBy},#{lastUpdateDate},#{lastUpdatedBy})
+    </insert>
+
+    <select id="selectByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissue
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateOutsrgissue" parameterType="yj.core.outsrgissue.dto.Outsrgissue">
+        update wip_outsrgissue set  STATUS = #{status},
+                                   LAST_UPDATE_DATE = #{lastUpdateDate},
+                                   LAST_UPDATED_BY = #{lastUpdatedBy}
+                                   <where>
+                                       ISSUENM = #{issuenm}
+                                       and ITEM = #{item}
+                                   </where>
+    </update>
+
+    <select id="selectByIssuenmAndStatus" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissue
+        <where>
+            ISSUENM = #{issuenm}
+            and STATUS = #{status}
+        </where>
+    </select>
+
+    <select id="selectBybarcodes" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissue
+        <where>
+            ZPGDBAR = #{barcode}
+            <if test="status != null">
+                STATUS = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

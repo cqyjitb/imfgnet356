@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.vbresourceconfig.mapper.VbresourceconfigMapper">
+<resultMap id="BaseResultMap" type="yj.kanb.vbresourceconfig.dto.Vbresourceconfig">
+    <result column="bukrs" property="bukrs" jdbcType="VARCHAR"/>
+    <result column="werks" property="werks" jdbcType="VARCHAR"/>
+    <result column="resId" property="resId" jdbcType="VARCHAR"/>
+    <result column="resCode" property="resCode" jdbcType="VARCHAR"/>
+    <result column="resName" property="resName" jdbcType="VARCHAR"/>
+</resultMap>
+
+</mapper>

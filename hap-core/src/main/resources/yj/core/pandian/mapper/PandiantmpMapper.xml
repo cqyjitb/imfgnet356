@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.pandian.mapper.PandiantmpMapper">
+    <resultMap id="BaseResultMap" type="yj.core.pandian.dto.Pandiantmp">
+        <result column="RCDID" property="rcdid" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="CARDNO" property="cardno" jdbcType="VARCHAR" />
+        <result column="CARDH" property="cardh" jdbcType="VARCHAR" />
+        <result column="NUM" property="num" jdbcType="DECIMAL" />
+        <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+        <result column="RCDDAT" property="rcddat" jdbcType="DATE" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <insert id="insertNewRow" parameterType="yj.core.pandian.dto.Pandiantmp">
+      insert into wip_pandiantmp(RCDID,WERKS,CARDNO,CARDH,NUM,OPERATOR,RCDDAT,CREATION_DATE,CREATED_BY)value(#{rcdid},#{werks},#{cardno},#{cardh},#{num},#{operator},#{rcddat},#{creationDate},#{createdBy})
+    </insert>
+</mapper>

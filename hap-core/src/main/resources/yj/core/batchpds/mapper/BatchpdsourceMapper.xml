@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.batchpds.mapper.BatchpdsourceMapper">
+    <resultMap id="BaseResultMap" type="yj.core.batchpds.dto.Batchpdsource">
+        <result column="zpgdbar" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="zflag" property="zflag" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <update id="updateflag" parameterType="yj.core.batchpds.dto.Batchpdsource">
+        update sap_batchpdsource SET zflag = #{zflag}
+        <where>
+            zpgdbar = #{zpgdbar}
+        </where>
+    </update>
+
+    <select id="querybyflag" resultMap="BaseResultMap">
+        SELECT *
+         FROM  sap_batchpdsource
+         <where>
+             zflag != 'S'
+         </where>
+    </select>
+</mapper>

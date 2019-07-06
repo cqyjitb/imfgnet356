@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipqcparamlines.mapper.QcparamLinesMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipqcparamlines.dto.QcparamLines">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="FIRSTCLASS_QTY" property="firstclassQty" jdbcType="DECIMAL" />
+        <result column="SECONDCLASS_QTY" property="secondclassQty" jdbcType="DECIMAL" />
+        <result column="THIRDCLASS_QTY" property="thirdclassQty" jdbcType="DECIMAL" />
+        <result column="FOURTHCLASS_QTY" property="fourthclassQty" jdbcType="DECIMAL" />
+        <result column="DFTRATE_ALARM" property="dftrateAlarm" jdbcType="VARCHAR" />
+        <result column="UPPER_LIMITS" property="upperLimits" jdbcType="DECIMAL" />
+        <result column="LINEQC_RESPONSIBLE" property="lineqcResponsible" jdbcType="VARCHAR" />
+        <result column="SHOPQC_RESPONSIBLE" property="shopqcResponsible" jdbcType="VARCHAR" />
+        <result column="DEPTQC_RESPONSIBLE" property="deptqcResponsible" jdbcType="VARCHAR" />
+        <result column="ENGRQC_RESPONSIBLE" property="engrqcResponsible" jdbcType="VARCHAR" />
+        <result column="AUDITOR1" property="auditor1" jdbcType="VARCHAR" />
+        <result column="DEFAULT_LINEDEPT" property="defaultLinedept" jdbcType="VARCHAR" />
+        <result column="DEFAULT_CASTDEPT" property="defaultCastdept" jdbcType="VARCHAR" />
+        <result column="WIP_SQTY" property="wipSqty" jdbcType="DECIMAL" />
+        <result column="UPSCALE1" property="upscale1" jdbcType="DECIMAL" />
+        <result column="UPSCALE2" property="upscale2" jdbcType="DECIMAL" />
+        <result column="DOWNSCALE1" property="downscale1" jdbcType="DECIMAL" />
+        <result column="DOWNSCALE2" property="downscale2" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.wipqcparamlines.dto.QcparamLines">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="FIRSTCLASS_QTY" property="firstclassQty" jdbcType="DECIMAL" />
+        <result column="SECONDCLASS_QTY" property="secondclassQty" jdbcType="DECIMAL" />
+        <result column="THIRDCLASS_QTY" property="thirdclassQty" jdbcType="DECIMAL" />
+        <result column="FOURTHCLASS_QTY" property="fourthclassQty" jdbcType="DECIMAL" />
+        <result column="DFTRATE_ALARM" property="dftrateAlarm" jdbcType="VARCHAR" />
+        <result column="UPPER_LIMITS" property="upperLimits" jdbcType="DECIMAL" />
+        <result column="LINEQC_RESPONSIBLE" property="lineqcResponsible" jdbcType="VARCHAR" />
+        <result column="SHOPQC_RESPONSIBLE" property="shopqcResponsible" jdbcType="VARCHAR" />
+        <result column="DEPTQC_RESPONSIBLE" property="deptqcResponsible" jdbcType="VARCHAR" />
+        <result column="ENGRQC_RESPONSIBLE" property="engrqcResponsible" jdbcType="VARCHAR" />
+        <result column="AUDITOR1" property="auditor1" jdbcType="VARCHAR" />
+        <result column="WIP_SQTY" property="wipSqty" jdbcType="DECIMAL" />
+        <result column="UPSCALE1" property="upscale1" jdbcType="DECIMAL" />
+        <result column="UPSCALE2" property="upscale2" jdbcType="DECIMAL" />
+        <result column="DOWNSCALE1" property="downscale1" jdbcType="DECIMAL" />
+        <result column="DOWNSCALE2" property="downscale2" jdbcType="DECIMAL" />
+        <result column="DEFAULT_LINEDEPT" property="defaultLinedept" jdbcType="VARCHAR" />
+        <result column="DEFAULT_CASTDEPT" property="defaultCastdept" jdbcType="VARCHAR" />
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectQcparamLines" parameterType="yj.core.wipqcparamlines.dto.QcparamLines" resultMap="BaseResultMap2">
+        select distinct qc.*,qc.line_id as lineId,(select descriptions from wip_lines where line_id = lineId) as descriptions
+        from wip_qcparam_lines qc,wip_lines li
+        <where>
+            li.line_id = qc.line_id
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND qc.line_id = #{lineId}
+            </if>
+        </where>
+        order by werks,line_id asc
+    </select>
+
+    <select id="selectByLineId2" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select * from wip_qcparam_lines
+        <where>
+            <if test="lineId != null">
+                line_id = #{lineId}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertQcparamLines" parameterType="yj.core.wipqcparamlines.dto.QcparamLines">
+        insert into wip_qcparam_lines(werks, LINE_ID, FIRSTCLASS_QTY, SECONDCLASS_QTY, THIRDCLASS_QTY, FOURTHCLASS_QTY,
+            DFTRATE_ALARM, UPPER_LIMITS, LINEQC_RESPONSIBLE, SHOPQC_RESPONSIBLE, DEPTQC_RESPONSIBLE, ENGRQC_RESPONSIBLE,
+            auditor1, WIP_SQTY, upscale1, upscale2, downscale1, downscale2, DEFAULT_LINEDEPT, DEFAULT_CASTDEPT,
+            CREATED_BY,CREATION_DATE)
+        values(#{werks}, #{lineId}, #{firstclassQty}, #{secondclassQty}, #{thirdclassQty}, #{fourthclassQty},
+        #{dftrateAlarm}, #{upperLimits}, #{lineqcResponsible}, #{shopqcResponsible}, #{deptqcResponsible}, #{engrqcResponsible},
+        #{auditor1}, #{wipSqty}, #{upscale1}, #{upscale2}, #{downscale1}, #{downscale2}, #{defaultLinedept}, #{defaultCastdept},
+        #{createdBy},#{creationDate})
+    </insert>
+
+    <update id="updateQcparamLines" parameterType="yj.core.wipqcparamlines.dto.QcparamLines">
+        update wip_qcparam_lines set werks = #{werks}, LINE_ID = #{lineId}, FIRSTCLASS_QTY = #{firstclassQty},
+        SECONDCLASS_QTY = #{secondclassQty}, THIRDCLASS_QTY = #{thirdclassQty}, FOURTHCLASS_QTY = #{fourthclassQty},
+        DFTRATE_ALARM = #{dftrateAlarm}, UPPER_LIMITS = #{upperLimits}, LINEQC_RESPONSIBLE = #{lineqcResponsible},
+        SHOPQC_RESPONSIBLE = #{shopqcResponsible}, DEPTQC_RESPONSIBLE = #{deptqcResponsible}, ENGRQC_RESPONSIBLE = #{engrqcResponsible},
+        auditor1 = #{auditor1}, WIP_SQTY = #{wipSqty}, upscale1 = #{upscale1}, upscale2 = #{upscale2}, downscale1 = #{downscale1},
+        downscale2 = #{downscale2}, DEFAULT_LINEDEPT = #{defaultLinedept}, DEFAULT_CASTDEPT = #{defaultCastdept},
+        LAST_UPDATE_DATE = #{lastUpdateDate},LAST_UPDATED_BY = #{lastUpdatedBy}
+        <where>
+            werks = #{werks}
+            AND line_id = #{lineId}
+        </where>
+    </update>
+
+    <delete id="deleteQcparamLines" parameterType="yj.core.wipqcparamlines.dto.QcparamLines">
+        delete from wip_qcparam_lines
+        <where>
+            werks = #{werks}
+            AND line_id = #{lineId}
+        </where>
+    </delete>
+
+    <select id="selectByLineId" parameterType="java.lang.Long" resultType="yj.core.wipqcparamlines.dto.QcparamLines">
+        select qc.*,li.descriptions,qc.line_id as lineId,qc.wip_sqty as wipSqty,qc.werks from wip_qcparam_lines qc,wip_lines li
+        <where>
+            qc.LINE_ID = li.LINE_ID
+            AND qc.LINE_ID = #{lineId}
+        </where>
+        limit 1
+    </select>
+
+    <select id="selectForJj" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.*,
+               b.NAME
+               from wip_qcparam_lines a,hr_org_unit_b b
+        <where>
+            a.DEFAULT_LINEDEPT = b.UNIT_CODE
+            AND LINE_ID = #{lineId}
+            and WERKS = #{werks}
+        </where>
+    </select>
+
+    <select id="selectForYz" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.*,
+        b.NAME
+        from wip_qcparam_lines a,hr_org_unit_b b
+        <where>
+            a.DEFAULT_CASTDEPT = b.UNIT_CODE
+            AND LINE_ID = #{lineId}
+            and WERKS = #{werks}
+        </where>
+    </select>
+</mapper>

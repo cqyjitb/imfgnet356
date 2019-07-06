@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SI_QUERYOLDZPGDBAR_Sender_Sync"
+                  targetNamespace="http://www.cq-yj.com/HAP/QueryOldZpgdbar/Sender"
+                  xmlns:p1="http://www.cq-yj.com/HAP/QueryOldZpgdbar/Sender"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:documentation/>
+    <wsp:UsingPolicy wsdl:required="true"/>
+    <wsp:Policy wsu:Id="OP_SI_QUERYOLDZPGDBAR_Sender_Sync"/>
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.cq-yj.com/HAP/QueryOldZpgdbar/Sender"
+                    xmlns="http://www.cq-yj.com/HAP/QueryOldZpgdbar/Sender"
+                    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="MT_QUERYOLDZPGDBAR_Send_Req" type="DT_QUERYOLDZPGDBAR_Send_Req"/>
+            <xsd:element name="MT_QUERYOLDZPGDBAR_Send_Res" type="DT_QUERYOLDZPGDBAR_Send_Res"/>
+            <xsd:complexType name="DT_QUERYOLDZPGDBAR_Send_Res">
+                <xsd:annotation>
+                    <xsd:appinfo source="http://sap.com/xi/VersionID">7b56d52e35a311e9a6810000002ad1ea</xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="RETURN">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">fb1ab1e622cf11e99116002324a6066a
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="MSGTY" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1dc22cf11e99221002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MSGNO" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1dd22cf11e9b20f002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MSGID" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1de22cf11e99e5f002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MSGV1" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1df22cf11e9b84d002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MSGV2" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1e022cf11e98d59002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MSGV3" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1e122cf11e9b957002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MSGV4" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1e222cf11e9bdbc002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MESSAGE" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1e322cf11e99749002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ARBPL" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1e422cf11e993ef002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ARBPLDESC" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            fb1ab1e522cf11e98ef4002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="WERKS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            2222b44e35a311e9a46e002324a6066a
+                                        </xsd:appinfo>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MATNR" type="xsd:string"/>
+                                <xsd:element name="MAKTX" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DT_QUERYOLDZPGDBAR_Send_Req">
+                <xsd:annotation>
+                    <xsd:appinfo source="http://sap.com/xi/VersionID">96fe344e22a811e9bbb10000002ad1ea</xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="ITEM">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="ZPGDBAR" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="MT_QUERYOLDZPGDBAR_Send_Req">
+        <wsdl:documentation/>
+        <wsdl:part name="MT_QUERYOLDZPGDBAR_Send_Req" element="p1:MT_QUERYOLDZPGDBAR_Send_Req"/>
+    </wsdl:message>
+    <wsdl:message name="MT_QUERYOLDZPGDBAR_Send_Res">
+        <wsdl:documentation/>
+        <wsdl:part name="MT_QUERYOLDZPGDBAR_Send_Res" element="p1:MT_QUERYOLDZPGDBAR_Send_Res"/>
+    </wsdl:message>
+    <wsdl:portType name="SI_QUERYOLDZPGDBAR_Sender_Sync">
+        <wsdl:documentation/>
+        <wsdl:operation name="SI_QUERYOLDZPGDBAR_Sender_Sync">
+            <wsdl:documentation/>
+            <wsp:Policy>
+                <wsp:PolicyReference URI="#OP_SI_QUERYOLDZPGDBAR_Sender_Sync"/>
+            </wsp:Policy>
+            <wsdl:input message="p1:MT_QUERYOLDZPGDBAR_Send_Req"/>
+            <wsdl:output message="p1:MT_QUERYOLDZPGDBAR_Send_Res"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SI_QUERYOLDZPGDBAR_Sender_SyncBinding" type="p1:SI_QUERYOLDZPGDBAR_Sender_Sync">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"
+                      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        <wsdl:operation name="SI_QUERYOLDZPGDBAR_Sender_Sync">
+            <soap:operation soapAction="http://sap.com/xi/WebService/soap1.1"
+                            xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            <wsdl:input>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SI_QUERYOLDZPGDBAR_Sender_SyncService">
+        <wsdl:port name="HTTP_Port" binding="p1:SI_QUERYOLDZPGDBAR_Sender_SyncBinding">
+            <soap:address
+                    location="http://pidev1:50000/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_HAP_DEV&amp;receiverParty=&amp;receiverService=&amp;interface=SI_QUERYOLDZPGDBAR_Sender_Sync&amp;interfaceNamespace=http%3A%2F%2Fwww.cq-yj.com%2FHAP%2FQueryOldZpgdbar%2FSender"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+        <wsdl:port name="HTTPS_Port" binding="p1:SI_QUERYOLDZPGDBAR_Sender_SyncBinding">
+            <soap:address
+                    location="https://pidev1:50001/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_HAP_DEV&amp;receiverParty=&amp;receiverService=&amp;interface=SI_QUERYOLDZPGDBAR_Sender_Sync&amp;interfaceNamespace=http%3A%2F%2Fwww.cq-yj.com%2FHAP%2FQueryOldZpgdbar%2FSender"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

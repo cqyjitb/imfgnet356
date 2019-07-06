@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.bomoperations.mapper.OperationsMapper">
+    <resultMap id="BaseResultMap" type="yj.core.bomoperations.dto.Operations">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL"/>
+        <result column="POINT_ID" property="pointId" jdbcType="DECIMAL"/>
+        <result column="ROUTING_ID" property="routingId" jdbcType="DECIMAL"/>
+        <result column="OPERATION_ID" property="operationId" jdbcType="DECIMAL"/>
+        <result column="OPERATION_NUM" property="operationNum" jdbcType="DECIMAL"/>
+        <result column="OPERATION_CODE" property="operationCode" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="TECH_DESC" property="techDesc" jdbcType="VARCHAR"/>
+        <result column="STD_CODE" property="stdCode" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="VARCHAR"/>
+        <result column="END_DATE" property="endDate" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE"/>
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectFromPage" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *,LINE_ID as lineId,(select descriptions from wip_lines where line_id = lineId) as description,
+        POINT_ID as pointId,(select point_code from wip_points where point_id = pointId) as pointCode,
+        CREATED_BY as createdBy,CREATION_DATE as creationDate,LAST_UPDATED_BY as lastUpdatedBy,LAST_UPDATED_DATE as lastUpdatedDate
+        from bom_operations
+        <where>
+            ROUTING_ID = #{routingId}
+        </where>
+    </select>
+
+    <update id="updateOperations" parameterType="yj.core.bomoperations.dto.Operations">
+        update bom_operations set WERKS = #{werks},LINE_ID=#{lineId},POINT_ID=#{pointId},ROUTING_ID=#{routingId},
+        OPERATION_ID=#{operationId},OPERATION_NUM=#{operationNum},OPERATION_CODE=#{operationCode},DESCRIPTIONS=#{descriptions},
+        TECH_DESC=#{techDesc},STD_CODE=#{stdCode},ENABLE_FLAG=#{enableFlag},START_DATE=#{startDate},END_DATE=#{endDate},
+        CREATION_DATE=#{creationDate},CREATED_BY=#{createdBy},LAST_UPDATED_DATE=#{lastUpdatedDate},LAST_UPDATED_BY=#{lastUpdatedBy}
+        <where>
+            OPERATION_ID=#{operationId}
+        </where>
+    </update>
+
+    <insert id="insertOperations" parameterType="yj.core.bomoperations.dto.Operations">
+        insert into bom_operations(WERKS,LINE_ID,POINT_ID,ROUTING_ID,OPERATION_ID,OPERATION_NUM,OPERATION_CODE,DESCRIPTIONS,
+        TECH_DESC,STD_CODE, ENABLE_FLAG,START_DATE,END_DATE,CREATION_DATE,CREATED_BY)
+        values (#{werks},#{lineId},#{pointId},#{routingId},#{operationId},#{operationNum},#{operationCode},#{descriptions},
+        #{techDesc},#{stdCode},#{enableFlag},#{startDate},#{endDate},#{creationDate},#{createdBy})
+    </insert>
+
+    <select id="isExit" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from bom_operations
+        <where>
+            OPERATION_ID=#{operationId}
+        </where>
+    </select>
+
+    <delete id="deleteOperations" parameterType="java.lang.String">
+        delete from bom_operations
+        <where>
+            <if test="operationId != null">
+                OPERATION_ID=#{operationId}
+            </if>
+            <if test="routingId != null">
+                ROUTING_ID = #{routingId}
+            </if>
+        </where>
+    </delete>
+
+    <select id="selectPoints" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from bom_operations
+        <where>
+            POINT_ID = #{pointId}
+        </where>
+    </select>
+
+</mapper>

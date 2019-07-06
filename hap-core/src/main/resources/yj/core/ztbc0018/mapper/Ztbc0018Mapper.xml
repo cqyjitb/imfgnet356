@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.ztbc0018.mapper.Ztbc0018Mapper">
+    <resultMap id="BaseResultMap" type="yj.core.ztbc0018.dto.Ztbc0018">
+        <result column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="MBLNR" property="mblnr" jdbcType="VARCHAR" />
+        <result column="MJAHR" property="mjahr" jdbcType="VARCHAR" />
+        <result column="BMENGE" property="bmenge" jdbcType="VARCHAR" />
+        <result column="SMENGE" property="smenge" jdbcType="VARCHAR" />
+        <result column="MEINS" property="meins" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="ZSPTY" property="zspty" jdbcType="VARCHAR" />
+        <result column="ZSPBZ" property="zspbz" jdbcType="VARCHAR" />
+        <result column="ZDLTY" property="zdlty" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <insert id="insertZtbc0018" parameterType="yj.core.ztbc0018.dto.Ztbc0018">
+        insert INTO sap_ztbc0018(ID,LINE_ID,ZXHBAR,ZPGDBAR2,MBLNR,MJAHR,BMENGE,SMENGE,MEINS,LGORT,ZSPTY,ZSPBZ,ZDLTY,CREATION_DATE,CREATED_BY,LAST_UPDATED_DATE,LAST_UPDATED_BY)
+        VALUES (#{id},#{lineId},#{zxhbar},#{zpgdbar2},#{mblnr},#{mjahr},#{bmenge},#{smenge},#{meins},#{lgort},#{zspty},#{zspbz},#{zdlty},#{creationDate},#{createdBy},#{lastUpdatedDate},#{lastUpdatedBy})
+    </insert>
+
+    <select id="selectByZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_ztbc0018
+        <where>
+            ZXHBAR = #{zxhbar}
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.ztbc0002.mapper.Ztbc0002Mapper">
+    <resultMap id="BaseResultMap" type="yj.core.ztbc0002.dto.Ztbc0002">
+        <result column="MANDT" property="mandt" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZDATE" property="zdate" jdbcType="DATE" />
+        <result column="ZTPNUM" property="ztpnum" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="ZXHNUM" property="zxhnum" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZTPZT" property="ztpzt" jdbcType="VARCHAR" />
+        <result column="ZTPZT2" property="ztpzt2" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="AMENG" property="ameng" jdbcType="DECIMAL" />
+        <result column="MEINS" property="meins" jdbcType="VARCHAR" />
+        <result column="ZTPWZ" property="ztpwz" jdbcType="VARCHAR" />
+        <result column="ZTPBAR" property="ztpbar" jdbcType="VARCHAR" />
+        <result column="ZMNUM" property="zmnum" jdbcType="VARCHAR" />
+        <result column="ZSCBC" property="zscbc" jdbcType="VARCHAR" />
+        <result column="ZTXT" property="ztxt" jdbcType="VARCHAR" />
+        <result column="ZTXT2" property="ztxt2" jdbcType="VARCHAR" />
+        <result column="ZBQBD" property="zbqbd" jdbcType="VARCHAR" />
+        <result column="CRNAM" property="crnam" jdbcType="VARCHAR" />
+        <result column="CRDAT" property="crdat" jdbcType="DATE" />
+        <result column="CRTIM" property="crtim" jdbcType="DATE" />
+        <result column="CHNAM" property="chnam" jdbcType="VARCHAR" />
+        <result column="CHDAT" property="chdat" jdbcType="DATE" />
+        <result column="CHTIM" property="chtim" jdbcType="DATE" />
+    </resultMap>
+
+    <select id="selectByTpcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_ztbc0002
+        <where>
+            WERKS = #{werks}
+            and ZTPBAR = #{ztpbar}
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.assyassign.mapper.AssyassignMapper">
+    <resultMap id="BaseResultMap" type="yj.core.assyassign.dto.Assyassign">
+        <result column="ZSXJLH" property="zsxjlh" jdbcType="VARCHAR" />
+        <result column="ASSY_ID" property="assyId" jdbcType="VARCHAR" />
+        <result column="OPERATION_CODE" property="operationCode" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR" />
+        <result column="LIFNR_DATE" property="lifnrDate" jdbcType="DATE" />
+        <result column="LIFNR_LOTN" property="lifnrLotn" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZMPBAR" property="zmpbar" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ALLOC_QTY" property="allocQty" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="ZSXNUM" property="zsxnum" jdbcType="DECIMAL" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="UNITQTY" property="unitqty" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+</mapper>

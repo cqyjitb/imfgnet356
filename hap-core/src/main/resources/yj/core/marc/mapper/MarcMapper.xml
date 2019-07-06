@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.marc.mapper.MarcMapper">
+    <resultMap id="BaseResultMap" type="yj.core.marc.dto.Marc">
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="MTART" property="mtart" jdbcType="VARCHAR"/>
+        <result column="MATKL" property="matkl" jdbcType="VARCHAR"/>
+        <result column="MEINS" property="meins" jdbcType="VARCHAR"/>
+        <result column="GROES" property="groes" jdbcType="VARCHAR"/>
+        <result column="BRGEW" property="brgew" jdbcType="DECIMAL"/>
+        <result column="NTGEW" property="ntgew" jdbcType="DECIMAL"/>
+        <result column="GEWEI" property="gewei" jdbcType="VARCHAR"/>
+        <result column="MMSTA" property="mmsta" jdbcType="VARCHAR"/>
+        <result column="MSTAE" property="mstae" jdbcType="VARCHAR"/>
+        <result column="LVORM" property="lvorm" jdbcType="VARCHAR"/>
+        <result column="XUMREZ" property="xumrez" jdbcType="DECIMAL"/>
+        <result column="TUMREZ" property="tumrez" jdbcType="DECIMAL"/>
+        <result column="AUSSS" property="ausss" jdbcType="DECIMAL"/>
+        <result column="BSTMI" property="bstmi" jdbcType="DECIMAL"/>
+        <result column="BSTMA" property="bstma" jdbcType="DECIMAL"/>
+        <result column="MABST" property="mabst" jdbcType="DECIMAL"/>
+        <result column="BSTRF" property="bstrf" jdbcType="DECIMAL"/>
+        <result column="EISBE" property="eisbe" jdbcType="DECIMAL"/>
+        <result column="DZEIT" property="dzeit" jdbcType="DECIMAL"/>
+        <result column="LGPRO" property="lgpro" jdbcType="VARCHAR"/>
+        <result column="LGFSB" property="lgfsb" jdbcType="VARCHAR"/>
+        <result column="BWTTY" property="bwtty" jdbcType="VARCHAR"/>
+        <result column="DISPO" property="dispo" jdbcType="VARCHAR"/>
+        <result column="RGEKZ" property="rgekz" jdbcType="VARCHAR"/>
+        <result column="FEVOR" property="fevor" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="FLGRG" property="flgrg" jdbcType="DECIMAL"/>
+        <result column="FIFOF" property="fifof" jdbcType="VARCHAR"/>
+        <result column="MHHZF" property="mhhzf" jdbcType="VARCHAR"/>
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR"/>
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR"/>
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR"/>
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR"/>
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR"/>
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR"/>
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR"/>
+        <result column="ZBTIF" property="zbtif" jdbcType="VARCHAR"/>
+        <result column="YZCBARF" property="yzcbarf" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryByFileId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select file_name from sys_file
+        <where>
+            file_id = #{fileId}
+        </where>
+    </select>
+
+    <select id="queryByMarc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_marc
+        <where>
+            mtart = 'YQRT'
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMatnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_marc
+        <where>
+            <if test="matnr != null">
+                matnr = #{matnr}
+            </if>
+        </where>
+    </select>
+
+    <select id="isExit" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT count(*) FROM sap_marc
+        <where>
+            MATNR = #{matnr}
+        </where>
+    </select>
+
+    <insert id="insertByMatnr" parameterType="yj.core.marc.dto.Marc">
+        INSERT INTO sap_marc(MATNR, WERKS,MTART, MATKL,MEINS,GROES, BRGEW,NTGEW, GEWEI,MMSTA,MSTAE,LVORM,XUMREZ,TUMREZ,AUSSS,BSTMI,BSTMA,MABST,BSTRF,EISBE,DZEIT,LGPRO,LGFSB,BWTTY,DISPO,RGEKZ,FEVOR,MAKTX)
+                                    VALUES (#{matnr},#{werks},#{mtart},#{matkl},#{meins},#{groes},#{brgew},#{ntgew},#{gewei},#{mmsta},#{mstae},#{lvorm},#{xumrez},#{tumrez},#{ausss},#{bstmi},#{bstma},#{mabst},#{bstrf},#{eisbe},#{dzeit},#{lgpro},#{lgfsb},#{bwtty},#{dispo},#{rgekz},#{fevor},#{maktx})
+    </insert>
+
+    <update id="updateByMatnr" parameterType="yj.core.marc.dto.Marc">
+        update sap_marc SET MATNR = #{matnr},
+        WERKS = #{werks},
+        MTART = #{mtart},
+        MATKL = #{matkl},
+        MEINS = #{meins},
+        GROES = #{groes},
+        BRGEW = #{brgew},
+        NTGEW = #{ntgew},
+        GEWEI = #{gewei},
+        MMSTA = #{mmsta},
+        MSTAE = #{mstae},
+        LVORM = #{lvorm},
+        XUMREZ = #{xumrez},
+        TUMREZ = #{tumrez},
+        AUSSS = #{ausss},
+        BSTMI = #{bstmi},
+        BSTMA = #{bstma},
+        MABST = #{mabst},
+        BSTRF = #{bstrf},
+        EISBE = #{eisbe},
+        DZEIT = #{dzeit},
+        LGPRO = #{lgpro},
+        LGFSB = #{lgfsb},
+        BWTTY = #{bwtty},
+        DISPO = #{dispo},
+        RGEKZ = #{rgekz},
+        FEVOR = #{fevor},
+        MAKTX = #{maktx}
+        <where>
+            MATNR = #{matnr}
+            and WERKS = #{werks}
+        </where>
+    </update>
+    <select id="selectByMatnr" parameterType="java.lang.String" resultType="yj.core.marc.dto.Marc">
+        select * FROM sap_marc
+        <where>
+            MATNR = #{matnr}
+        </where>
+    </select>
+
+    <update id="saveChange" parameterType="yj.core.marc.dto.Marc">
+        update sap_marc set LAST_UPDATED_BY = #{lastUpdatedBy},
+        LAST_UPDATE_DATE = #{lastUpdatedDate}
+        <if test="flgrg != null">
+            ,FLGRG = #{flgrg}
+        </if>
+        <if test="fifof != null">
+            ,FIFOF = #{fifof}
+        </if>
+        <if test="mhhzf != null">
+            ,MHHZF = #{mhhzf}
+        </if>
+        <if test="yzcbarf != null">
+            ,YZCBARF = #{yzcbarf}
+        </if>
+        <if test="zbtif != null">
+            ,ZBTIF = #{zbtif}
+
+        </if>
+        <where>
+            MATNR = #{matnr}
+        </where>
+    </update>
+</mapper>

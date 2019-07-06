@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipdftrghlist.mapper.DftrghlistMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipdftrghlist.dto.Dftrghlist">
+        <result column="RECORDID" property="recordid" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="DECIMAL" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="DATE" />
+        <result column="ZMPBAR" property="zmpbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="YCHARGE" property="ycharge" jdbcType="VARCHAR" />
+        <result column="YSHIFT" property="yshift" jdbcType="VARCHAR" />
+        <result column="YZBANC" property="yzbanc" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="YGSTRP" property="ygstrp" jdbcType="DATE" />
+        <result column="CODE" property="code" jdbcType="VARCHAR" />
+        <result column="TLEVELCODE" property="tlevelcode" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="DFECT_QTY" property="dfectQty" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="RECORDID1" property="recordid1" jdbcType="VARCHAR" />
+        <result column="RECORDID2" property="recordid2" jdbcType="VARCHAR" />
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR" />
+        <result column="ZPGDBARJJ" property="zpgdbarjj" jdbcType="VARCHAR" />
+        <result column="VORNRJJ" property="vornrjj" jdbcType="VARCHAR" />
+        <result column="CANCEL_FLAG" property="cancelFlag" jdbcType="VARCHAR" />
+        <result column="CANCEL_BY" property="cancelBy" jdbcType="DECIMAL" />
+        <result column="CANCEL_DATE" property="cancelDate" jdbcType="DATE" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+        <result column="DEPTTXT" property="depttxt" jdbcType="VARCHAR" />
+        <result column="DESLINETXT" property="deslinetxt" jdbcType="VARCHAR" />
+        <result column="DESMIANLINETXT" property="desmianlinetxt" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="MAKTX2" property="maktx2" jdbcType="VARCHAR" />
+        <result column="KURZTEXT" property="kurztext" jdbcType="VARCHAR" />
+        <result column="ZTEXT" property="ztext" jdbcType="VARCHAR" />
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR" />
+        <result column="KUNNR" property="kunnr" jdbcType="VARCHAR" />
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR" />
+        <result column="ZISSUETXT" property="zissuetxt" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByZxhbar2" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(dfect_qty),0) from wip_dftrghlist
+        <where>
+            CANCEL_FLAG = '0'
+            <if test="zxhbar != null">
+                and ZXHBAR = #{zxhbar}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByCondition" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_dftrghlist
+        <where>
+            1=1
+            <if test="werks !=  null">
+            and WERKS = #{werks}
+            </if>
+            <if test="matnr != null">
+            and MATNR = #{matnr}
+           </if>
+           <if test="line_id != null">
+            and LINE_ID = #{line_id}
+           </if>
+            <if test="shift != null">
+            and SHIFT = #{shift}
+            </if>
+            <if test="gstrp != null">
+            and GSTRP = #{gstrp}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMaxItemByCondition" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select MAX(ITEM) FROM wip_dftrghlist
+        <where>
+            1=1
+            <if test="werks !=  null">
+                and WERKS = #{werks}
+            </if>
+            <if test="matnr != null">
+                and MATNR = #{matnr}
+            </if>
+            <if test="line_id != null">
+                and LINE_ID = #{line_id}
+            </if>
+            <if test="shift != null">
+                and SHIFT = #{shift}
+            </if>
+            <if test="gstrp != null">
+             and GSTRP = #{gstrp}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMaxRecordid" parameterType="java.lang.String" resultType="java.lang.String">
+        select MAX(RECORDID) FROM wip_dftrghlist
+        <where>
+             WERKS = #{werks}
+            <if test="gstrp != null">
+             AND   GSTRP = #{gstrp}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertDftrghlist" parameterType="yj.core.wipdftrghlist.dto.Dftrghlist">
+        insert INTO wip_dftrghlist(RECORDID,ITEM,WERKS,MATNR,LINE_ID,ZBANC,SHIFT,GSTRP,ZMPBAR,ZPGDBAR,ZXHBAR,MATNR2,YCHARGE,YSHIFT,YZBANC,SFFLG,DIECD,YGSTRP,CODE,TLEVELCODE,
+        MENGE,DFECT_QTY,GMEIN,RECORDID1,RECORDID2,AUFNR,ZPGDBARJJ,VORNRJJ,CANCEL_FLAG,CANCEL_BY,CANCEL_DATE,CREATION_DATE,CREATED_BY,LAST_UPDATED_BY,LAST_UPDATE_DATE)VALUES(
+        #{recordid},#{item},#{werks},#{matnr},#{lineId},#{zbanc},#{shift},#{gstrp},#{zmpbar},#{zpgdbar},#{zxhbar},#{matnr2},#{ycharge},#{yshift},#{yzbanc},#{sfflg},
+        #{diecd},#{ygstrp},#{code},#{tlevelcode},#{menge},#{dfectQty},#{gmein},#{recordid1},#{recordid2},#{aufnr},#{zpgdbarjj},#{vornrjj},#{cancelFlag},#{cancelBy},#{cancelDate},#{creationDate},
+        #{createdBy},#{lastUpdatedBy},#{lastUpdateDate})
+    </insert>
+
+    <select id="selectByLindIdAndZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_dftrghlist
+        <where>
+            CANCEL_FLAG = '0'
+            and ( RECORDID1 is null OR RECORDID1 = '')
+            and ( RECORDID2 is null OR RECORDID2 = '')
+            AND ( AUFNR IS NULL OR AUFNR = '')
+            <if test="line_id != null">
+                and LINE_ID = #{line_id}
+            </if>
+            <if test="zxhbar != null">
+                and ZXHBAR = #{zxhbar}
+            </if>
+            <if test="classgrp != null">
+                and SHIFT = #{classgrp}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByIdAndItem" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_dftrghlist
+        <where>
+            RECORDID = #{recordid}
+            and ITEM = #{item}
+        </where>
+    </select>
+
+    <update id="updateByIdAndItem" parameterType="yj.core.wipdftrghlist.dto.Dftrghlist">
+        UPDATE wip_dftrghlist set CANCEL_FLAG = #{cancelFlag},
+                                  CANCEL_BY = #{cancelBy},
+                                  CANCEL_DATE = #{cancelDate},
+                                  LAST_UPDATED_BY = #{lastUpdatedBy},
+                                  LAST_UPDATE_DATE = #{lastUpdateDate}
+                <where>
+                    RECORDID = #{recordid}
+                    and ITEM = #{item}
+                </where>
+    </update>
+
+    <select id="selectByZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_dftrghlist
+                 <where>
+                     ZXHBAR = #{zxhbar}
+                     and CANCEL_FLAG = '0'
+                 </where>
+    </select>
+
+    <select id="selectforQcaudit2" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select a.WERKS,
+			 a.RECORDID,
+			 l.DEPT_ID,
+			 org.NAME as DEPTTXT,
+			 a.LINE_ID,
+			 l.DESCRIPTIONS as DESLINETXT,
+			 l.PLINE_ID,
+			 l2.DESCRIPTIONS as desmianlinetxt,
+			 a.matnr,
+			 m.maktx,
+			 a.matnr2,
+			 m2.maktx as maktx2,
+			 a.ZMPBAR,
+			 a.ZXHBAR,
+			 a.SFFLG,
+			 a.YCHARGE as CHARG,
+			 a.DIECD,
+			 a.code as zqxdm,
+			 qp.KURZTEXT,
+			 a.TLEVELCODE as zissuetxt,
+			 df.ZTEXT,
+			 a.GMEIN,
+			 a.gstrp,
+			 a.SHIFT as zbanz,
+			 a.zbanc,
+			 a.ZPGDBAR as ZPGDBAR2,
+			 cfg.KUNNR,
+			 k.name1 as sortl,
+			 a.CREATED_BY,
+			 a.CREATION_DATE
+            from wip_dftrghlist a
+            LEFT JOIN sap_marc m ON m.matnr = a.matnr
+            LEFT JOIN sap_marc m2 ON m2.matnr = a.matnr2
+            left join wip_lines l on l.LINE_ID = a.LINE_ID
+            LEFT JOIN wip_lines l2 on l2.LINE_ID = l.PLINE_ID
+            LEFT JOIN sap_qpcd qp on qp.code = a.code
+            LEFT JOIN sap_dftdtl df on df.TLEVELCODE = a.TLEVELCODE
+            LEFT JOIN hr_org_unit_b org on org.UNIT_CODE = l.DEPT_ID
+            left join wip_products_cfg cfg on ( cfg.PMATNR = a.matnr and cfg.line_id = a.line_id )
+            left join sap_cust k on k.kunnr = cfg.KUNNR
+            <where>
+                a.CANCEL_FLAG = '0'
+                and a.RECORDID1 is NULL
+                and a.RECORDID2 is NULL
+                and a.AUFNR is NULL
+                and a.LINE_ID = #{line_id}
+                and a.WERKS = #{werks}
+                and a.SHIFT  = #{zbanz}
+                AND a.code = #{zqxdm}
+                and a.TLEVELCODE = #{zissuetxt}
+                <if test="matnr2 != null">
+                    and a.MATNR = #{matnr2}
+                </if>
+                <if test="matnr != null">
+                    and a.MATNR2 = #{matnr}
+                </if>
+                <if test="gstrp != null">
+                and a.gstrp = #{gstrp}
+                </if>
+            </where>
+            order by a.gstrp ,zbanz, a.code ,a.TLEVELCODE
+    </select>
+
+    <select id="selectSum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM wip_dftrghlist
+        <where>
+            ZXHBAR = #{zxhbar}
+            and CANCEL_FLAG = '0'
+        </where>
+    </select>
+
+    <select id="selectForZudlist" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select distinct a.*,
+               c.name1,
+               d.kunnr
+               from wip_dftrghlist a,wip_qjcode b,sap_cust c,wip_products_cfg d,wip_lines e
+        <where>
+            a.LINE_ID = e.LINE_ID
+            and ( a.LINE_ID = #{line_id} or e.PLINE_ID = #{pline_id} )
+            and ( a.LINE_ID = d.LINE_ID and a.MATNR = d.PMATNR )
+            AND c.KUNNR = d.KUNNR
+            and a.CANCEL_FLAG = '0'
+            <if test="classgrp != null">
+                and a.SHIFT = #{classgrp}
+            </if>
+
+            <if test="matnr != null">
+                and a.matnr = #{matnr}
+            </if>
+
+            <if test="creationDateBefore != null">
+                and a.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                and #{creationDateAfter} >= a.creation_date
+            </if>
+            ORDER BY a.LINE_ID ASC;
+        </where>
+    </select>
+
+    <update id="batchUpdateCancelflag" parameterType="yj.core.wipdftrghlist.dto.Dftrghlist">
+        UPDATE wip_dftrghlist set CANCEL_FLAG = #{cancelFlag},
+                                    LAST_UPDATED_BY = #{lastUpdatedBy},
+                                    LAST_UPDATE_DATE = #{lastUpdateDate}
+        <where>
+            RECORDID = #{recordid}
+            and ITEM = #{item}
+        </where>
+    </update>
+</mapper>

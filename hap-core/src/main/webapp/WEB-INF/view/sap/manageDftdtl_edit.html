@@ -1,0 +1,280 @@
+<#--
+    质量缺陷明细代码维护对话框 918100064
+ -->
+<#include "../include/header.html">
+<body>
+<script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var isedit = location.search.substring(1);
+    var newViewModel = kendo.observable({
+        model: {},
+        save: function(e){
+            var data= newViewModel.model.toJSON();
+            //转换启用状态
+            data.enabledFlag = data.enabledFlag?'Y':'N';
+            var validator = $("#mainform").data("kendoValidator");
+            if(newViewModel.model.matnr==''||newViewModel.model.matnr==null){
+                kendo.ui.showInfoDialog({
+                    message:'物料编码不能为空'
+                })
+            }else if(newViewModel.model.code ==''||newViewModel.model.code==null){
+                kendo.ui.showInfoDialog({
+                    message:'缺陷大类不能为空'
+                })
+            }else if(newViewModel.model.tlevelcode ==''||newViewModel.model.tlevelcode==null){
+                kendo.ui.showInfoDialog({
+                    message:'二级缺陷代码不能为空'
+                })
+            }else if(newViewModel.model.ztext ==''||newViewModel.model.ztext==null){
+                kendo.ui.showInfoDialog({
+                    message:'缺陷描述不能为空'
+                })
+            }else if(newViewModel.model.matnr2 ==''||newViewModel.model.matnr2==null){
+                kendo.ui.showInfoDialog({
+                    message:'压铸物料不能为空'
+                })
+            }else{
+                var BaseUrl = _basePath;
+                $.ajax({
+                    type   : 'POST',
+                    url    : BaseUrl + "/sap/dftdtl/submitDftdtl",
+                    dataType : "json",
+                    contentType : "application/json",
+                    data   : kendo.stringify([data]),
+                    success: function (data) {
+                        if(data.success==false){
+                            kendo.ui.showErrorDialog({
+                                message:data.message
+                            });
+                        }
+                        else{
+                            if(isedit == 1){
+                                window.parent.$("#newWin").data("kendoWindow").close();
+                            }else{
+                                newViewModel.model.set("tlevelcode","");
+                                newViewModel.model.set("ztext","");
+                            }
+                        }
+                    }
+                });
+            }
+        },
+        closeWin: function(e){
+            window.parent.$("#newWin").data("kendoWindow").close();
+        }
+    });
+</script>
+<div id="page-content" style="width:870px;margin-top: 5px;">
+    <form id="mainform"  class="form-horizontal" method="post" enctype="application/json;charset=UTF-8">
+        <div class="row" style="margin-left: 5px;">
+            <div class="form-group">
+                <div class="col-sm-11" style="float: left;">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">工厂</label>
+                            <div class="col-sm-8">
+                                <input type="text" value="1001" style="width: 100%" readonly="true" id="werks" class="k-textbox">
+                                <span data-for="werks" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">物料编码</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="matnrId" name="matnr" data-bind="value:model.matnr,text:model.matnr" class="k-textbox">
+                                <span data-for="matnr" class=".k-invalid-msg"></span>
+                                <script>
+                                    if(isedit==0){
+                                        $("#matnrId").kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                                            {
+                                                model: {},
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                },
+                                                change: function (options) {
+                                                    newViewModel.model.set("maktx",options.sender._dataItem.maktx);
+                                                },
+                                                dataTextField:'matnr'
+                                            }));
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">物料描述</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="width:100%" name="maktx" data-bind="value:model.maktx" class="k-textbox" readonly="readonly">
+                                <span data-for="maktx" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">压铸物料</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="matnr2Id" name="matnr2" data-bind="value:model.matnr2,text:model.matnr2" class="k-textbox">
+                                <span data-for="matnr2" class=".k-invalid-msg"></span>
+                                <script>
+                                    $("#matnr2Id").kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                                        {
+                                            model: {},
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            },
+                                            change: function (options) {
+                                                newViewModel.model.set("maktx2",options.sender._dataItem.maktx);
+                                            },
+                                            dataTextField:'matnr'
+                                        }));
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">物料描述</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="maktx2" data-bind="value:model.maktx2" class="k-textbox" readonly="readonly">
+                                <span data-for="maktx2" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">缺陷大类</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="codeId" name="code" data-bind="value:model.code,text:model.code" class="k-textbox">
+                                <span data-for="code" class=".k-invalid-msg"></span>
+                                <script>
+                                    $("#codeId").kendoLov($.extend(<@lov "LOV_QPCD1"/>,
+                                        {
+                                            model: {},
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            },
+                                            change: function (options) {
+                                                newViewModel.model.set("kurztext",options.sender._dataItem.kurztext);
+                                            },
+                                            dataTextField:'code'
+                                        }));
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">缺陷描述</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="width:100%" name="kurztext" data-bind="value:model.kurztext" class="k-textbox" readonly="readonly">
+                                <span data-for="kurztext" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">二级缺陷代码</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" id="tlevelcode" name="tlevelcode" type="text" data-bind="value:model.tlevelcode" class="k-textbox">
+                                <span data-for="tlevelcode" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">缺陷描述</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="width:100%" name="ztext" data-bind="value:model.ztext" class="k-textbox">
+                                <span data-for="ztext" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">机加常用标识</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" data-bind="checked:machingFlag,value:model.machingFlag" class="t-textbox"
+                                       data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                <span data-for="machingFlag" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">压铸常用标识</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" data-bind="checked:castingFlag,value:model.castingFlag" class="t-textbox"
+                                       data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                <span data-for="castingFalg" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">缺陷报警</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" data-bind="checked:dftalarm,value:model.dftalarm" class="t-textbox"
+                                       data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                <span data-for="dftalarm" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">责任部门</label>
+                            <div class="col-sm-8" style="text-align: left">
+                                <input type="text" style="width:100%" id="defaultDeptId" name="defaultDept" data-bind="value:model.defaultDept,text:model.defaultDept" class="k-textbox">
+                                <span data-for="defaultDept" class=".k-invalid-msg"></span>
+                                <script>
+                                    $("#defaultDeptId").kendoLov($.extend(<@lov "LOV_UNIT_NEW2"/>,
+                                        {
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            },
+                                            dataTextField:'unitCode'
+                                        }));
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="mainBottom" class="text-right" style="bottom: 15px;position: fixed;  float: left;padding-top:15px;border-top:1px solid #ebebeb;width:100%; background: #fff;">
+    <span class="btn btn-primary" data-bind="click:save" type="submit" style="margin-right:5px"><@spring.message "hap.save"/></span>
+    <span class="btn btn-default" data-bind="click:closeWin" type="button" style="margin-right:25px;"><@spring.message "hap.cancel"/></span>
+</div>
+
+<script type="text/javascript">
+    kendo.bind($('#mainBottom'),newViewModel);
+    kendo.bind($('#mainform'), newViewModel);
+    if(isedit==1){
+        var checked = window.parent.$('#Grid').data('kendoGrid').selectedDataItems();
+        newViewModel.model.set("matnr",checked[0].matnr);
+        newViewModel.model.set("maktx",checked[0].maktx);
+        newViewModel.model.set("matnr2",checked[0].matnr2);
+        newViewModel.model.set("maktx2",checked[0].maktx2);
+        newViewModel.model.set("code",checked[0].code);
+        newViewModel.model.set("kurztext",checked[0].kurztext);
+        newViewModel.model.set("tlevelcode",checked[0].tlevelcode);
+        newViewModel.model.set("ztext",checked[0].ztext);
+        if("1" == checked[0].machingFlag){
+            newViewModel.model.set("machingFlag","Y");
+        }else{
+            newViewModel.model.set("machingFlag","N");
+        }if("1" == checked[0].castingFlag){
+            newViewModel.model.set("castingFlag","Y");
+        }else{
+            newViewModel.model.set("castingFlag","N");
+        }if("1" == checked[0].dftalarm){
+            newViewModel.model.set("dftalarm","Y");
+        }else{
+            newViewModel.model.set("dftalarm","N");
+        }
+        newViewModel.model.set("defaultDept",checked[0].defaultDept);
+        $("#matnrId").attr('readOnly',true);
+        $("#tlevelcode").attr('readOnly',true);
+    }else{
+        newViewModel.model.set("machingFlag","Y");
+        newViewModel.model.set("castingFlag","Y");
+        newViewModel.model.set("dftalarm","N");
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://Impl.service.YJ.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="YJMethodImplService" targetNamespace="http://Impl.service.YJ.com/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://Impl.service.YJ.com/" elementFormDefault="unqualified" targetNamespace="http://Impl.service.YJ.com/" version="1.0">
+
+  <xs:element name="insertOrder" type="tns:insertOrder"/>
+
+  <xs:element name="insertOrderResponse" type="tns:insertOrderResponse"/>
+
+  <xs:element name="queryOtherWeight" type="tns:queryOtherWeight"/>
+
+  <xs:element name="queryOtherWeightResponse" type="tns:queryOtherWeightResponse"/>
+
+  <xs:complexType name="queryOtherWeight">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ZSBELN" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="queryOtherWeightResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:wReturnData"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="wReturnData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BUKRS" type="xs:string"/>
+      <xs:element minOccurs="0" name="EBELN" type="xs:string"/>
+      <xs:element minOccurs="0" name="EBELP" type="xs:string"/>
+      <xs:element minOccurs="0" name="MATNR" type="xs:string"/>
+      <xs:element minOccurs="0" name="message" type="xs:string"/>
+      <xs:element minOccurs="0" name="NET" type="xs:string"/>
+      <xs:element minOccurs="0" name="type" type="xs:string"/>
+      <xs:element minOccurs="0" name="WERKS" type="xs:string"/>
+      <xs:element minOccurs="0" name="ZLPN" type="xs:string"/>
+      <xs:element minOccurs="0" name="ZSBELN" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="insertOrder">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="BUKRS" type="xs:string"/>
+      <xs:element minOccurs="0" name="WERKS" type="xs:string"/>
+      <xs:element minOccurs="0" name="ZLPN" type="xs:string"/>
+      <xs:element minOccurs="0" name="ZSBELN" type="xs:string"/>
+      <xs:element minOccurs="0" name="EBELN" type="xs:string"/>
+      <xs:element minOccurs="0" name="EBELP" type="xs:string"/>
+      <xs:element minOccurs="0" name="MATNR" type="xs:string"/>
+      <xs:element minOccurs="0" name="MAKTX" type="xs:string"/>
+      <xs:element minOccurs="0" name="ZFDAT" type="xs:string"/>
+      <xs:element minOccurs="0" name="SENGE" type="xs:double"/>
+      <xs:element name="PACNUM" type="xs:int"/>
+      <xs:element minOccurs="0" name="MEINS" type="xs:string"/>
+      <xs:element minOccurs="0" name="LIFNR" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="insertOrderResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:oReturnData"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="oReturnData">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="mtmsg" type="xs:string"/>
+      <xs:element minOccurs="0" name="mtype" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="insertOrderResponse">
+    <wsdl:part element="tns:insertOrderResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryOtherWeight">
+    <wsdl:part element="tns:queryOtherWeight" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryOtherWeightResponse">
+    <wsdl:part element="tns:queryOtherWeightResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="insertOrder">
+    <wsdl:part element="tns:insertOrder" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="YJMethodImpl">
+    <wsdl:operation name="queryOtherWeight">
+      <wsdl:input message="tns:queryOtherWeight" name="queryOtherWeight">
+    </wsdl:input>
+      <wsdl:output message="tns:queryOtherWeightResponse" name="queryOtherWeightResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertOrder">
+      <wsdl:input message="tns:insertOrder" name="insertOrder">
+    </wsdl:input>
+      <wsdl:output message="tns:insertOrderResponse" name="insertOrderResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="YJMethodImplServiceSoapBinding" type="tns:YJMethodImpl">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="queryOtherWeight">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="queryOtherWeight">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryOtherWeightResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertOrder">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="insertOrder">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="insertOrderResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="YJMethodImplService">
+    <wsdl:port binding="tns:YJMethodImplServiceSoapBinding" name="YJMethodImplPort">
+      <soap:address location="http://223.85.163.87:9005/WeighingSystem/SAPWebservice"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.log.mapper.LogheaderMapper">
+    <resultMap id="BaseResultMap" type="yj.core.log.dto.Logheader">
+        <result column="logid" property="logid" jdbcType="VARCHAR" />
+        <result column="attr1" property="attr1" jdbcType="VARCHAR" />
+        <result column="attr2" property="attr2" jdbcType="VARCHAR" />
+        <result column="attr3" property="attr3" jdbcType="VARCHAR" />
+        <result column="attr4" property="attr4" jdbcType="VARCHAR" />
+        <result column="attr5" property="attr5" jdbcType="VARCHAR" />
+        <result column="attr6" property="attr6" jdbcType="VARCHAR" />
+        <result column="attr7" property="attr7" jdbcType="VARCHAR" />
+        <result column="attr8" property="attr8" jdbcType="VARCHAR" />
+        <result column="attr9" property="attr9" jdbcType="VARCHAR" />
+        <result column="attr10" property="attr10" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdatedDate" jdbcType="VARCHAR" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <insert id="insertNewHeader" parameterType="yj.core.log.dto.Logheader">
+        insert INTO  wip_logheader (logid,attr1,attr2,attr3,attr4,attr5,attr6,attr7,attr8,attr9,attr10,CREATED_BY,CREATION_DATE,LAST_UPDATE_DATE)
+        VALUES (#{logid},#{attr1},#{attr2},#{attr3},#{attr4},#{attr5},#{attr6},#{attr7},#{attr8},#{attr9},#{attr10},#{createdBy},#{creationDate},#{lastUpdatedDate})
+    </insert>
+</mapper>

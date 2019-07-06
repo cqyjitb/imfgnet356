@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.arearole.mapper.ArearoleMapper">
+    <resultMap id="BaseResultMap" type="yj.core.arearole.dto.Arearole">
+        <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+        <result column="AREANO" property="areano" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insertArearole" parameterType="yj.core.arearole.dto.Arearole">
+        INSERT INTO wip_arearole(USERNAME,AREANO,CREATED_BY,CREATION_DATE)VALUES(#{username},#{areano},#{createdBy},#{creationDate})
+    </insert>
+
+    <delete id="deleteArearole" parameterType="yj.core.arearole.dto.Arearole">
+        delete FROM wip_arearole
+        <where>
+            USERNAME = #{username}
+            and AREANO = #{areano}
+        </where>
+    </delete>
+</mapper>

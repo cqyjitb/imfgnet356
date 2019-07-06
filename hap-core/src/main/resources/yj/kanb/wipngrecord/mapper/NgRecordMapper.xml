@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.wipngrecord.mapper.NgRecordMapper">
+    <resultMap id="BaseResultMap" type="yj.kanb.wipngrecord.dto.NgRecord">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="ERDAT" property="erdat" jdbcType="DATE"/>
+        <result column="QTY" property="qty" jdbcType="DECIMAL"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+        <result column="ZOTYPR" property="zotype" jdbcType="VARCHAR"/>
+        <result column="ZISSUETXT" property="zissuetxt" jdbcType="VARCHAR"/>
+        <result column="ZTEXT" property="ztext" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectNgRecord" parameterType="yj.kanb.wipngrecord.dto.NgRecord" resultMap="BaseResultMap">
+        select * from wip_ng_record
+        <where>
+            werks = #{werks}
+            AND dept_id = #{deptId}
+            AND line_id = #{lineId}
+            AND matnr = #{matnr}
+            AND erdat = #{erdat}
+            AND zotype = #{zotype}
+            AND zissuetxt = #{zissuetxt}
+        </where>
+    </select>
+
+    <select id="queryByQty" parameterType="yj.kanb.wipngrecord.dto.NgRecord" resultType="java.lang.Integer">
+        select COALESCE(sum(qty),0) from wip_ng_record
+        <where>
+            1 = 1
+            <if test="werks != ''">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != ''">
+                AND line_id = #{lineId}
+            </if>
+            <if test="matnr != ''">
+                AND matnr = #{matnr}
+            </if>
+            <if test="qty == 0">
+                AND zotype = '8'
+            </if>
+            <if test="qty == 1">
+                AND zotype not in ('8','14','4')
+            </if>
+            <if test="qty == 2">
+                AND zotype = '14'
+            </if>
+            <if test="qty == 3">
+                AND zotype = '4'
+            </if>
+            <if test="zissuetxt != ''">
+                AND zissuetxt = #{zissuetxt}
+            </if>
+            <if test="dateStart != ''">
+                AND erdat >= #{dateStart}
+            </if>
+            <if test="dateEnd != ''">
+                AND #{dateEnd} >= erdat
+            </if>
+        </where>
+    </select>
+
+    <select id="queryNgRecordByQty" parameterType="yj.kanb.wipngrecord.dto.NgRecord" resultType="java.lang.Integer">
+        select COALESCE(sum(qty),0) FROM wip_ng_record
+        <where>
+            1 = 1
+            <if test="werks != ''">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != ''">
+                AND line_id = #{lineId}
+            </if>
+            <if test="matnr != ''">
+                AND matnr = #{matnr}
+            </if>
+            <if test="qty == 1">
+                AND zissuetxt not like 'M%'
+            </if>
+            <if test="qty == 2">
+                AND zissuetxt like 'M%'
+            </if>
+            <if test="dateStart != ''">
+                AND erdat >= #{dateStart}
+            </if>
+            <if test="dateEnd != ''">
+                AND #{dateEnd} >= erdat
+            </if>
+        </where>
+    </select>
+
+    <select id="queryNgRecord" parameterType="yj.kanb.wipngrecord.dto.NgRecord" resultMap="BaseResultMap">
+        select DISTINCT werks,dept_id,line_id,matnr,zissuetxt,ztext  FROM wip_ng_record
+        <where>
+            1 = 1
+            <if test="werks != ''">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != ''">
+                AND line_id = #{lineId}
+            </if>
+            <if test="matnr != ''">
+                AND matnr = #{matnr}
+            </if>
+            <if test="qty == 1">
+                AND zissuetxt not like 'M%'
+            </if>
+            <if test="qty == 2">
+                AND zissuetxt like 'M%'
+            </if>
+            <if test="dateStart != ''">
+                AND erdat >= #{dateStart}
+            </if>
+            <if test="dateEnd != ''">
+                AND #{dateEnd} >= erdat
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertNgRecord" parameterType="yj.kanb.wipngrecord.dto.NgRecord">
+        insert into wip_ng_record(werks,dept_id,line_id,matnr,maktx,erdat,qty,zotype,zissuetxt,ztext,gmein,created_by,creation_date)
+        values(#{werks},#{deptId},#{lineId},#{matnr},#{maktx},#{erdat},#{qty},#{zotype},#{zissuetxt},#{ztext},#{gmein},#{createdBy},#{creationDate})
+    </insert>
+
+    <update id="updateNgRecord" parameterType="yj.kanb.wipngrecord.dto.NgRecord">
+        update wip_ng_record set qty = #{qty},,last_updated_by = #{lastUpdatedBy},last_update_date = #{lastUpdateDate}
+        <where>
+            werks = #{werks}
+            AND dept_id = #{deptId}
+            AND line_id = #{lineId}
+            AND matnr = #{matnr}
+            AND erdat = #{erdat}
+            AND zotype = #{zotype}
+            AND zissuetxt = #{zissuetxt}
+        </where>
+    </update>
+</mapper>

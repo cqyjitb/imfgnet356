@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.tmp.mapper.BartobarMapper">
+    <resultMap id="BaseResultMap" type="yj.core.tmp.dto.Bartobar">
+        <result column="id" property="id" jdbcType="DECIMAL" />
+        <result column="WIP_ZPGDBAR" property="wipZpgdbar" jdbcType="VARCHAR" />
+        <result column="WIP_AUFNR" property="wipAufnr" jdbcType="VARCHAR" />
+        <result column="WIP_AUART" property="wipAuart" jdbcType="VARCHAR" />
+        <result column="WIP_ARBPL" property="wipArbpl" jdbcType="VARCHAR" />
+        <result column="WIP_MATNR" property="wipMatnr" jdbcType="VARCHAR" />
+        <result column="NEW_AUFNR" property="newAufnr" jdbcType="VARCHAR" />
+        <result column="NEW_ZPGDBAR" property="newZpgdbar" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="getNewBar" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        NEW_ZPGDBAR,
+        NEW_AUFNR
+        FROM bartobar
+        <where>
+            WIP_ZPGDBAR = #{oldZPGDBAR}
+        </where>
+    </select>
+
+</mapper>

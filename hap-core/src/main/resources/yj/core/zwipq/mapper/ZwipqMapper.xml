@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.zwipq.mapper.ZwipqMapper">
+    <resultMap id="BaseResultMap" type="yj.core.zwipq.dto.Zwipq">
+        <result column="ZSXJLH" property="zsxjlh" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="SEG_OPR_NAME" property="segOprName" jdbcType="VARCHAR" />
+        <result column="PKG_LINE_ID" property="pkgLineId" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR1" property="zpgdbar1" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZSXNUM" property="zsxnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="ZREMADE" property="zremade" jdbcType="DECIMAL" />
+        <result column="SOURCE_LINE_ID" property="sourceLineId" jdbcType="VARCHAR" />
+        <result column="ZZXKL" property="zzxkl" jdbcType="DECIMAL" />
+        <result column="ZQJKL" property="zqjkl" jdbcType="DECIMAL" />
+        <result column="ZOFFL" property="zoffl" jdbcType="DECIMAL" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="Q_SENQ" property="qsenq" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="OFF_UPDATED_DATE" property="offUpdatedDate" jdbcType="DATE" />
+        <result column="OFF_UPDATED_BY" property="offUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="yj.core.zwipq.dto.Zwipq">
+        <result column="ZSXJLH" property="zsxjlh" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="SEG_OPR_NAME" property="segOprName" jdbcType="VARCHAR" />
+        <result column="PKG_LINE_ID" property="pkgLineId" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR1" property="zpgdbar1" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZSXNUM" property="zsxnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="ZREMADE" property="zremade" jdbcType="DECIMAL" />
+        <result column="ZZXKL" property="zzxkl" jdbcType="DECIMAL" />
+        <result column="ZQJKL" property="zqjkl" jdbcType="DECIMAL" />
+        <result column="ZOFFL" property="zoffl" jdbcType="DECIMAL" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="Q_SENQ" property="qsenq" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="OFF_UPDATED_DATE" property="offUpdatedDate" jdbcType="DATE" />
+        <result column="OFF_UPDATED_BY" property="offUpdatedBy" jdbcType="DECIMAL" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR"/>
+        <result column="CHECK" property="check" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap3" type="yj.core.zwipq.dto.Zwipq">
+        <result column="ZSXJLH" property="zsxjlh" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="SEG_OPR_NAME" property="segOprName" jdbcType="VARCHAR" />
+        <result column="PKG_LINE_ID" property="pkgLineId" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR1" property="zpgdbar1" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZSXNUM" property="zsxnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="ZREMADE" property="zremade" jdbcType="DECIMAL" />
+        <result column="ZZXKL" property="zzxkl" jdbcType="DECIMAL" />
+        <result column="ZQJKL" property="zqjkl" jdbcType="DECIMAL" />
+        <result column="ZOFFL" property="zoffl" jdbcType="DECIMAL" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="Q_SENQ" property="qsenq" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="OFF_UPDATED_DATE" property="offUpdatedDate" jdbcType="DATE" />
+        <result column="OFF_UPDATED_BY" property="offUpdatedBy" jdbcType="DECIMAL" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR"/>
+        <result column="CHECK" property="check" jdbcType="VARCHAR" />
+        <result column="UNIT_ID" property="unitId" jdbcType="DECIMAL"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="SOURCE_LINE_ID" property="sourceLineId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap4" type="yj.core.zwipq.dto.Zwipq">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="UNIT_ID" property="unitId" jdbcType="DECIMAL"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR"/>
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="ZSXNUM" property="zsxnum" jdbcType="DECIMAL"/>
+        <result column="ZZXKL" property="zzxkl" jdbcType="DECIMAL"/>
+        <result column="ZQJKL" property="zqjkl" jdbcType="DECIMAL"/>
+        <result column="ZOUTNUM" property="zoutnum" jdbcType="DECIMAL"/>
+        <result column="ZOFFL" property="zoffl" jdbcType="DECIMAL"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+        <result column="KUNNR" property="kunnr" jdbcType="VARCHAR"/>
+        <result column="NAME1" property="name1" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="PMATNR" property="pmatnr" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectByzsxnum2" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(zsxnum),0) from zwipq
+        <where>
+            zzxkl = 0
+            and zqjkl = 1
+            and charg != ''
+            <if test="pkgLineId != null">
+                AND pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+            <if test="charg != null">
+                AND charg = #{charg}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByzsxnum1" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(q.zsxnum),0) from zwipq q,wip_in_out_record re,wip_zudlist zu
+        <where>
+            q.ZSXJLH = re.ZWIPQID
+            and q.charg != ''
+            AND q.zqjkl = 1
+            AND re.reflag in("2","4")
+            and re.zqjjlh = zu.zqjjlh
+            and zu.status = 0
+            <if test="pkgLineId != null">
+                AND q.pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND q.matnr = #{matnr}
+            </if>
+            <if test="charg != null">
+                AND q.charg = #{charg}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByzsxnum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(q.zsxnum),0) from zwipq q,wip_in_out_record re
+        <where>
+            q.ZSXJLH = re.ZWIPQID
+            and q.charg != ''
+            AND q.zqjkl = 1
+            AND re.reflag in("0","3")
+            <if test="pkgLineId != null">
+                AND q.pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND q.matnr = #{matnr}
+            </if>
+            <if test="charg != null">
+                AND q.charg = #{charg}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectcharg3" parameterType="java.lang.String" resultType="yj.core.zwipq.dto.Zwipq">
+        select * from zwipq
+        <where>
+            zzxkl = 1
+            and charg != ''
+            <if test="zsxjlh != null">
+                AND zsxjlh = #{zsxjlh}
+            </if>
+            <if test="pkgLineId != null">
+                AND pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectcharg2" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT charg from zwipq
+        <where>
+            zzxkl = 0
+            and zqjkl = 1
+            and charg != ''
+            <if test="pkgLineId != null">
+                AND pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectcharg" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT q.charg from zwipq q,wip_in_out_record re
+        <where>
+            q.ZSXJLH = re.ZWIPQID
+            and q.ZQJKL = 1
+            and q.charg != ''
+            and re.reflag in("0","3")
+            <if test="pkgLineId != null">
+                AND q.pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND q.matnr = #{matnr}
+            </if>
+        </where>
+        union select DISTINCT q.charg from zwipq q,wip_in_out_record re,wip_zudlist zu
+        <where>
+            q.ZSXJLH = re.ZWIPQID
+            and q.ZQJKL = 1
+            and re.reflag in("2","4")
+            and re.zqjjlh = zu.zqjjlh
+            and zu.status = 0
+            and q.charg != ''
+            <if test="pkgLineId != null">
+                AND q.pkg_line_id = #{pkgLineId}
+            </if>
+            <if test="matnr != null">
+                AND q.matnr = #{matnr}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSumZxhbar" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(zsxnum),0) from zwipq
+        <where>
+            zremade = 0
+            <if test="zxhbar != null">
+                AND ZXHBAR = #{zxhbar}
+            </if>
+            <if test="attr1After != null">
+                AND creation_date >= #{attr1After}
+            </if>
+            <if test="attr1Before != null">
+                AND #{attr1Before} >= creation_date
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByLineIdMatnr2" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(zsxnum),0) from zwipq
+        <where>
+            (line_id = #{lineId} OR pkg_line_id = #{lineId})
+            AND matnr2 = #{matnr2}
+            AND zremade = '0'
+            AND zzxkl != 1
+            AND zqjkl != 1
+            AND zoffl != 1
+            AND status != 1
+        </where>
+    </select>
+
+    <select id="selectLineIdMatnr2" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from zwipq
+        <where>
+             line_id = #{lineId}
+            AND matnr2 = #{matnr2}
+        </where>
+    </select>
+
+    <select id="selectIORZwipq" parameterType="java.lang.String" resultMap="BaseResultMap4">
+        select distinct li.werks as werks,li.dept_id as deptId,b.name as name,q.line_id as lineId,
+            li.descriptions as descriptions,ca.attr1 as attr,q.shift as shift1,pc.pmatnr as pmatnr,
+            (select maktx FROM sap_marc where matnr = pmatnr) as pmaktx,ca.zpgdbar as zpgdbar,
+            pc.matnr as matnr,ma.maktx as maktx,q.gmein as gmein,pc.kunnr as kunnr,cu.name1 as name1
+            FROM zwipq q,wip_lines li,wip_in_out_record re,hr_org_unit_b b,sap_cardh ca,wip_products_cfg pc,sap_marc ma,sap_cust cu
+                <where>
+                    li.line_id = q.line_id
+                    AND q.line_id = re.line_id
+                    AND pc.line_id = q.line_id
+                    AND re.matnr = q.matnr
+                    AND ca.matnr = q.matnr2
+                    AND pc.matnr = q.matnr
+                    AND ma.matnr = q.matnr
+                    AND b.unit_code = li.dept_id
+                    AND ca.zpgdbar = q.zpgdbar
+                    AND pc.kunnr = cu.kunnr
+                    <if test="deptId != null">
+                        AND li.dept_id = #{deptId}
+                    </if>
+                    <if test="lineId != null">
+                        AND li.line_id = #{lineId}
+                    </if>
+                    <if test="pmatnr != null">
+                        AND pc.pmatnr = #{pmatnr}
+                    </if>
+                    <if test="attr1After != null">
+                        AND ca.attr1 >= #{attr1After}
+                    </if>
+                    <if test="attr1Before != null">
+                        AND #{attr1Before} >= ca.attr1
+                    </if>
+                    <if test="shift != null">
+                        AND ca.shift = #{shift}
+                    </if>
+                </where>
+    </select>
+
+    <select id="selectZsxnum1" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(zsxnum),0) FROM zwipq
+        <where>
+            line_id = #{lineId}
+            AND matnr2 = #{matnr}
+            AND zpgdbar = #{zpgdbar}
+            <if test="zzxkl != null">
+                AND zzxkl = #{zzxkl}
+            </if>
+            <if test="zqjkl != null">
+                AND zqjkl = #{zqjkl}
+            </if>
+            <if test="zoffl != null">
+                AND zoffl = #{zoffl}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectZwipq" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select distinct q.zsxjlh,q.line_id,q.creation_date as attr1,q.zxhbar,q.sfflg,q.diecd,q.zgjbar,q.matnr,q.matnr2 as matnr2,
+        q.arbpr,q.charg,q.zzxkl,q.zqjkl,q.zoffl,q.status,q.zremade,q.zpgdbar,q.lgort,q.q_senq,q.SOURCE_LINE_ID,q.CREATED_BY,
+        li.dept_id,b.name,li.descriptions,ma.maktx,(select maktx from sap_marc where matnr = matnr2) as maktx2
+        from zwipq q,wip_lines li,hr_org_unit_b b,sap_marc ma
+        <where>
+            q.line_id = li.line_id
+            AND li.dept_id = b.unit_code
+            AND q.matnr = ma.matnr
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND (li.line_id = #{lineId} OR li.pline_id = #{plineId})
+            </if>
+            <if test="zremade != null">
+                AND q.zremade = #{zremade}
+            </if>
+            <if test="attr1After != null">
+                AND q.creation_date >= #{attr1After}
+            </if>
+            <if test="attr1Before != null">
+                AND #{attr1Before} >= q.creation_date
+            </if>
+            <if test="shift != null">
+                AND q.shift = #{shift}
+            </if>
+            <if test="sfflg != null">
+                AND q.sfflg = #{sfflg}
+            </if>
+            <if test="diecd != null">
+                AND q.diecd = #{diecd}
+            </if>
+            <if test="zxhbar != null">
+                AND q.zxhbar = #{zxhbar}
+            </if>
+            <if test="zgjbar != null">
+                AND q.zgjbar = #{zgjbar}
+            </if>
+            AND (
+            <if test="online == 1">
+                (q.zzxkl != 1 AND q.zqjkl != 1 AND q.zoffl != 1 AND q.status != 1)
+            </if>
+            <if test="online == 0">
+                (q.zzxkl = 1 AND q.zqjkl = 1 AND q.zoffl = 1 AND q.status = 1)
+            </if>
+            <if test="online == null">
+                1 = 1
+            </if>
+            <if test="zzxkl == 1">
+                OR (q.zzxkl = 1 AND q.zqjkl != 1 AND q.zoffl != 1 AND q.status != 1)
+            </if>
+            <if test="zqjkl == 1">
+                OR (q.zzxkl != 1 AND q.zqjkl = 1 AND q.zoffl != 1 AND q.status != 1)
+            </if>
+            <if test="zoffl == 1">
+                OR (q.zzxkl != 1 AND q.zqjkl != 1 AND q.zoffl = 1 AND q.status != 1)
+            </if>
+            <if test="status == 1">
+                OR (q.zzxkl != 1 AND q.zqjkl != 1 AND q.zoffl != 1 AND q.status = 1)
+            </if>)
+        </where>
+    </select>
+
+    <select id="selectZsxnum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(DISTINCT zsxjlh) zsxnum from zwipq
+        <where>
+            zzxkl != 1
+            AND zqjkl != 1
+            AND zoffl != 1
+            AND status != 1
+            AND line_id = #{lineId}
+            AND sfflg = #{sfflg}
+            AND diecd = #{diecd}
+            AND matnr = #{matnr}
+            <if test="zremade != null">
+                AND zremade = #{zremade}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByLineIdAndZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+            LINE_ID = #{line_id}
+            AND ZXHBAR = #{zxhbar}
+        </where>
+    </select>
+
+    <select id="selectMaxQsenq" parameterType="map" statementType="CALLABLE">
+      {
+        #{p3,mode=OUT,mode=OUT,jdbcType=NUMERIC} = call WIP_SEQ_NEXT_VAL(
+          #{p1,mode=IN,jdbcType=VARCHAR},#{p2,mode=IN,jdbcType=NUMERIC}
+        )
+      }
+    </select>
+
+    <insert id="InsertIntoZwipq" parameterType="yj.core.zwipq.dto.Zwipq">
+        insert into zwipq (ZSXJLH,LINE_ID,ARBPR,SEG_OPR_NAME,PKG_LINE_ID,SHIFT,ZPGDBAR,ZPGDBAR1,VORNR,ZXHBAR,MATNR,MATNR2,ZPGDBAR2,ZGJBAR,ZREMADE,SOURCE_LINE_ID,
+        ZSXNUM,GMEIN,LGORT,CHARG,ZZXKL,ZQJKL,ZOFFL,SFFLG,STATUS,DIECD,Q_SENQ,CREATION_DATE,CREATED_BY,LAST_UPDATED_DATE,LAST_UPDATED_BY,OFF_UPDATED_DATE,OFF_UPDATED_BY)
+        VALUES (#{zsxjlh},#{lineId},#{arbpr},#{segOprName},#{pkgLineId},#{shift},#{zpgdbar},#{zpgdbar1},#{vornr},#{zxhbar},#{matnr},#{matnr2},#{zpgdbar2},#{zgjbar},#{zremade},#{sourceLineId},#{zsxnum},#{gmein},#{lgort},
+        #{charg},#{zzxkl},#{zqjkl},#{zoffl},#{sfflg},#{status},#{diecd},#{qsenq},#{creationDate},#{createdBy},#{lastUpdatedDate},#{lastUpdatedBy},#{offUpdatedDate},#{offUpdatedBy})
+    </insert>
+
+    <select id="selectBylineidAndZxhbarAndZpgdbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+            LINE_ID = #{line_id}
+            and ZXHBAR = #{zxhbar}
+            and ZPGDBAR = #{zpgdbar}
+            and ZZXKL = 0
+            and ZQJKL = 0
+            and ZOFFL = 0
+            and STATUS = 0
+            and ZGJBAR is NULL
+            AND ZREMADE = 0
+        </where>
+        ORDER BY Q_SENQ DESC ;
+    </select>
+
+    <select id="selectBylineforjjqj" parameterType="yj.core.zwipq.dto.Zwipq" resultMap="BaseResultMap2">
+        SELECT * FROM zwipq
+        <where>
+            LINE_ID = #{lineId}
+            and ZZXKL = 0
+            and ZQJKL = 0
+            and ZOFFL = 0
+            and STATUS = 0
+            and ZGJBAR is NULL
+            AND ZREMADE = 0
+        </where>
+        order by SFFLG asc;
+    </select>
+
+    <select id="selectForqj" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+            LINE_ID = #{line_id}
+            and SFFLG = #{sfflg}
+            and ZZXKL = 0
+            AND ZQJKL = 0
+            AND ZOFFL = 0
+            AND STATUS = 0
+            and ZGJBAR is NULL
+            AND ZREMADE = 0
+        </where>
+        ORDER  BY Q_SENQ DESC ;
+    </select>
+
+    <select id="selectByZpgdbar2" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+             ZZXKL = 0
+            AND ZQJKL = 0
+            AND ZOFFL = 0
+            AND STATUS = 0
+            and ZGJBAR is NULL
+            AND ZREMADE = 0
+            and ZPGDBAR2 = #{zpgdbar2}
+        </where>
+    </select>
+
+    <update id="updateForQj" parameterType="yj.core.zwipq.dto.Zwipq">
+        update zwipq set ZQJKL = #{zqjkl},
+        LAST_UPDATED_BY = #{lastUpdatedBy},
+        LAST_UPDATED_DATE = #{lastUpdatedDate}
+        <where>
+            ZSXJLH = #{zsxjlh}
+        </where>
+    </update>
+
+    <select id="selectByLineid" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+            LINE_ID = #{line_id}
+            and ZZXKL = 0
+            AND ZQJKL = 0
+            AND ZOFFL = 0
+            AND STATUS = 0
+            and ZGJBAR IS NULL
+            AND ZREMADE = 0
+        </where>
+        ORDER BY Q_SENQ DESC;
+    </select>
+
+    <update id="updateZqjklAndQenq" parameterType="yj.core.zwipq.dto.Zwipq">
+        update zwipq set ZQJKL = #{zqjkl},
+                         Q_SENQ = #{qsenq},
+                LAST_UPDATED_DATE = #{lastUpdatedDate},
+                LAST_UPDATED_BY  = #{lastUpdatedBy}
+        <where>
+            ZSXJLH = #{zsxjlh}
+        </where>
+    </update>
+
+    <update id="updateQsenq" parameterType="yj.core.zwipq.dto.Zwipq">
+        update zwipq set Q_SENQ = #{qsenq},
+                        LAST_UPDATED_DATE = #{lastUpdatedDate},
+                LAST_UPDATED_BY  = #{lastUpdatedBy}
+                <where>
+                    ZSXJLH = #{zsxjlh}
+                </where>
+    </update>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>ZSXJLH = #{zwipqid}</where>
+    </select>
+
+    <select id="selectForJjxx" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+            LINE_ID = #{line_id}
+            and ZZXKL != 1
+            AND ZOFFL != 1
+            AND ZQJKL != 1
+            AND STATUS != 1
+            AND ZREMADE = 0
+        </where>
+        order by Q_SENQ ASC;
+    </select>
+
+    <update id="updateZoffl" parameterType="yj.core.zwipq.dto.Zwipq">
+        update zwipq set ZOFFL = #{zoffl},
+                         LAST_UPDATED_DATE = #{lastUpdatedDate},
+                         LAST_UPDATED_BY = #{lastUpdatedBy}
+                         <where>
+                             ZSXJLH = #{zsxjlh}
+                         </where>
+    </update>
+
+    <select id="selectByZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zwipq
+        <where>
+            ZXHBAR = #{zxhbar}
+        </where>
+    </select>
+
+    <select id="selectByLineIdAndZxhbarAndZOFFL" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from  zwipq
+        <where>
+            LINE_ID = #{line_id}
+            and ZXHBAR = #{zxhbar}
+            and ( ZOFFL = #{zoffl} OR ZZXKL = 1 OR ZQJKL = 1 OR STATUS = 1 OR ZREMADE = 1 )
+        </where>
+    </select>
+
+    <select id="selectByJjzpgdbar" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from zwipq
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            or  ZPGDBAR1 = #{zpgdbar}
+        </where>
+    </select>
+
+    <select id="getlastsumbit" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT  LINE_ID,ZXHBAR,CREATION_DATE FROM zwipq
+        <where>
+            line_id = #{line_id}
+            and zxhbar = #{zxhbar}
+        </where>
+        order by CREATION_DATE desc
+    </select>
+
+    <select id="selectSumzsxnum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  zwipq
+        <where>
+            ZXHBAR = #{zxhbar}
+        </where>
+    </select>
+</mapper>

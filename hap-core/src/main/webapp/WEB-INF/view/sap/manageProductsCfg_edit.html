@@ -1,0 +1,407 @@
+<#--
+        机加产线产品配置维护新增修改框 918100064
+ -->
+<#include "../include/header.html">
+<body>
+<script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var isedit = location.search.substring(1);
+    var newViewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        save: function(e){
+            var data= newViewModel.model.toJSON();
+            //转换启用状态
+            data.enabledFlag = data.enabledFlag?'Y':'N';
+            var validator = $("#mainform").data("kendoValidator");
+            if(newViewModel.model.pmatnr==''||newViewModel.model.pmatnr==null){
+                kendo.ui.showInfoDialog({
+                    message:'产品编码不能为空'
+                })
+            }else if(newViewModel.model.lineId ==''||newViewModel.model.lineId==null){
+                kendo.ui.showInfoDialog({
+                    message:'产线ID不能为空'
+                })
+            }else if(newViewModel.model.matnr ==''||newViewModel.model.matnr==null){
+                kendo.ui.showInfoDialog({
+                    message:'BOM组件不能为空'
+                })
+            }else if(newViewModel.model.lgort ==''||newViewModel.model.lgort==null){
+                kendo.ui.showInfoDialog({
+                    message:'压铸物料线边库不能为空'
+                })
+            }else if(newViewModel.model.lgortassy ==''||newViewModel.model.lgortassy==null){
+                kendo.ui.showInfoDialog({
+                    message:'装配件库不能为空'
+                })
+            }else if(newViewModel.model.lgortrew ==''||newViewModel.model.lgortrew==null){
+                kendo.ui.showInfoDialog({
+                    message:'返修库不能为空'
+                })
+            }else if(newViewModel.model.kunnr ==''||newViewModel.model.kunnr==null){
+                kendo.ui.showInfoDialog({
+                    message:'客户编码不能为空'
+                })
+            }else if(newViewModel.model.sxmin ==''||newViewModel.model.sxmin==null){
+                kendo.ui.showInfoDialog({
+                    message:'最小上线批量不能为空'
+                })
+            }else if(newViewModel.model.sxmax ==''||newViewModel.model.sxmax==null){
+                kendo.ui.showInfoDialog({
+                    message:'最大上线批量不能为空'
+                })
+            }else if(newViewModel.model.sxmax < 0){
+                kendo.ui.showInfoDialog({
+                    message:'最大上线批量必须输入正整数'
+                });
+            }else if(newViewModel.model.sxmin < 0){
+                kendo.ui.showInfoDialog({
+                    message:'最小上线批量必须输入正整数'
+                });
+            }else if(newViewModel.model.spostCarton < 0){
+                kendo.ui.showInfoDialog({
+                    message:'客户物料在客户托条码起始位置请输入正整数'
+                });
+            }else if(newViewModel.model.epostCarton < 0){
+                kendo.ui.showInfoDialog({
+                    message:'客户物料在客户托条码结束位置请输入正整数'
+                });
+            }else if(newViewModel.model.spostBox < 0){
+                kendo.ui.showInfoDialog({
+                    message:'客户物料在客户箱条码起始位置请输入正整数'
+                });
+            }else if(newViewModel.model.epostBox < 0){
+                kendo.ui.showInfoDialog({
+                    message:'客户物料在客户箱条码结束位置请输入正整数'
+                });
+            }else{
+                var BaseUrl = _basePath;
+                $.ajax({
+                    type   : 'POST',
+                    url    : BaseUrl + "/wip/products/cfg/submitProductsCfg",
+                    dataType : "json",
+                    contentType : "application/json",
+                    data   : kendo.stringify([data]),
+                    success: function (data) {
+                        if(data.success==false){
+                            kendo.ui.showErrorDialog({
+                                message:data.message
+                            });
+                        }
+                        else{
+                            window.parent.$("#newWin").data("kendoWindow").close();
+                        }
+                    }
+                });
+            }
+        },
+        closeWin: function(e){
+            window.parent.$("#newWin").data("kendoWindow").close();
+        }
+    });
+</script>
+<div id="page-content" style="width:870px;margin-top: 5px;">
+    <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+        <form id="mainform"  class="form-horizontal" method="post" enctype="application/json;charset=UTF-8">
+        <div class="row" style="margin-left: 5px;">
+            <div class="form-group">
+                <div class="col-sm-11" style="float: left;">
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">工厂</label>
+                            <div class="col-sm-8">
+                                <input type="text" value="1001" style="width: 100%" readonly="true" id="werks" class="k-textbox">
+                                <span data-for="werks" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">产线ID</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="lineId" name="lineId" data-bind="value:model.lineId,text:model.lineId" class="k-textbox">
+                                <span data-for="lineId" class=".k-invalid-msg"></span>
+                                <script>
+                                    if(isedit == 0){
+                                        $("#lineId").kendoLov($.extend(<@lov "LOV_LINE"/>,
+                                            {
+                                                model: {},
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                },
+                                                change: function (options) {
+                                                    newViewModel.model.set("descriptions",options.sender._dataItem.descriptions);
+                                                },
+                                                dataTextField:'lineId'
+                                            }));
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">产线描述</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="width:100%" name="descriptions" data-bind="value:model.descriptions" class="k-textbox" readonly="readonly">
+                                <span data-for="descriptions" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">产品编码</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="pmatnr" name="pmatnr" data-bind="value:model.pmatnr,text:model.pmatnr" class="k-textbox">
+                                <span data-for="pmatnr" class=".k-invalid-msg"></span>
+                                <script>
+                                    if(isedit == 0){
+                                        $("#pmatnr").kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                                            {
+                                                model: {},
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                },
+                                                change: function (options) {
+                                                    newViewModel.model.set("maktx",options.sender._dataItem.maktx);
+                                                },
+                                                dataTextField:'pmatnr'
+                                            }));
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">物料描述</label>
+                            <div class="col-sm-8">
+                                <input type="text" style="width:100%" name="maktx" data-bind="value:model.maktx" class="k-textbox" readonly="readonly">
+                                <span data-for="maktx" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">BOM组件</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="matnr" name="matnr" data-bind="value:model.matnr,text:model.matnr" class="k-textbox">
+                                <span data-for="matnr" class=".k-invalid-msg"></span>
+                                <script>
+                                    if(isedit != 2){
+                                        $("#matnr").kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                                            {
+                                                model: {},
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                },
+                                                change: function (options) {
+                                                    newViewModel.model.set("maktx2",options.sender._dataItem.maktx);
+                                                },
+                                                dataTextField:'matnr'
+                                            }));
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">物料描述</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="maktx2" data-bind="value:model.maktx2" class="k-textbox" readonly="readonly">
+                                <span data-for="maktx2" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">压铸物料线边库</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="lgort" data-bind="value:model.lgort" class="k-textbox">
+                                <span data-for="lgort" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">装配件库</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="lgortassy" data-bind="value:model.lgortassy" class="k-textbox">
+                                <span data-for="lgortassy" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">返修库</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="lgortrew" data-bind="value:model.lgortrew" class="k-textbox">
+                                <span data-for="lgortrew" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户编码</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" type="text" id="kunnr" name="matnr" data-bind="value:model.kunnr,text:model.kunnr" class="k-textbox">
+                                <span data-for="kunnr" class=".k-invalid-msg"></span>
+                                <script>
+                                    if(isedit !=2){
+                                        $("#kunnr").kendoLov($.extend(<@lov "LOV_CUST"/>,
+                                            {
+                                                model: {},
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                },
+                                                change: function (options) {
+                                                    newViewModel.model.set("name1",options.sender._dataItem.name1);
+                                                },
+                                                dataTextField:'kunnr'
+                                            }));
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户名称</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="name1" data-bind="value:model.name1" class="k-textbox" readonly="readonly">
+                                <span data-for="name1" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户物料</label>
+                            <div class="col-sm-8">
+                                <input style="width:100%" name="custmantr" data-bind="value:model.custmantr" class="k-textbox">
+                                <span data-for="custmantr" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">绑定客户托条码</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" data-bind="checked:custbarcodeynCarton,value:model.custbarcodeynCarton" class="t-textbox"
+                                       data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                <span data-for="custbarcodeynCarton" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户物料在客户托条码起始位置</label>
+                            <div class="col-sm-8">
+                                <input type="number" style="width:100%" name="spostCarton" data-bind="value:model.spostCarton" class="k-textbox">
+                                <span data-for="spostCarton" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户物料在客户托条码结束位置</label>
+                            <div class="col-sm-8">
+                                <input type="number" style="width:100%" name="epostCarton" data-bind="value:model.epostCarton" class="k-textbox">
+                                <span data-for="epostCarton" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">绑定客户箱条码</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" data-bind="checked:custbarcodeynBox,value:model.custbarcodeynBox" class="t-textbox"
+                                       data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                <span data-for="custbarcodeynBox" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户物料在客户箱条码起始位置</label>
+                            <div class="col-sm-8">
+                                <input type="number" style="width:100%" name="spostBox" data-bind="value:model.spostBox" class="k-textbox">
+                                <span data-for="spostBox" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">客户物料在客户箱条码结束位置</label>
+                            <div class="col-sm-8">
+                                <input type="number" style="width:100%" name="epostBox" data-bind="value:model.epostBox" class="k-textbox">
+                                <span data-for="epostBox" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">最小上线批量</label>
+                            <div class="col-sm-8">
+                                <input type="number" style="width:100%" name="sxmin" data-bind="value:model.sxmin" class="k-textbox">
+                                <span data-for="sxmin" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6">
+                            <label class="col-sm-4 control-label">最大上线批量</label>
+                            <div class="col-sm-8">
+                                <input type="number" style="width:100%" name="sxmax" data-bind="value:model.sxmax" class="k-textbox">
+                                <span data-for="sxmax" class=".k-invalid-msg"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    <br/>
+    <div id="mainBottom" class="text-right" style="bottom: 15px;position: fixed;  float: left;padding-top:15px;border-top:1px solid #ebebeb;width:100%; background: #fff;">
+        <span class="btn btn-primary" data-bind="click:save" type="submit" style="margin-right:5px"><@spring.message "hap.save"/></span>
+        <span class="btn btn-default" data-bind="click:closeWin" type="button" style="margin-right:25px;"><@spring.message "hap.cancel"/></span>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content'),newViewModel);
+    if(isedit !=0){
+        var checked = window.parent.$('#Grid').data('kendoGrid').selectedDataItems()[0];
+        newViewModel.model.set("lineId",checked.lineId);
+        newViewModel.model.set("descriptions",checked.descriptions);
+        newViewModel.model.set("pmatnr",checked.pmatnr);
+        newViewModel.model.set("maktx",checked.maktx);
+        newViewModel.model.set("matnr",checked.matnr2);
+        newViewModel.model.set("maktx2",checked.maktx2);
+        newViewModel.model.set("lgort",checked.lgort);
+        newViewModel.model.set("lgortassy",checked.lgortassy);
+        newViewModel.model.set("lgortrew",checked.lgortrew);
+        newViewModel.model.set("kunnr",checked.kunnr1);
+        newViewModel.model.set("name1",checked.name1);
+        newViewModel.model.set("custmantr",checked.custmantr);
+        if("1" == checked.custbarcodeynCarton){
+            newViewModel.model.set("custbarcodeynCarton","Y");
+        }else{
+            newViewModel.model.set("custbarcodeynCarton","N");
+        }
+        newViewModel.model.set("spostCarton",checked.spostCarton);
+        newViewModel.model.set("epostCarton",checked.epostCarton);
+        if("1" == checked.custbarcodeynBox){
+            newViewModel.model.set("custbarcodeynBox","Y");
+        }else{
+            newViewModel.model.set("custbarcodeynBox","N");
+        }
+        newViewModel.model.set("spostBox",checked.spostBox);
+        newViewModel.model.set("epostBox",checked.epostBox);
+        newViewModel.model.set("sxmin",checked.sxmin);
+        newViewModel.model.set("sxmax",checked.sxmax);
+        $("#lineId").attr("readOnly",true);
+        $("#pmatnr").attr('readOnly',true);
+        if(isedit ==2){
+            if(isedit == 2){
+                $(":input").attr("readOnly",true);
+                $("#mainBottom").hide();
+            }
+        }
+    }
+</script>
+</body>
+</html>

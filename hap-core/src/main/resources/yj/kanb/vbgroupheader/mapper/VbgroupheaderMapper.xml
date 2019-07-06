@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.vbgroupheader.mapper.VbgroupheaderMapper">
+<resultMap id="BaseResultMap" type="yj.kanb.vbgroupheader.dto.Vbgroupheader">
+    <result column="bukrs" property="bukrs" jdbcType="VARCHAR"/>
+    <result column="werks" property="werks" jdbcType="VARCHAR"/>
+    <result column="vbgroupId" property="vbgroupId" jdbcType="VARCHAR"/>
+    <result column="eqId" property="eqId" jdbcType="VARCHAR"/>
+    <result column="mac" property="mac" jdbcType="VARCHAR"/>
+    <result column="vbgroupName" property="vbgroupName" jdbcType="VARCHAR"/>
+    <result column="vbgroupNameEn" property="vbgroupNameEn" jdbcType="VARCHAR"/>
+    <result column="switchfreg" property="switchfreg" jdbcType="DECIMAL"/>
+    <result column="status" property="status" jdbcType="VARCHAR"/>
+    <result column="kunnr" property="kunnr" jdbcType="VARCHAR"/>
+</resultMap>
+
+    <select id="queryGroupH" parameterType="yj.kanb.vbgroupheader.dto.Vbgroupheader" resultMap="BaseResultMap">
+        select * from vb_group_h
+        <where>
+            1 = 1
+            <if test="bukrs != null">
+                AND bukrs = #{bukrs}
+            </if>
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertVbGroupH" parameterType="yj.kanb.vbgroupheader.dto.Vbgroupheader">
+        insert into vb_group_h(vbgroupId,bukrs,werks,eqId,mac,vbgroupName,vbgroupNameEn,switchfreg,status,created_by,creation_date)
+        values(#{vbgroupId},#{bukrs},#{werks},#{eqId},#{mac},#{vbgroupName},#{vbgroupNameEn},#{switchfreg},#{status},#{createdBy},#{creationDate})
+    </insert>
+
+    <delete id="deleteGroupH" parameterType="yj.kanb.vbgroupheader.dto.Vbgroupheader">
+        delete from vb_group_h
+        <where>
+            eqId = #{eqId}
+        </where>
+    </delete>
+
+    <update id="updateVbGroupH" parameterType="yj.kanb.vbgroupheader.dto.Vbgroupheader">
+        update vb_group_h set vbgroupName = #{vbgroupName},vbgroupNameEn = #{vbgroupNameEn},
+        last_updated_by = #{lastUpdatedBy},last_update_date = #{lastUpdateDate}
+        <where>
+            eqId = #{eqId}
+        </where>
+    </update>
+</mapper>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SI_CREATP_Sender_Syn" targetNamespace="http://www.cq-yj.com/HAP/CREATP/Sender"
+                  xmlns:p1="http://www.cq-yj.com/HAP/CREATP/Sender"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:documentation/>
+    <wsp:UsingPolicy wsdl:required="true"/>
+    <wsp:Policy wsu:Id="OP_SI_CREATP_Sender_Syn"/>
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://www.cq-yj.com/HAP/CREATP/Sender"
+                    xmlns="http://www.cq-yj.com/HAP/CREATP/Sender" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="MT_CREATP_Req" type="DT_CREATP_Req"/>
+            <xsd:element name="MT_CREATP_Res" type="DT_CREATP_Res"/>
+            <xsd:complexType name="DT_CREATP_Req">
+                <xsd:annotation>
+                    <xsd:appinfo source="http://sap.com/xi/VersionID">526a03bdc38c11e89d7d0000002ad1ea</xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="ITEM">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">67616569bc9f11e89f6e4ccc6a9ffd24
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="WERKS" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            67616565bc9f11e88bae4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>工厂</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="DATUM" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            67616566bc9f11e8caa34ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>托盘日期</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MATNR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            67616567bc9f11e882c74ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>物料号</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZMNUM" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            f37510b0c38b11e8ace14ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>模号</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZTXT2" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            f37510b1c38b11e8a4654ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>托盘备注</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="MENGE" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            f37510b2c38b11e8c16f4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>数量</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZTPBAR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            f37510b3c38b11e8828a4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>托盘条码</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZBQBD" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            f37510b4c38b11e88bfb4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>标志（X）</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DT_CREATP_Res">
+                <xsd:annotation>
+                    <xsd:appinfo source="http://sap.com/xi/VersionID">425ff97abca011e894170000002ad1ea</xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="RETURN">
+                        <xsd:annotation>
+                            <xsd:appinfo source="http://sap.com/xi/TextID">efc0d541bc9f11e885c54ccc6a9ffd24
+                            </xsd:appinfo>
+                        </xsd:annotation>
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="ZFLAG" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            e3aa7f5dbc9f11e8b09e4ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>成功/失败标志</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZMESSAGE" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            e3aa7f5ebc9f11e8c6e34ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>SAP返回消息</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                                <xsd:element name="ZTPBAR" type="xsd:string">
+                                    <xsd:annotation>
+                                        <xsd:appinfo source="http://sap.com/xi/TextID">
+                                            e3aa7f5fbc9f11e8b2a04ccc6a9ffd24
+                                        </xsd:appinfo>
+                                        <xsd:documentation>托盘条码</xsd:documentation>
+                                    </xsd:annotation>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="MT_CREATP_Req">
+        <wsdl:documentation/>
+        <wsdl:part name="MT_CREATP_Req" element="p1:MT_CREATP_Req"/>
+    </wsdl:message>
+    <wsdl:message name="MT_CREATP_Res">
+        <wsdl:documentation/>
+        <wsdl:part name="MT_CREATP_Res" element="p1:MT_CREATP_Res"/>
+    </wsdl:message>
+    <wsdl:portType name="SI_CREATP_Sender_Syn">
+        <wsdl:documentation/>
+        <wsdl:operation name="SI_CREATP_Sender_Syn">
+            <wsdl:documentation/>
+            <wsp:Policy>
+                <wsp:PolicyReference URI="#OP_SI_CREATP_Sender_Syn"/>
+            </wsp:Policy>
+            <wsdl:input message="p1:MT_CREATP_Req"/>
+            <wsdl:output message="p1:MT_CREATP_Res"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="SI_CREATP_Sender_SynBinding" type="p1:SI_CREATP_Sender_Syn">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"
+                      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        <wsdl:operation name="SI_CREATP_Sender_Syn">
+            <soap:operation soapAction="http://sap.com/xi/WebService/soap1.1"
+                            xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            <wsdl:input>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="SI_CREATP_Sender_SynService">
+        <wsdl:port name="HTTP_Port" binding="p1:SI_CREATP_Sender_SynBinding">
+            <soap:address
+                    location="http://pidev1:50000/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_HAP_DEV&amp;receiverParty=&amp;receiverService=&amp;interface=SI_CREATP_Sender_Syn&amp;interfaceNamespace=http%3A%2F%2Fwww.cq-yj.com%2FHAP%2FCREATP%2FSender"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+        <wsdl:port name="HTTPS_Port" binding="p1:SI_CREATP_Sender_SynBinding">
+            <soap:address
+                    location="https://pidev1:50001/XISOAPAdapter/MessageServlet?senderParty=&amp;senderService=BS_HAP_DEV&amp;receiverParty=&amp;receiverService=&amp;interface=SI_CREATP_Sender_Syn&amp;interfaceNamespace=http%3A%2F%2Fwww.cq-yj.com%2FHAP%2FCREATP%2FSender"
+                    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

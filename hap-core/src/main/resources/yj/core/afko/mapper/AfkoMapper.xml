@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.afko.mapper.AfkoMapper">
+    <resultMap id="BaseResultMap" type="yj.core.afko.dto.Afko">
+        <result column="MANDT" property="mandt" jdbcType="VARCHAR"/>
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR"/>
+        <result column="POSNR" property="posnr" jdbcType="VARCHAR"/>
+        <result column="BUKRS" property="bukrs" jdbcType="VARCHAR"/>
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="GLTRP" property="gltrp" jdbcType="VARCHAR"/>
+        <result column="GSTRP" property="gstrp" jdbcType="VARCHAR"/>
+        <result column="CHARG" property="charg" jdbcType="VARCHAR"/>
+        <result column="AUART" property="auart" jdbcType="VARCHAR"/>
+        <result column="AUART_TXT" property="auart_txt" jdbcType="VARCHAR"/>
+        <result column="FEVOR" property="fevor" jdbcType="VARCHAR"/>
+        <result column="TXT" property="txt" jdbcType="VARCHAR"/>
+        <result column="DISPO" property="dispo" jdbcType="VARCHAR"/>
+        <result column="AUFPL" property="aufpl" jdbcType="VARCHAR"/>
+        <result column="PLNBEZ" property="plnbez" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+        <result column="GAMNG" property="gamng" jdbcType="DECIMAL"/>
+        <result column="GASMG" property="gasmg" jdbcType="DECIMAL"/>
+        <result column="IGMNG" property="igmng" jdbcType="DECIMAL"/>
+        <result column="UMREZ" property="umrez" jdbcType="DECIMAL"/>
+        <result column="GROES" property="groes" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="RSNUM" property="rsnum" jdbcType="VARCHAR"/>
+        <result column="FLGRG" property="flgrg" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="yj.core.afko.dto.Afko">
+        <result column="MANDT" property="mandt" jdbcType="VARCHAR"/>
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR"/>
+        <result column="POSNR" property="posnr" jdbcType="VARCHAR"/>
+        <result column="BUKRS" property="bukrs" jdbcType="VARCHAR"/>
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="GLTRP" property="gltrp" jdbcType="VARCHAR"/>
+        <result column="GSTRP" property="gstrp" jdbcType="VARCHAR"/>
+        <result column="CHARG" property="charg" jdbcType="VARCHAR"/>
+        <result column="AUART" property="auart" jdbcType="VARCHAR"/>
+        <result column="AUART_TXT" property="auart_txt" jdbcType="VARCHAR"/>
+        <result column="FEVOR" property="fevor" jdbcType="VARCHAR"/>
+        <result column="TXT" property="txt" jdbcType="VARCHAR"/>
+        <result column="DISPO" property="dispo" jdbcType="VARCHAR"/>
+        <result column="DSNAM" property="dsnam" jdbcType="VARCHAR"/>
+        <result column="AUFPL" property="aufpl" jdbcType="VARCHAR"/>
+        <result column="PLNBEZ" property="plnbez" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+        <result column="GAMNG" property="gamng" jdbcType="DECIMAL"/>
+        <result column="GASMG" property="gasmg" jdbcType="DECIMAL"/>
+        <result column="IGMNG" property="igmng" jdbcType="DECIMAL"/>
+        <result column="UMREZ" property="umrez" jdbcType="DECIMAL"/>
+        <result column="GROES" property="groes" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="RSNUM" property="status" jdbcType="VARCHAR"/>
+        <result column="QMATNR" property="qmatnr" jdbcType="VARCHAR"/>
+        <result column="QAUFNR" property="qaufnr" jdbcType="VARCHAR"/>
+        <result column="QGAMNG" property="qgamng" jdbcType="VARCHAR"/>
+        <result column="QDAUAT" property="qdauat" jdbcType="VARCHAR"/>
+        <result column="YVERID" property="yverid" jdbcType="VARCHAR"/>
+        <result column="YGSTRP" property="ygstrp" jdbcType="VARCHAR"/>
+        <result column="YGLTRP" property="ygltrp" jdbcType="VARCHAR"/>
+        <result column="FLGRG" property="flgrg" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectByPlnbez" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT plnbez,maktx from sap_afko
+        <where>
+            <if test="plnbez != null">
+                plnbez = #{plnbez}
+            </if>
+        </where>
+        order by plnbez ASC
+    </select>
+
+    <!--<select id="selectByFevor" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT ao.aufnr from sap_afko ao,sap_afvc ac
+        <where>
+            ao.aufpl = ac.aufpl
+            and (ac.flag = '' or ac.flag is null)
+            AND ac.vornr = "0010"
+            AND ao.auart in('YZ01','YZ03','YZ04')
+            <if test="fevor != null">
+                AND ao.fevor = #{fevor}
+            </if>
+            <if test="arbpl != null">
+                AND ac.arbpl = #{arbpl}
+            </if>
+        </where>
+    </select>-->
+
+    <select id="selectFromFevor" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select distinct fevor,txt from sap_afko
+        <where>
+            fevor like "4%"
+            <if test="fevor != null">
+                AND fevor = #{fevor}
+            </if>
+        </where>
+        order by fevor desc
+    </select>
+    
+    <select id="selectReturnNum" resultType="java.lang.Integer">
+        select count(*)
+        from sap_afko
+        <where>
+            MANDT = #{mandt}
+            and AUFNR = #{aufnr}
+            and POSNR = #{posnr}
+            and BUKRS = #{bukrs}
+            and WERKS = #{werks}
+        </where>
+    </select>
+
+    <select id="selectYaZu" resultMap="BaseResultMap2" parameterType="yj.core.afko.dto.Afko">
+        select  af.AUFNR,
+                af.POSNR,
+                af.BUKRS,
+                af.WERKS,
+                af.GLTRP,
+                af.GSTRP,
+                af.CHARG,
+                af.AUART,
+                af.AUART_TXT,
+                af.FEVOR,
+                af.FEVOR,
+                af.TXT,
+                af.DISPO,
+                af.AUFPL,
+                af.PLNBEZ,
+                af.MAKTX,
+                af.GMEIN,
+                af.GAMNG,
+                af.GASMG,
+                af.IGMNG,
+                af.UMREZ,
+                af.GROES,
+                af.STATUS,
+                af.RSNUM,
+                af.DSNAM,
+                mc.FLGRG
+        FROM  sap_afko af,sap_marc mc
+        <where>
+            af.PLNBEZ = mc.MATNR
+            AND AUART like 'YZ%'
+            <if test="werks != null">
+                AND af.WERKS = #{werks}
+            </if>
+            <if test="aufnr != null">
+                AND AUFNR = #{aufnr}
+            </if>
+            <if test="plnbez != null">
+                AND PLNBEZ = #{plnbez}
+            </if>
+            <if test="bukrs != null">
+                AND BUKRS = #{bukrs}
+            </if>
+            <if test="gstrp != null">
+                AND GSTRP = #{gstrp}
+            </if>
+            <if test="gltrp != null">
+                AND GLTRP = #{gltrp}
+            </if>
+            <if test="dispo != null">
+                AND DISPO = #{dispo}
+            </if>
+            <if test="fevor != null">
+                AND FEVOR = #{fevor}
+            </if>
+            <if test="auart != null">
+                and AUART = #{auart}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectJija" resultMap="BaseResultMap2" parameterType="yj.core.afko.dto.Afko">
+        select  af.AUFNR,
+                af.POSNR,
+                af.BUKRS,
+                af.WERKS,
+                af.GLTRP,
+                af.GSTRP,
+                af.CHARG,
+                af.AUART,
+                af.AUART_TXT,
+                af.FEVOR,
+                af.FEVOR,
+                af.TXT,
+                af.DISPO,
+                af.AUFPL,
+                af.PLNBEZ,
+                af.MAKTX,
+                af.GMEIN,
+                af.GAMNG,
+                af.GASMG,
+                af.IGMNG,
+                af.UMREZ,
+                af.GROES,
+                af.STATUS,
+                af.RSNUM,
+                af.DSNAM,
+                mc.FLGRG
+        FROM  sap_afko af,sap_marc mc
+        <where>
+            af.PLNBEZ = mc.MATNR
+            AND AUART like 'QP%'
+            <if test="werks != null">
+                AND af.WERKS = #{werks}
+            </if>
+            <if test="aufnr != null">
+                AND AUFNR = #{aufnr}
+            </if>
+            <if test="plnbez != null">
+                AND PLNBEZ = #{plnbez}
+            </if>
+            <if test="bukrs != null">
+                AND BUKRS = #{bukrs}
+            </if>
+            <if test="gstrp != null">
+                AND GSTRP = #{gstrp}
+            </if>
+            <if test="gltrp != null">
+                AND GLTRP = #{gltrp}
+            </if>
+            <if test="auart != null">
+                AND AUART = #{auart}
+            </if>
+            <if test="dispo != null">
+                AND DISPO = #{dispo}
+            </if>
+            <if test="fevor != null">
+                AND FEVOR = #{fevor}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectZuhe" resultMap="BaseResultMap2" parameterType="yj.core.afko.dto.Afko">
+        select l1.AUFNR,
+               l1.POSNR,
+               l1.BUKRS,
+               l1.WERKS,
+               l1.GLTRP,
+               l1.GSTRP,
+               l1.CHARG,
+               l1.AUART,
+               l1.AUART_TXT,
+               l1.FEVOR,
+               l1.TXT,
+               l1.DISPO,
+               l1.AUFPL,
+               l1.PLNBEZ,
+               l1.MAKTX,
+               l1.GMEIN,
+               l1.GAMNG,
+               l1.GASMG,
+               l1.IGMNG,
+               l1.UMREZ,
+               l1.GROES,
+               l1.STATUS,
+               l2.QMATNR,
+               l2.QAUFNR,
+               l2.QGAMNG,
+               l2.QDAUAT,
+               l3.FLGRG
+               from sap_afko l1,sap_ztpp0023 l2,sap_marc l3
+               <where>
+                   l1.AUFNR = L2.YAUFNR
+                   AND l1.AUART = L2.YDAUAT
+                   AND L1.PLNBEZ = L3.MATNR
+                   <if test="werks != null">
+                       AND l1.WERKS = #{werks}
+                   </if>
+                   <if test="aufnr != null">
+                       AND l1.AUFNR = #{aufnr}
+                   </if>
+                   <if test="plnbez != null">
+                       AND l1.PLNBEZ = #{plnbez}
+                   </if>
+                   <if test="bukrs != null">
+                       AND l1.BUKRS = #{bukrs}
+                   </if>
+                   <if test="gstrp != null">
+                       AND l1.GSTRP = #{gstrp}
+                   </if>
+                   <if test="gltrp != null">
+                       AND l1.GLTRP = #{gltrp}
+                   </if>
+                   <if test="auart != null">
+                       AND l1.ARART = #{auart}
+                   </if>
+                   <if test="dispo != null">
+                       AND l1.DISPO = #{dispo}
+                   </if>
+                   <if test="fevor != null">
+                       AND l1.FEVOR = #{fevor}
+                   </if>
+               </where>
+    </select>
+
+    <insert id="insertSync" parameterType="yj.core.afko.dto.Afko">
+        INSERT INTO sap_afko(MANDT,AUFNR,POSNR,BUKRS,WERKS,GLTRP,GSTRP,CHARG,AUART,AUART_TXT,FEVOR,TXT,DISPO,DSNAM,AUFPL,PLNBEZ,MAKTX,GMEIN,GAMNG,GASMG,IGMNG,UMREZ,GROES,STATUS,RSNUM)VALUES (
+        #{mandt},#{aufnr},#{posnr},#{bukrs},#{werks},#{gltrp},#{gstrp},#{charg},#{auart},#{auart_txt},#{fevor},#{txt},#{dispo},#{dsnam},#{aufpl},#{plnbez},#{maktx},#{gmein},#{gamng},
+        #{gasmg},#{igmng},#{umrez},#{groes},#{status},#{rsnum})
+    </insert>
+
+    <update id="updateSync" parameterType="yj.core.afko.dto.Afko">
+        UPDATE sap_afko SET GLTRP = #{gltrp},
+                            GSTRP = #{gstrp},
+                            CHARG = #{charg},
+                            AUART = #{auart},
+                            AUART_TXT = #{auart_txt},
+                            FEVOR = #{fevor},
+                            TXT= #{txt},
+                            DISPO = #{dispo},
+                            DSNAM = #{dsnam},
+                            AUFPL = #{aufpl},
+                            PLNBEZ = #{plnbez},
+                            MAKTX = #{maktx},
+                            GMEIN = #{gmein},
+                            GAMNG = #{gamng},
+                            GASMG = #{gasmg},
+                            IGMNG = #{igmng},
+                            UMREZ = #{umrez},
+                            GROES = #{groes},
+                            STATUS = #{status},
+                            RSNUM = #{rsnum}
+                             <where>
+                              AUFNR = #{aufnr}
+                              AND POSNR = #{posnr}
+                              AND BUKRS = #{bukrs}
+                              AND  WERKS = #{werks}
+                              </where>
+    </update>
+
+    <select id="selectByAufnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  sap_afko
+                 <where>
+                     AUFNR = #{aufnr}
+                 </where>
+    </select>
+
+
+</mapper>

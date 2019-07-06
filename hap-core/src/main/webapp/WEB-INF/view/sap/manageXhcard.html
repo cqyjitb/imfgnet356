@@ -1,0 +1,438 @@
+<!--
+    箱号管理
+-->
+<#include "../include/header.html" >
+    <style>
+        span[class='k-window-title'] {
+            user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .action_ok {
+            color: #5fb760;
+        }
+
+        .action_dangerous {
+            color: #eeac5f;
+        }
+
+
+
+    </style>
+    <script type="text/javascript">
+        /*   $(function(){
+         setInterval(function(){
+         $.ajax({
+         url: '${base.contextPath}/test/form',
+         async: false,
+         success: function(data) {
+         document.getElementById('s').innerHTML=JSON.stringify(data.rows[0]);
+         document.getElementById('e').innerHTML=JSON.stringify(data.rows[1]);
+
+         },
+         });
+         }, 1000);
+
+         });*/
+
+
+        //        function ajaxTest() {
+        //            $.ajax({
+        //                url: '${base.contextPath}/test/form',
+        //                async: false,
+        //                success: function (data) {
+        //                    document.getElementById('s').innerHTML = JSON.stringify(data.rows[0]);
+        //                    document.getElementById('e').innerHTML = JSON.stringify(data.rows[1]);
+        //
+        //                },
+        //            });
+        //        }
+
+        var viewModel = kendo.observable({
+            model: {},
+
+            resetForm: function () {
+                var formData = viewModel.model.toJSON();
+                for (var k in formData) {
+                    viewModel.model.set(k, null);
+                }
+                $('#Grid').data('kendoGrid').dataSource.read();
+            },
+            queryGrid: function (e) {
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+
+
+        });
+    </script>
+
+    <div id="content-container">
+        <div id="page-content">
+            <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+                <form class="form-horizontal" id="myForm">
+                    <div class="panel-body">
+                        <div id="test">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">物料编码</label>
+                                        <div class="col-sm-8">
+                                            <input id="querymatnr" class="k-textbox" data-bind="value:model.matnr"
+                                                   style="width: 100%">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">箱号条码</label>
+                                        <div class="col-sm-8">
+                                            <input id="queryxhbar" class="k-textbox" data-bind="value:model.zxhbar"
+                                                   style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">生产订单</label>
+                                        <div class="col-sm-8">
+                                            <input  id="queryaufnr" type="text" style="width: 100%" data-bind="value:model.aufnr" class="k-textbox">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">创建日期</label>
+                                        <div class="col-sm-8">
+                                            <input style="width: 100%" data-role="datepicker"
+                                                   data-bind="value:model.datestr" class="k-datepicker">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">库存地点</label>
+                                        <div class="col-sm-8">
+                                            <input id="querybc" class="k-textbox" data-bind="value:model.lgort"
+                                                   style="width: 100%">
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">模号</label>
+                                        <div class="col-sm-8">
+                                            <input id="querymh" class="k-textbox" data-bind="value:model.zmnum"
+                                                   style="width: 100%">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-right: -8px;">
+                            <!--<div class="pull-left" style="margin-right:15px;">-->
+                            <!--<div style="margin-top: 6px"><font size="3">-->
+                            <!--<div style="float: left">成功：</div>-->
+                            <!--<div id="s" style="float: left;">0</div>-->
+                            <!--<div style="float: left;margin-left: 20px">失败：</div>-->
+                            <!--<div style="float: left" id="e">0</div>-->
+                            <!--</font></div>-->
+                            <!--</div>-->
+                            <div class="pull-right" style="margin-right:15px">
+                                <span class="btn btn-primary" data-bind="click:queryGrid"
+                                      type="submit">
+                                <i class="fa fa-search" style="margin-right:3px;"></i>
+                            <@spring.message "hap.query"/></span>
+                                <span class="btn btn-default" type="button" data-bind="click:resetForm">
+                                <i class="fa fa-eraser" style="margin-right:3px;"></i>
+                            <@spring.message "hap.reset"/></span>
+                                <span class="btn btn-info" type="button" id="panel_hidden" onclick="test()">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_hidden"/></span>
+                                <span class="btn btn-info" type="button" id="panel_show" onclick="test()"
+                                      style="display: none">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_show"/></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <div style="clear:both">
+                <div id="Grid"></div>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        kendo.bind($('#page-content'), viewModel);
+        function test() {
+            var apply = $("#test");
+            var button_hidden = $("#panel_hidden");
+            var button_show = $("#panel_show");
+            if (apply.is(":hidden")) {
+                button_hidden.show();
+                button_show.hide();
+                apply.show();    //如果元素为隐藏,则将它显现
+            } else {
+                button_hidden.hide();
+                button_show.show();
+                apply.hide();     //如果元素为显现,则将其隐藏
+            }
+            Hap.autoResizeGrid("#Grid");
+
+        }
+        var BaseUrl = _basePath;
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: BaseUrl + "/sap/xhcard/queryAfterSort",
+                    type: "POST",
+                    dataType: "json"
+                },
+                parameterMap: function (options, type) {
+                    if (type !== "read" && options.models) {
+                        var datas = Hap.prepareSubmitParameter(options, type)
+
+                        return kendo.stringify(datas);
+                    } else if (type === "read") {
+                        return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                    }
+                }
+            },
+            batch: true,
+            serverPaging: true,
+            pageSize: 10,
+            schema: {
+                data: 'rows',
+                total: 'total',
+                model: {
+                    id: "id",
+                    fields: {
+                        zxhbar: {type: "string"},
+                        matnr: {type: "string"},
+                        aufnr: {type: "string"},
+                        lgort: {type: "string"},
+                        zscbc: {type:"string"},
+                        zmnum: {type:"string"}
+                    }
+                }
+            }
+        });
+
+        var gird = $("#Grid").kendoGrid({
+            dataSource: dataSource,
+            autoBind:false,
+            height: '100%',
+            resizable: true,
+            scrollable: true,
+            navigatable: false,
+            selectable: 'rowbox,multiple',
+            pageable: {
+                pageSizes: [20, 50, 100, 500, 1000, 2000, 5000, "all"],
+                refresh: true,
+                buttonCount: 10
+            },
+            toolbar: [{
+                name: "createTP",
+                template: '<span id="selectedBtn" class="btn btn-success">生成托盘条码</span>'
+            }],
+
+            columns:[
+                {
+                    field: "werks",
+                    title: '工厂',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "matnr",
+                    title: '物料编码',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "charg",
+                    title: '时间序列',
+                    width: 120,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zxhnum",
+                    title: '箱号',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zxhbar",
+                    title: '箱号条码',
+                    width: 200,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zxhzt",
+                    title: '箱号状态',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zxhzt2",
+                    title: '箱号上一状态',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "lgort",
+                    title: '库存地点',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "menge",
+                    title: '数量',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "meins",
+                    title: '单位',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zxhwz",
+                    title: '箱号位置',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "aufnr",
+                    title: '生产订单',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zjyy",
+                    title: '检验员',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zscbc",
+                    title: '生产班次',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zscx",
+                    title: '生产线',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zmnum",
+                    title: '模号',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zsctpm",
+                    title: '是否生产托码',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                }
+
+            ],
+            editable: false
+        });
+
+        Hap.autoResizeGrid("#Grid");
+    </script>
+    </body>
+    </html>

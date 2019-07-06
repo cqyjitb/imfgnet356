@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.batchpds.mapper.BatchpdlogsMapper">
+    <resultMap id="BaseResultMap" type="yj.core.batchpds.dto.Batchpdlogs">
+        <result column="zpgdbar" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="vornr" property="vornr" jdbcType="VARCHAR" />
+        <result column="matnr" property="matnr" jdbcType="VARCHAR" />
+        <result column="aufnr" property="aufnr" jdbcType="VARCHAR" />
+        <result column="wirteoffdate" property="wirteoffdate" jdbcType="DATE" />
+        <result column="wirteoffflag" property="wirteoffflag" jdbcType="VARCHAR" />
+        <result column="wirteoffmsg" property="wirteoffmsg" jdbcType="VARCHAR" />
+        <result column="postdate" property="postdate" jdbcType="DATE" />
+        <result column="postflag" property="postflag" jdbcType="VARCHAR" />
+        <result column="postmsg" property="postmsg" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="queryAll" resultMap="BaseResultMap" >
+        select * FROM  sap_batchpdlogs
+                 order by id DESC
+    </select>
+</mapper>

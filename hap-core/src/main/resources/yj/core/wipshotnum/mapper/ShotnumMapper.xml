@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipshotnum.mapper.ShotnumMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipshotnum.dto.Shotnum">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="PRD_DATE" property="prdDate" jdbcType="DATE"/>
+        <result column="SHIFTS" property="shifts" jdbcType="VARCHAR"/>
+        <result column="CRDAT" property="crdat" jdbcType="DATE"/>
+        <result column="CLASS" property="sClass" jdbcType="VARCHAR"/>
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR"/>
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="MDNO" property="mdno" jdbcType="VARCHAR" />
+        <result column="SHOT_START" property="shotStart" jdbcType="DECIMAL"/>
+        <result column="SHOT_END" property="shotEnd" jdbcType="DECIMAL"/>
+        <result column="CRNAM" property="crnam" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR" />
+        <result column="FEVOR" property="fevor" jdbcType="VARCHAR"/>
+        <result column="TXT" property="txt" jdbcType="VARCHAR"/>
+        <result column="PLNBEZ" property="plnbez" jdbcType="VARCHAR"/>
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.wipshotnum.dto.Shotnum">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="VERAN" property="veran" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="PRD_DATE" property="prdDate" jdbcType="DATE"/>
+        <result column="SHIFTS" property="shifts" jdbcType="VARCHAR"/>
+        <result column="CRDAT" property="crdat" jdbcType="DATE"/>
+        <result column="CLASS" property="sClass" jdbcType="VARCHAR"/>
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR"/>
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="MDNO" property="mdno" jdbcType="VARCHAR" />
+        <result column="MDNUM" property="mdnum" jdbcType="DECIMAL"/>
+        <result column="SHOT_START" property="shotStart" jdbcType="DECIMAL"/>
+        <result column="SHOT_END" property="shotEnd" jdbcType="DECIMAL"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByPrdDate" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select sh.*,fe.fevor,fe.txt,sh.class as sClass,fe.shift_seq as shiftSeq
+        from wip_shotnum sh,sap_fevor fe,sap_crhd cr
+        <where>
+            sh.arbpl = cr.arbpl
+            AND cr.veran = fe.fevor
+            AND fe.fevor like '4%'
+            <if test="werks != null">
+                AND sh.werks = #{werks}
+            </if>
+            <if test="fevor != null">
+                AND fe.fevor = #{fevor}
+            </if>
+            <if test="arbpl != null">
+                AND sh.arbpl = #{arbpl}
+            </if>
+            <if test="prdDateAfter != null">
+                AND  sh.prd_date >= #{prdDateAfter}
+            </if>
+            <if test="prdDateBefore != null">
+                AND #{prdDateBefore} >= sh.prd_date
+            </if>
+        </where>
+        order by fe.fevor asc,sh.prd_date asc,sh.shifts asc,sh.arbpl asc
+    </select>
+
+    <select id="queryShotnum" parameterType="yj.core.wipshotnum.dto.Shotnum" resultMap="BaseResultMap2">
+        select DISTINCT sh.*,cr.veran,u.user_name from wip_shotnum sh
+        left join  sap_crhd cr on sh.arbpl = cr.arbpl
+        left join sys_user u on sh.created_by = u.user_id
+        <where>
+            1 = 1
+            /*AND sh.matnr = mo.matnr
+            AND sh.mdno = mo.mdno*/
+            <if test="werks != null">
+                AND sh.werks = #{werks}
+            </if>
+            <if test="veran != null">
+                AND cr.veran = #{veran}
+            </if>
+            <if test="arbpl != null">
+                AND sh.arbpl = #{arbpl}
+            </if>
+            <if test="prdDate != null">
+                AND sh.prd_date = #{prdDate}
+            </if>
+            <if test="shifts != null">
+                AND sh.shifts = #{shifts}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateShotnum" parameterType="yj.core.wipshotnum.dto.Shotnum">
+        update wip_shotnum set WERKS = #{werks},ARBPL = #{arbpl}, MDNO = #{mdno},PRD_DATE = #{prdDate},SHIFTS = #{shifts},CRDAT = #{crdat},SHOT_START = #{shotStart},SHOT_END = #{shotEnd},
+        LAST_UPDATE_DATE = #{lastUpdateDate},LAST_UPDATED_BY = #{lastUpdatedBy}
+        <where>
+            WERKS = #{werks}
+            and ARBPL = #{arbpl}
+            and PRD_DATE = #{prdDate}
+            and SHIFTS = #{shifts}
+            and CRDAT = #{crdat}
+        </where>
+    </update>
+
+    <delete id="deleteShotnum" parameterType="yj.core.wipshotnum.dto.Shotnum">
+        delete from wip_shotnum
+        <where>
+            WERKS = #{werks}
+            and ARBPL = #{arbpl}
+            and PRD_DATE = #{prdDate}
+            and SHIFTS = #{shifts}
+            and CRDAT = #{crdat}
+        </where>
+    </delete>
+
+    <select id="selectShotnum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select sh.*,fe.fevor,fe.txt,sh.class as sClass,fe.shift_seq as shiftSeq
+        from wip_shotnum sh,sap_fevor fe,sap_crhd cr
+        <where>
+            sh.arbpl = cr.arbpl
+            AND cr.veran = fe.fevor
+            <if test="werks != null">
+                AND sh.werks = #{werks}
+            </if>
+            <if test="fevor != null">
+                AND fe.fevor = #{fevor}
+            </if>
+            <if test="arbpl != null">
+                AND sh.arbpl = #{arbpl}
+            </if>
+            <if test="shifts != null">
+                AND sh.shifts = #{shifts}
+            </if>
+            <if test="prdDateAfter != null">
+                AND  sh.prd_date >= #{prdDateAfter}
+            </if>
+            <if test="prdDateBefore != null">
+                AND #{prdDateBefore} >= sh.prd_date
+            </if>
+        </where>
+        order by sh.prd_date asc,sh.shifts asc,sh.arbpl asc
+    </select>
+
+    <insert id="insertRow" parameterType="yj.core.wipshotnum.dto.Shotnum" >
+        insert INTO wip_shotnum(WERKS,ARBPL,PRD_DATE,SHIFTS,CRDAT,MATNR,MAKTX,MDNO,CLASS,ZPGDBAR,KTEXT,SHOT_START,SHOT_END,CRNAM,CREATED_BY,CREATION_DATE)
+        VALUES (#{werks},#{arbpl},#{prdDate},#{shifts},#{crdat},#{matnr},#{maktx},#{mdno},#{sClass},#{zpgdbar},#{ktext},#{shotStart},#{shotEnd},#{crnam},#{createdBy},#{creationDate})
+    </insert>
+
+    <select id="isExit" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM wip_shotnum
+        <where>
+            WERKS = #{werks}
+            and ARBPL = #{arbpl}
+            and PRD_DATE = #{prd_date}
+            and SHIFTS = #{shifts}
+        </where>
+        order by CRDAT desc
+    </select>
+</mapper>

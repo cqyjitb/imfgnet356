@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.cardhst.mapper.CardhstMapper">
+    <resultMap id="BaseResultMap" type="yj.core.cardhst.dto.Cardhst">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="ISACTIVE" property="isactive" jdbcType="VARCHAR" />
+        <result column="OPERATION" property="operation" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        FROM  sap_cardhst
+        <where>
+            ZPGDBAR = #{zpgdbar}
+        </where>
+    </select>
+
+    <select id="selectByBarcodeAndStatus" parameterType="yj.core.cardhst.dto.Cardhst" resultMap="BaseResultMap">
+        select *
+        FROM  sap_cardhst
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and STATUS = #{status}
+        </where>
+    </select>
+
+    <select id="getMaxNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select max(ID)
+        FROM sap_cardhst
+        <where>
+            ZPGDBAR = #{zpgdbar}
+        </where>
+    </select>
+
+    <insert id="insertStatus" parameterType="yj.core.cardhst.dto.Cardhst">
+        INSERT INTO sap_cardhst(ZPGDBAR,ID,STATUS,ISACTIVE,OPERATION)VALUES (#{zpgdbar},#{id},#{status},#{isactive},#{operation});
+    </insert>
+
+    <update id="updateStatus" parameterType="yj.core.cardhst.dto.Cardhst">
+        update sap_cardhst SET ISACTIVE=#{isactive}
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and STATUS = #{status}
+        </where>
+    </update>
+
+    <select id="selectAllActive" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM sap_cardhst
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and ISACTIVE = 'X'
+        </where>
+        order by id DESC;
+    </select>
+
+    <select id="selectAllUnActive" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM sap_cardhst
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and ISACTIVE = ''
+        </where>
+    </select>
+
+    <select id="selectByBarcodeAndId" parameterType="yj.core.cardhst.dto.Cardhst" resultMap="BaseResultMap">
+        select * FROM sap_cardhst
+        <where>
+            ZPGDBAR = #{ZPGDBAR}
+            and ID = #{id}
+        </where>
+    </select>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+        delete FROM  sap_cardhst
+        <where>
+            ZPGDBAR = #{zpgdbar}
+        </where>
+    </delete>
+
+    <select id="selectForHczy" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_cardhst
+        <where>
+              ZPGDBAR = #{zpgdbar}
+              and STATUS = #{status}
+        </where>
+    </select>
+
+
+</mapper>

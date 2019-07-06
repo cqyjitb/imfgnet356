@@ -1,0 +1,835 @@
+<!--
+    不合格品审理单2创建
+-->
+
+<#include "../include/header.html">
+
+    <style>
+        span[class='k-window-title'] {
+            user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .action_ok {
+            color: #5fb760;
+        }
+
+        .action_dangerous {
+            color: #eeac5f;
+        }
+
+        #label {
+            color: red;
+        }
+
+        #label2 {
+            color: red;
+        }
+
+        #label3 {
+            color: red;
+        }
+
+        #label4 {
+            color: red;
+        }
+
+        #label5 {
+            color: red;
+        }
+
+        #label6 {
+            color: red;
+        }
+
+        #label7 {
+            color: red;
+        }
+
+        #label8 {
+            color: red;
+        }
+
+    </style>
+    <div id="content-container">
+        <div id="page-content">
+            <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+                <form class="form-horizontal" id="myForm">
+                    <div class="panel-body">
+                        <div id="test">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">工厂&nbsp;<label
+                                                id="label4">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="werks" style="width: 100%" class="k-textbox" readonly="readonly" data-bind="value:model.werks">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">生产车间&nbsp;<label id="label">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="deptId" class="k-textbox" data-bind="value:model.deptId" style="width: 100%">
+                                            <script>
+                                                $("#deptId").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_FEVOR")}, {
+                                                    query: function (e) {
+                                                        e.param['enabledFlag'] = 'Y';
+                                                    }
+                                                }));
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">生产线&nbsp;<label
+                                                id="label2">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="line_id" class="k-textbox" data-bind="value:model.line_id"
+                                                   style="width: 100%">
+                                            <script>
+                                                $("#line_id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                    query: function (e) {
+                                                        e.param['deptId'] = document.getElementById("deptId").value;
+                                                        e.param['enabledFlag'] = 'Y';
+                                                    }
+                                                }))
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">班组&nbsp;<label id="label5">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="zbanz" name="zbanz" required placeholder="请选择班组"
+                                                   data-role="combobox" data-value-primitive="true"
+                                                   data-text-field="text" data-value-field="value"
+                                                   data-bind="enabled: isEnabled, source: comboboxZbanz, value:model.zbanz"
+                                                   style="width: 100%;"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">缺陷代码&nbsp;<label
+                                                id="label6">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="zqxdm" class="k-textbox" data-bind="value:model.zqxdm"
+                                                   style="width: 100%">
+                                            <script>
+                                                $("#zqxdm").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_QPCD1")}, {
+                                                    query: function (e) {
+                                                        e.param['enabledFlag'] = 'Y';
+                                                    }
+                                                }))
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">产品物料号</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="matnr2" class="k-textbox"
+                                                   data-bind="value:model.matnr2"
+                                                   style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">产品所处工艺状态&nbsp;<label id="label3">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="gytype" name="type" required placeholder="请选择产品所处工艺状态"
+                                                   data-role="combobox" data-value-primitive="true"
+                                                   data-text-field="text" data-value-field="value"
+                                                   data-bind="enabled: isEnabled, source: comboboxType, value:model.gytype"
+                                                   style="width: 100%;"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">缺陷小类&nbsp;<label
+                                                id="label7">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="zissuetxt" class="k-textbox" data-bind="value:model.zissuetxt"
+                                                   style="width: 100%">
+                                            <script>
+                                                $("#zissuetxt").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_DFTDTL")}, {
+                                                    query: function (e) {
+                                                        var code = document.getElementById("zqxdm").value;
+                                                        var matnr2 = document.getElementById("matnr2").value
+                                                        e.param['code'] = code;
+                                                        e.param['matnr'] = matnr2;
+                                                        e.param['enabledFlag'] = 'Y';
+                                                    }
+                                                }))
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">毛坯物料号</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="matnr" class="k-textbox"
+                                                   data-bind="value:model.matnr"
+                                                   style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">生产日期&nbsp;<label id="label8">*</label></label>
+                                        <div class="col-sm-8">
+                                            <input id="gstrp" style="width: 100%" data-role="datepicker"
+                                                   data-bind="value:model.gstrp" class="k-datepicker">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+                <div class="row" style="margin-right: -8px;">
+                    <div class="pull-right" style="margin-right:15px">
+                                <span class="btn btn-primary" data-bind="click:queryGrid"
+                                      type="submit">
+                                <i class="fa fa-search" style="margin-right:3px;"></i>
+                            <@spring.message "hap.query"/></span>
+                        <span class="btn btn-default" type="button" data-bind="click:resetForm">
+                                <i class="fa fa-eraser" style="margin-right:3px;"></i>
+                            <@spring.message "hap.reset"/></span>
+                        <span class="btn btn-info" type="button" id="panel_hidden" onclick="test()">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_hidden"/></span>
+                        <span class="btn btn-info" type="button" id="panel_show" onclick="test()"
+                              style="display: none">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_show"/></span>
+                    </div>
+                </div>
+                <!--新窗口占位符-->
+                <div id="newWin" style="display: none"></div>
+                <div style="clear:both">
+                    <div id="Grid"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.onload=function(){
+            document.getElementById("werks").value = '1001';
+        }
+    </script>
+    <script type="text/javascript">
+        var viewModel = kendo.observable({
+            model: {
+                werks:"1001"
+            },
+            comboboxZbanz: [{
+                text: "A班",
+                value: "A"
+            }, {
+                text: "B班",
+                value: "B"
+            }, {
+                text: "C班",
+                value: "C"
+            }],
+
+            comboboxType: [{
+                text: "已加工未入库产品",
+                value: "Q1"
+            }, {
+                text: "未加工线边库毛坯",
+                value: "Q2"
+            }, {
+                text: "已入库成品",
+                value: "Q3"
+            }],
+
+            resetForm: function () {
+                var formData = viewModel.model.toJSON();
+                for (var k in formData) {
+                    viewModel.model.set(k, null);
+                }
+                $('#Grid').data('kendoGrid').dataSource.read();
+            },
+            queryGrid: function (e) {
+                var werks = document.getElementById("werks").value;
+                var gytype = document.getElementById("gytype").value;
+                var deptId = document.getElementById("deptId").value;
+                var line_id = document.getElementById("line_id").value;
+                var zqxdm = document.getElementById("zqxdm").value;
+                var zissuetxt = document.getElementById("zissuetxt").value;
+                var gstrp = document.getElementById("gstrp").value;
+                if (werks == "" || gytype == "" || deptId == "" || line_id == "" || zqxdm == "" || zissuetxt == "" || gstrp == "") {
+                    kendo.ui.showErrorDialog({
+                        title: '错误',
+                        message: "请完整输入必输查询条件后进行查询！"
+                    });
+                } else {
+                    $('#Grid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+
+        kendo.bind($('#page-content'), viewModel);
+
+
+        function test() {
+            var apply = $("#test");
+            var button_hidden = $("#panel_hidden");
+            var button_show = $("#panel_show");
+            if (apply.is(":hidden")) {
+                button_hidden.show();
+                button_show.hide();
+                apply.show();    //如果元素为隐藏,则将它显现
+            } else {
+                button_hidden.hide();
+                button_show.show();
+                apply.hide();     //如果元素为显现,则将其隐藏
+            }
+            Hap.autoResizeGrid("#Grid");
+
+        }
+
+        $(document).ready(function () {
+            var BaseUrl = _basePath;
+
+            //viewModel.model.set("werks",werks);
+            dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: BaseUrl + "/inoutrecord/selectForQcaudit",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    parameterMap: function (options, type) {
+                        if (type !== "read" && options.models) {
+                            var datas = Hap.prepareSubmitParameter(options, type)
+
+                            return kendo.stringify(datas);
+                        } else if (type === "read") {
+                            return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                        }
+                    }
+                },
+                batch: true,
+                serverPaging: true,
+                pageSize: 10,
+                schema: {
+                    data: 'rows',
+                    total: 'total',
+                    model: {
+                        id: "line_id",
+                        fields: {
+                            werks: {type: "string"},
+                            matnr: {type: "string"},
+                            gytype: {type: "string"},
+                            deptId: {type: "string"},
+                            line_id: {type: "string"},
+                            gstrpfrom: {type: "date"},
+                            gstrpto: {type: "date"}
+                        }
+                    }
+                }
+            });
+
+            var leftGird = $("#Grid").kendoGrid({
+                dataSource: dataSource,
+                autoBind: false,
+                height: '100%',
+                resizable: true,
+                scrollable: true,
+                navigatable: false,
+                selectable: 'rowbox，multiple',
+                pageable: {
+                    pageSizes: ["all"],
+                    refresh: true,
+                    buttonCount: 10
+                },
+
+                toolbar: [{
+                    name: "createQcaudit",
+                    template: '<span id="createQcaudit" class="btn btn-success">创建不合格品审理单2</span>'
+                }],
+
+                columns: [
+                    {
+                        field: "werks",
+                        title: '工厂',
+                        width: 70,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "depttxt",
+                        title: '机加车间',
+                        width: 150,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    }, {
+                        field: "deslinetxt",
+                        title: '生产线',
+                        width: 200,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "desmianlinetxt",
+                        title: '主产线',
+                        width: 300,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "matnr2",
+                        title: '成品物料',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "maktx2",
+                        title: '成品物料描述',
+                        width: 300,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "matnr",
+                        title: '毛坯物料',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+
+                    },
+                    {
+                        field: "maktx",
+                        title: '毛坯物料描述',
+                        width: 300,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zgjbar",
+                        title: '工件二维码',
+                        width: 150,
+                        format: "{0: yyyy-MM-dd HH:mm:ss}",
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+
+                    {
+                        field: "zxhbar",
+                        title: '毛坯箱号',
+                        width: 200,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "",
+                        title: '成品托条码',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "sfflg",
+                        title: '压铸班标',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "charg",
+                        title: '压铸批次',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+
+                    {
+                        field: " diecd",
+                        title: '模号',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+
+
+                    {
+                        field: "rcode",
+                        title: '取件原因',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+
+                    {
+                        field: "vornr",
+                        title: '取件工序',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zqxdm",
+                        title: '缺陷代码',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "kurztext",
+                        title: '缺陷描述',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zissuetxt",
+                        title: '缺陷小类',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "ztext",
+                        title: '缺陷小类描述',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zoutnum",
+                        title: '数量',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "gmein",
+                        title: '单位',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "gstrp",
+                        title: '机加生产日期',
+                        format: "{0:yyyy-MM-dd}",
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zbanz",
+                        title: '机加班组',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zbanc",
+                        title: '机加班次',
+                        width: 100,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "",
+                        title: '机加批次',
+                        width: 150,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zpgdbar2",
+                        title: '压铸流转卡',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+
+                    {
+                        field: "zpgdbar",
+                        title: '机加流转卡',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        },
+                        attributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "sortl",
+                        title: '客户',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "zplo",
+                        title: '发现工位',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+                    }, {
+                        field: "stype",
+                        title: '返工标识',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+                    }, {
+                        field: "outnam",
+                        title: '取件账号',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+                    }, {
+                        field: "outdat",
+                        title: '取件日期',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+                    },
+                    {
+                        field: "reflag",
+                        title: '取还件标识',
+                        width: 120,
+                        headerAttributes: {
+                            style: "text-align: center;"
+                        }
+                    }
+                ],
+                editable: false
+            });
+
+            Hap.autoResizeGrid("#Grid");
+
+
+            $('#createQcaudit').on('click', function () {
+
+                //判断选择的条目数 是否满足创建不合格品审理单2 的范围
+                var url = "dialogQcaudit.html";
+                var grid = $("#Grid").data("kendoGrid"),
+                selections = grid.selectedDataItems();
+                if (selections.length > 0){
+                    var dataarray = new Array();
+                    var line_id = document.getElementById("line_id").value;
+                    var werks = document.getElementById("werks").value;
+                    var viewModel3 = kendo.observable({
+                        model: {
+                            line_id:line_id,
+                            werks:werks
+                        }
+                    });
+                    dataarray[0] = viewModel3.model.toJSON();
+
+                    var data = JSON.stringify(dataarray);
+                        //根据产线ID,工厂 获取wip_qcparam_lines数据。
+                    $.ajax({
+                        url: "${base.contextPath}/wip/qcparam/lines/selectByLineId",
+                        type: "POST",
+                        data:data,
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        success: function (res) {
+                            var rows = res.rows;
+                            if (rows.length > 0) {
+                                  var first = rows[0].firstclassQty;
+                                  if (selections.length > first){
+                                      var dialog = $("#newWin").kendoWindow({
+                                          actions: ["Close"],
+                                          width: 900,
+                                          height: 600,
+                                          title: '<@spring.message "hap.edit"/>',
+                                          content: url,
+                                          iframe: true,
+                                          visible: false,
+                                          modal: true
+
+                                      }).data("kendoWindow");
+                                      dialog.center().open();
+                                  }else{
+                                      kendo.ui.showErrorDialog({
+                                          title: '错误',
+                                          message: "选中的取件记录数量不满足创建不合格品审理单2的条件！"
+                                      });
+                                  }
+                            }else{
+
+                            }
+                        },
+                        error:function (res) {
+                            kendo.ui.showErrorDialog({
+                                title: '错误',
+                                message: "未能获取到产线不合格品审理单2参数配置！"
+                            });
+                        }
+                    });
+
+                    }else{
+                    kendo.ui.showErrorDialog({
+                        title: '错误',
+                        message: "请选择需要处理的行！"
+                    });
+                }
+            });
+        });
+    </script>
+    <style type="text/css">
+
+        .priority-median {
+            background-color: yellowgreen;
+        }
+
+        .priority-high {
+            background-color: orangered;
+        }
+    </style>
+    </body>
+    </html>

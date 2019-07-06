@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.cardh.mapper.CardhMapper">
+    <resultMap id="BaseResultMap" type="yj.core.cardh.dto.Cardh">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBH" property="zpgdbh" jdbcType="VARCHAR" />
+        <result column="ZXHNUM" property="zxhnum" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="AUART" property="auart" jdbcType="VARCHAR" />
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR" />
+        <result column="GAMNG" property="gamng" jdbcType="DECIMAL" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="VARCHAR" />
+        <result column="GLTRP" property="gltrp" jdbcType="VARCHAR" />
+        <result column="ZDYBS" property="zdybs" jdbcType="VARCHAR" />
+        <result column="ZTYPE" property="ztype" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="STATUS2" property="status2" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="yj.core.cardh.dto.Cardh">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBH" property="zpgdbh" jdbcType="VARCHAR" />
+        <result column="ZXHNUM" property="zxhnum" jdbcType="VARCHAR" />
+        <result column="ZTYPE" property="ztype" jdbcType="VARCHAR" />
+        <result column="BUKRS" property="bukrs" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="STDQT" property="stdqt" jdbcType="DECIMAL" />
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR" />
+        <result column="AUFNR2" property="aufnr2" jdbcType="VARCHAR" />
+        <result column="AUART" property="auart" jdbcType="VARCHAR" />
+        <result column="AUART2" property="auart2" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="GAMNG" property="gamng" jdbcType="DECIMAL" />
+        <result column="GAMNG2" property="gamng2" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="PLQTY" property="plqty" jdbcType="DECIMAL" />
+        <result column="ECQTY" property="ecqty" jdbcType="DECIMAL" />
+        <result column="ALQTY" property="alqty" jdbcType="DECIMAL" />
+        <result column="QTYSM" property="qtysm" jdbcType="DECIMAL" />
+        <result column="QTYSP" property="qtysp" jdbcType="DECIMAL" />
+        <result column="TQTYS" property="tqtys" jdbcType="DECIMAL" />
+        <result column="CQTYS" property="cqtys" jdbcType="DECIMAL" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="DATE" />
+        <result column="SCHST" property="schst" jdbcType="TIME" />
+        <result column="GLTRP" property="gltrp" jdbcType="DATE" />
+        <result column="SCHDT" property="schdt" jdbcType="TIME" />
+        <result column="ACTGSTRP" property="actgstrp" jdbcType="DATE" />
+        <result column="ACTST" property="actst" jdbcType="TIME" />
+        <result column="ACTGLTRP" property="actgltrp" jdbcType="DATE" />
+        <result column="ACTDT" property="actdt" jdbcType="TIME" />
+        <result column="ZDYBS" property="zdybs" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="STATUS2" property="status2" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="DEQTY" property="deqty" jdbcType="VARCHAR" />
+        <result column="FPRDDAT" property="fprddat" jdbcType="VARCHAR" />
+        <result column="EPRDDAT" property="eprddat" jdbcType="VARCHAR" />
+        <result column="STWKS" property="stwks" jdbcType="VARCHAR" />
+        <result column="SHIFT" property="shift" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="CHARG2" property="charg2" jdbcType="VARCHAR" />
+        <result column="RELZPGDBAR" property="relzpgdbar" jdbcType="VARCHAR" />
+        <result column="RELAUFNR" property="relaufnr" jdbcType="VARCHAR" />
+        <result column="MTLBD" property="mtlbd" jdbcType="VARCHAR" />
+        <result column="MTLLT" property="mtllt" jdbcType="VARCHAR" />
+        <result column="PRTNR" property="prtnr" jdbcType="VARCHAR" />
+        <result column="CASDS" property="casds" jdbcType="VARCHAR" />
+        <result column="FLGRG" property="flgrg" jdbcType="DECIMAL" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="selectByAufnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        FROM sap_cardh
+        <where>
+            aufnr = #{aufnr}
+            ORDER  by zpgdbh DESC
+        </where>
+
+    </select>
+
+    <update id="updateCardhStatus" parameterType="yj.core.cardh.dto.Cardh">
+        UPDATE sap_cardh SET STATUS = #{status},STATUS2 = #{status2}
+                          <if test="fprddat != null">
+                              ,FPRDDAT = #{fprddat}
+                          </if>
+                          <if test="eprddat != null">
+                              ,EPRDDAT = #{eprddat}
+                          </if>
+                          <if test="shift != null">
+                              ,SHIFT = #{shift}
+                          </if>
+                          <if test="sfflg != null">
+                              ,SFFLG = #{sfflg}
+                          </if>
+                          <if test="charg2 != null">
+                              ,CHARG2 = #{charg2}
+                          </if>
+                          <if test="actgstrp != null">
+                              ,ACTGSTRP = #{actgstrp}
+                          </if>
+                          <if test="actgstrp != null">
+                              ,ACTGLTRP = #{actgltrp}
+                          </if>
+                          <if test="ecqty != null">
+                              ,ECQTY = #{ecqty}
+                          </if>
+                          <if test="alqty != null">
+                              ,ALQTY = #{alqty}
+                          </if>
+                          <if test="qtysm != null">
+                              ,QTYSM = #{qtysm}
+                          </if>
+                          <if test="qtysp != null">
+                              ,QTYSP = #{qtysp}
+                          </if>
+                          <if test="actst != null">
+                              ,ACTST = #{actst}
+                          </if>
+                          <if test="actdt != null">
+                              ,ACTDT = #{actdt}
+                          </if>
+                          <if test="lastUpdatedDate != null">
+                              ,LAST_UPDATE_DATE = #{lastUpdatedDate}
+                          </if>
+                          <if test="lastUpdatedBy != null">
+                              ,LAST_UPDATED_BY = #{lastUpdatedBy}
+                          </if>
+                          <if test="diecd != null">
+                              ,DIECD = #{diecd}
+                          </if>
+                          <if test="status != null">
+                              ,STATUS = #{status}
+                          </if>
+                          <if test="status2 != null">
+                              ,STATUS2 = #{status2}
+                          </if>
+                          <if test="shift != null">
+                              ,SHIFT = #{shift}
+                          </if>
+                          <if test="zdybs != null">
+                              ,ZDYBS = #{zdybs}
+                          </if>
+              <where>
+                  ZPGDBAR = #{zpgdbar}
+              </where>
+    </update>
+    <update id="updateDatforFsvor" parameterType="java.lang.String">
+        update sap_cardh set ACTGSTRP = null,
+                             ACTST = null
+                             <where>
+                                 ZPGDBAR = #{zpgdbar}
+                             </where>
+
+    </update>
+    <update id="updateDatforLsvor" parameterType="java.lang.String">
+        update sap_cardh set ACTGLTRP = null,
+                             ACTDT = null
+                             <where>
+                                 ZPGDBAR = #{zpgdbar}
+                             </where>
+    </update>
+    <delete id="deleteCardh" parameterType="yj.core.cardh.dto.Cardh">
+        DELETE FROM sap_cardh
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            AND ZPGDBH = #{zpgdbh}
+        </where>
+    </delete>
+
+    <insert id="insertCardh" parameterType="yj.core.cardh.dto.Cardh">
+        INSERT INTO sap_cardh(ZPGDBAR,ZPGDBH,ZXHNUM,ZTYPE,BUKRS,WERKS,MATNR,STDQT,AUART,AUFNR,AUART2,AUFNR2,GAMNG,GAMNG2,MENGE,GMEIN,PLQTY,ECQTY,ALQTY,QTYSM,QTYSP,TQTYS,CQTYS,LGORT,CHARG,GSTRP,
+        SCHST,GLTRP,SCHDT,ACTGSTRP,ACTST,ACTGLTRP,ACTDT,ZDYBS,STATUS,STATUS2,DIECD,DEQTY,FPRDDAT,EPRDDAT,STWKS,SHIFT,SFFLG,CHARG2,RELZPGDBAR,RELAUFNR,MTLBD,MTLLT,PRTNR,CASDS,FLGRG,ATTR1,ATTR2,ATTR3,ATTR4,ATTR5,ATTR6,ATTR7,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)
+        VALUES (#{zpgdbar},#{zpgdbh},#{zxhnum},#{ztype},#{bukrs},#{werks},#{matnr},#{stdqt},#{auart},#{aufnr},#{auart2},#{aufnr2},#{gamng},#{gamng2},#{menge},#{gmein},#{plqty},#{ecqty},#{alqty},#{qtysm},#{qtysp},#{tqtys},#{cqtys},#{lgort},#{charg},
+        #{gstrp},#{schst},#{gltrp},#{schdt},#{actgstrp},#{actst},#{actgltrp},#{actdt},#{zdybs},#{status},#{status2},#{diecd},#{deqty},#{fprddat},#{eprddat},#{stwks},#{shift},#{sfflg},#{charg2},#{relzpgdbar},#{relaufnr},#{mtlbd},
+        #{mtllt},#{prtnr},#{casds},#{flgrg},#{attr1},#{attr2},#{attr3},#{attr4},#{attr5},#{attr6},#{attr7},#{creationDate},#{createdBy},#{lastUpdatedDate},#{lastUpdatedBy});
+    </insert>
+    <!--查询组合流转卡，按生产订单 流转卡号升序排列-->
+    <select id="queryAfterSort" resultMap="BaseResultMap" parameterType="yj.core.cardh.dto.Cardh">
+        SELECT
+        DISTINCT
+        *
+        FROM sap_cardh
+        <where>
+            1 = 1
+            <if test="werks != null">
+            and WERKS = #{werks}
+            </if>
+            <if test="matnr != null">
+                and MATNR = #{matnr}
+            </if>
+            <if test="zpgdbar != null">
+                and ZPGDBAR = #{zpgdbar}
+            </if>
+            <if test="auart != null">
+                and AUART = #{auart}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+            <if test="aufnr != null">
+                and AUFNR = #{aufnr}
+            </if>
+            <if test="zdybs != null">
+                and ZDYBS = #{zdybs}
+            </if>
+            <if test="zxhnum != null">
+                and ZXHNUM = #{zxhnum}
+            </if>
+            ORDER  BY GSTRP DESC
+        </where>
+
+    </select>
+
+    <!--查询组合流转卡，按生产订单 流转卡号升序排列-->
+    <select id="queryZuheAfterSort" resultMap="BaseResultMap2" parameterType="yj.core.cardh.dto.Cardh">
+        SELECT
+        DISTINCT
+        *
+        FROM sap_cardh
+        <where>
+            1 = 1
+            and auart like 'QP%'
+            and ZTYPE = '组合'
+            <if test="werks != null">
+                and WERKS = #{werks}
+            </if>
+            <if test="matnr != null">
+                and MATNR = #{matnr}
+            </if>
+            <if test="zpgdbar != null">
+                and ZPGDBAR = #{zpgdbar}
+            </if>
+            <if test="auart != null">
+                and AUART = #{auart}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+            <if test="aufnr != null">
+                and AUFNR = #{aufnr}
+            </if>
+            ORDER  BY AUFNR,ZPGDBAR ASC
+        </where>
+
+    </select>
+    <!--根据生产订单获取流转卡最大序号-->
+    <select id="selectByAufnrMxno" parameterType="java.lang.String" resultType="java.lang.String">
+        select max(ZPGDBH)
+               FROM sap_cardh
+               <where>
+                   AUFNR = #{aufnr}
+               </where>
+
+    </select>
+
+    <!--根据流转卡号查询流转卡表头信息-->
+    <select id="selectByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select * FROM  sap_cardh
+            <where>
+                ZPGDBAR = #{zpgdbar}
+            </where>
+    </select>
+
+    <!-- 根据箱号查询流转卡记录-->
+    <select id="selectByZxhbar" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select * FROM  sap_cardh
+        <where>
+            AUFNR = #{aufnr}
+            and ZXHNUM = #{zxhnum}
+        </where>
+    </select>
+
+    <!--报工完成后更新班标，班次 模号 -->
+    <update id="updateCardhShiftAndSfflg" parameterType="yj.core.cardh.dto.Cardh">
+        UPDATE sap_cardh SET SHIFT = #{shift},
+                             SFFLG = #{sfflg},
+                             DIECD = #{diecd}
+                          <if test="charg2 != null">
+                              ,CHARG2 = #{charg2}
+                          </if>
+                          <where>
+                              ZPGDBAR = #{zpgdbar}
+                          </where>
+    </update>
+
+    <update id="updateForLgort" parameterType="yj.core.cardh.dto.Cardh">
+        UPDATE sap_cardh set LGORT = #{lgort},
+                             LAST_UPDATE_DATE = #{lastUpdatedDate},
+                             LAST_UPDATED_BY = #{lastUpdatedBy}
+                             <where>
+                                 ZPGDBAR = #{zpgdbar}
+                             </where>
+    </update>
+
+    <select id="queryAfterSortForClientPrint" parameterType="yj.core.cardh.dto.Cardh" resultMap="BaseResultMap2">
+        select * from sap_cardh
+        <where>
+            1 = 1
+            <if test="werks != null " >
+                and WERKS = #{werks}
+            </if>
+            <if test="matnr != null">
+                and MATNR = #{matnr}
+            </if>
+            <if test="zpgdbar != null">
+                and ZPGDBAR = #{zpgdbar}
+            </if>
+            <if test="auart != null">
+                and AUART = #{auart}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+            <if test="aufnr != null">
+                and AUFNR = #{aufnr}
+            </if>
+            <if test="zdybs != null">
+                and ZDYBS = #{zdybs}
+            </if>
+            <if test="zxhnum != null">
+                and ZXHNUM = #{zxhnum}
+            </if>
+        </where>
+        ORDER  BY GSTRP DESC;
+    </select>
+</mapper>

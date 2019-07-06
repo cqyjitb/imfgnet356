@@ -1,0 +1,473 @@
+<!--
+    机加返工返修单查询 918100064
+-->
+<#include "../include/header.html" />
+<body>
+<style>
+    span[class='k-window-title'] {
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+    .action_ok {
+        color: #5fb760;
+    }
+
+    .action_dangerous {
+        color: #eeac5f;
+    }
+    .label{
+        color: red;
+    }
+
+</style>
+<script type="text/javascript">
+    var viewModel = kendo.observable({
+        model: {
+            status:"0"
+        },
+        queryGrid: function (e) {
+            var zrwknum = document.getElementById("zrwknum").value;
+            if (zrwknum == null || zrwknum == "" || zrwknum == ''){
+                kendo.ui.showErrorDialog({
+                    title: '错误',
+                    message: "查询条件:单据号,必输！"
+                });
+            }else{
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+        }
+    });
+</script>
+<div id="content-container">
+    <div id="page-content">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="test">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">单据号<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" id="zrwknum"
+                                               data-bind="value:model.zrwknum" class="k-textbox">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产车间</label>
+                                    <div class="col-sm-8">
+                                        <input id="unit_code" class="k-textbox" data-bind="value:model.deptId" style="width: 100%">
+                                        <script>
+                                            $("#unit_code").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产线</label>
+                                    <div class="col-sm-8">
+                                        <input id="line_id" class="k-textbox" data-bind="value:model.lineId" style="width: 100%">
+                                        <script>
+                                            $("#line_id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                query: function (e) {
+                                                    e.param['deptId'] = document.getElementById("unit_code").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">创建日期从</label>
+                                    <div class="col-sm-8">
+                                        <input style="width: 100%" data-role="datepicker"
+                                               data-bind="value:model.creationDateAfter" class="k-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">创建日期至</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-role="datepicker"
+                                               data-bind="value:model.creationDateBefore" class="k-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">创建人</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%"
+                                               data-bind="value:model.createdBy1" class="k-textbox">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-right: -8px;">
+                        <div class="pull-right" style="margin-right:15px">
+							<span class="btn btn-primary" data-bind="click:queryGrid" type="submit">
+							    <i class="fa fa-search" style="margin-right:3px;"></i><@spring.message "hap.query"/></span>
+                            <span class="btn btn-info" type="button" id="panel_hidden1" onclick="test1()">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i><@spring.message "hap.panel_hidden"/></span>
+                            <span class="btn btn-info" type="button" id="panel_show1" onclick="test1()" style="display: none">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i><@spring.message "hap.panel_show"/></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="clear:both">
+            <div id="Grid"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content'), viewModel);
+    function test1() {
+        var apply = $("#test");
+        var button_hidden = $("#panel_hidden1");
+        var button_show = $("#panel_show1");
+        if (apply.is(":hidden")) {
+            button_hidden.show();
+            button_show.hide();
+            apply.show();    //如果元素为隐藏,则将它显现
+        } else {
+            button_hidden.hide();
+            button_show.show();
+            apply.hide();     //如果元素为显现,则将其隐藏
+        }
+        Hap.autoResizeGrid("#Grid");
+    }
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/zrwklist/selectZrwklist",
+                type: "POST",
+                dataType: "json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 'all',
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "zrwknum",
+                fields: {
+                    zrwknum: {type: "string",editable: false},
+                    deptId: {type: "string",editable: false},
+                    item:{editable: false},
+                    lineId:{editable: false},
+                    descriptions:{editable: false},
+                    zbanz:{editable: false},
+                    zbanc:{editable: false},
+                    zpgdbar:{editable: false},
+                    matnr2:{editable: false},
+                    maktx:{editable: false},
+                    zgjbar:{editable: false},
+                    sfflg:{editable: false},
+                    diecd:{editable: false},
+                    rcode:{editable: false},
+                    vornnr_old:{editable: false},
+                    charg2:{editable: false},
+                    charg:{editable: false},
+                    zrwktimes:{editable: false},
+                    zrnum:{editable: false},
+                    reviewc:{editable: true},
+                    mark:{editable: false}
+                }
+            }
+        }
+    });
+
+    $("#Grid").kendoGrid({
+        dataSource: dataSource,
+        autoBind: false,
+        height: '100%',
+        resizable: true,
+        scrollable: true,
+        navigatable: false,
+        pageable: {
+            pageSizes: ["all"],
+            refresh: true,
+            buttonCount: 10
+        },
+        toolbar: [
+            {name:"excel"},
+            {
+                name: "createZrwklist",
+                template: '<span id="createZrwklist" class="btn btn-success">机加返工返修单处理</span>'
+            }],
+        columns: [
+            {
+                field: "reviewc",
+                title: '评论结论',
+                width: 80,
+                editor: function (container,options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoDropDownList({
+                        dataTextField: "value",
+                        dataValueField: "value",
+                        valuePrimitive: true,
+                        dataSource: [
+                            { value:"F"},
+                            { value:"Q"}
+                        ]
+                    })
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zrwknum",
+                title: '返工返修单单据号',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "item",
+                title: '单据行号',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "lineId",
+                title: '生产线',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "descriptions",
+                title: '生产线名称',
+                width: 180,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zbanz",
+                title: '班组',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zbanc",
+                title: '班次',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zpgdbar",
+                title: '流转卡号',
+                width: 160,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "matnr2",
+                title: '物料编号',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "maktx",
+                title: '产品名称/型号',
+                width: 320,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zgjbar",
+                title: '工件二维码',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "sfflg",
+                title: '压铸班标',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "diecd",
+                title: '模号',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: " rcode",
+                title: '取件原因',
+                width: 100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "vornr_old",
+                title: '取件工序',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "charg2",
+                title: '机加批次',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "charg",
+                title: '压铸批次',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zrnum",
+                title: '返工数量（件）',
+                width: 110,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "zrwktimes",
+                title: '返修次数',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "mark",
+                title: '备注',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ],
+        editable: true
+    });
+
+    var grid = $("#Grid").data("kendoGrid");
+    grid.bind("excelExport", function(e) {
+        e.workbook.fileName = "机加返工返修单查询.xlsx";
+    });
+    $("#createZrwklist").on('click',function () {
+
+    });
+    Hap.autoResizeGrid("#Grid");
+</script>
+</body>
+</html>

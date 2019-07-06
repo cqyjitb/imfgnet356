@@ -1,0 +1,384 @@
+<!--
+    质量缺陷明细代码维护 918100064
+-->
+<#include "../include/header.html">
+<script type="text/javascript">
+    var viewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        createFunction: function () {
+            var url = 'manageDftdtl_edit.html?0';
+            newData(url);
+        },
+        saveFunction: function () {
+            var selections = grid.selectedDataItems();
+            if(selections.length == 1){
+                var url = 'manageDftdtl_edit.html?1';
+                newData(url);
+            }else{
+                kendo.ui.showInfoDialog({
+                    message: '请先选择一行数据'
+                })
+            }
+        },
+        queryResource: function (e) {
+            $('#Grid').data('kendoGrid').dataSource.page(1);
+        },
+    });
+</script>
+<body>
+<div id="newWin" style="display: none"></div>
+<div id="page-content">
+    <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+        <form class="form-horizontal" id="myForm">
+            <div class="panel-body">
+                <div id="condition">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">工厂</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">物料编码</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%"
+                                           data-bind="value:model.matnr" class="k-textbox">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">缺陷大类</label>
+                                <div class="col-sm-8">
+                                    <input type="text" style="width: 100%" data-bind="value:model.code" class="k-textbox">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script>
+            kendo.bind($('#myForm'), viewModel);
+        </script>
+    </div>
+    <div class="pull-left" id="toolbar-btn" style="padding-bottom:10px;">
+        <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:createFunction"><@spring.message "hap.new"/></span>
+        <span class="btn btn-success k-grid-save-changes" data-bind="click:saveFunction" type="submit" style="float:left;margin-right:5px;">修改</span>
+        <span onclick="deleteData()" class="btn btn-danger" style="float:left;"><@spring.message "hap.delete"/></span>
+    </div>
+    <script>kendo.bind($('#toolbar-btn'), viewModel);</script>
+    <div class="pull-right" id="query-form" style="padding-bottom:10px;">
+        <span class="btn btn-primary" style="float:left;width:70px" data-bind="click:queryResource" type="submit"><@spring.message "hap.query"/></span>
+        <div style="clear:both"></div>
+    </div>
+    <script>kendo.bind($('#query-form'), viewModel);</script>
+    <div style="clear:both">
+        <div id="Grid"></div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/sap/dftdtl/queryDftdtl",
+                type: "POST",
+                dataType: "json"
+            },
+            update: {
+                url: BaseUrl + "/sap/dftdtl/submitDftdtl",
+                type: "POST",
+                contentType: "application/json"
+            },
+            destroy: {
+                url: BaseUrl + "/sap/dftdtl/removeDftdtl",
+                type: "POST",
+                contentType: "application/json"
+            },
+            create: {
+                url: BaseUrl + "/sap/dftdtl/submitDftdtl",
+                type: "POST",
+                contentType: "application/json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "tlevelcode",
+                parentId:"matnr",
+                fields: {
+                    werks: {type: "string",editable: false,defaultValue: "1001"},
+                    matnr: {type: "string",editable: true},
+                    maktx: {type: "string",editable: true},
+                    code: {type: "string",editable: true},
+                    kurztext: {type: "string",editable: true},
+                    tlevelcode: {type: "string",editable: true},
+                    ztext: {type: "string",editable: true},
+                    machingFlag:{defaultValue: '1', type: 'boolean', checkedValue: '1', uncheckedValue: '0', editable:true},
+                    castingFlag:{defaultValue: '1', type: 'boolean', checkedValue: '1', uncheckedValue: '0', editable:true},
+                    matnr2: {type: "string",editable: true},
+                    maktx2: {type: "string",editable: true},
+                    dftalarm:{defaultValue: '0', type: 'boolean', checkedValue: '1', uncheckedValue: '0', editable:true},
+                    defaultDept: {type: "string",editable: true}
+                }
+            }
+        }
+    });
+    $("#Grid").kendoGrid({
+        dataSource:dataSource,
+        height:'100%',
+        resizable:true,
+        scrollable:true,
+        navigatable:false,
+        sortable: true,
+        editable: false,
+        selectable:'multiple,rowbox',
+        pageable:{
+            pageSizes:[5,10,20,50,"all"],
+            refresh:true,
+            buttonCount:5
+        },
+        columns:[
+            {
+                field:"werks",
+                title:"工厂",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"matnr",
+                title:"物料编码",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['matnr'] || ''
+                },
+                editor : function (container, options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                        {
+                            textField: 'maktx',
+                            model: options.model
+                        }));
+                }
+            },
+            {
+                field:"maktx",
+                title:"物料描述",
+                width:320,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"code",
+                title:"缺陷大类",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['code'] || ''
+                },
+                editor : function (container, options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_QPCD1"/>,
+                        {
+                            textField: 'kurztext',
+                            model: options.model
+                        }));
+                }
+            },
+            {
+                field:"kurztext",
+                title:"缺陷描述",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"tlevelcode",
+                title:"二级缺陷代码",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"ztext",
+                title:"缺陷描述",
+                width:150,
+                editable:false,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"machingFlag",
+                title:"机加常用标识",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"castingFlag",
+                title:"压铸常用标识",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"matnr2",
+                title:"压铸物料",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['matnr2'] || ''
+                },
+                editor : function (container, options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                        {
+                            textField: 'maktx2',
+                            model: options.model
+                        }));
+                }
+            },
+            {
+                field:"maktx2",
+                title:"物料描述",
+                width:320,
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"dftalarm",
+                title:"缺陷报警",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"defaultDept",
+                title:"责任部门",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                },
+                template: function (dataItem) {
+                    return dataItem['defaultDept'] || ''
+                },
+                editor : function (container, options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoLov($.extend(<@lov "LOV_UNIT_NEW2"/>,
+                        {
+                            textField: 'name',
+                            model: options.model
+                        }));
+                }
+            },
+        ]
+    });
+    var grid = $('#Grid').data("kendoGrid");
+    function deleteData() {
+        var selections = grid.selectedDataItems();
+        if(selections.length >= 1){
+            Hap.deleteGridSelection({
+                grid: $('#Grid')
+            });
+        }else{
+            kendo.ui.showInfoDialog({
+                message: '请至少选择一行数据'
+            })
+        }
+    }
+    function newData(url) {
+        var dialog = $("#newWin").kendoWindow({
+            actions: ["Close"],
+            width: 900,
+            height: 500,
+            title: '<@spring.message "hap.edit"/>',
+            content: url,
+            iframe: true,
+            visible: false,
+            resizable: false,
+            modal: true,
+            close: function () {
+                //window 关闭  刷新 本页面的  Grid
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+        }).data("kendoWindow");
+        dialog.center().open();
+    }
+    Hap.autoResizeGrid("#Grid");
+</script>
+
+</body>
+</html>

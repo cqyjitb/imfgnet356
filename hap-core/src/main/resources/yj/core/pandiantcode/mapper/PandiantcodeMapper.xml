@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.pandiantcode.mapper.PandiantcodeMapper">
+    <resultMap id="BaseResultMap" type="yj.core.pandiantcode.dto.Pandiantcode">
+        <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+        <result column="TJPD" property="tjpd" jdbcType="VARCHAR" />
+        <result column="GZPD" property="gzpd" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+    <select id="checkTjcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+        select * from wip_pandiantcode
+        <where>
+            USERNAME = #{username}
+            and TJPD = 'X'
+        </where>
+    </select>
+
+    <select id="checkGzcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+        select * from wip_pandiantcode
+        <where>
+            USERNAME = #{username}
+            and GZPD = 'X'
+        </where>
+    </select>
+
+</mapper>

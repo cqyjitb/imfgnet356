@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.inoutrecord.mapper.InOutRecordMapper">
+    <resultMap id="BaseResultMap" type="yj.core.inoutrecord.dto.InOutRecord">
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR"/>
+        <result column="ZWIPQID" property="zwipqid" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR"/>
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR"/>
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR"/>
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR"/>
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR"/>
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR"/>
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR"/>
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR"/>
+        <result column="ZOUTNUM" property="zoutnum" jdbcType="DECIMAL"/>
+        <result column="REFLAG" property="reflag" jdbcType="DECIMAL"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+        <result column="CHARG" property="charg" jdbcType="VARCHAR"/>
+        <result column="ZREMADE" property="zremade" jdbcType="DECIMAL"/>
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR"/>
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR"/>
+        <result column="ZOTYPE" property="zotype" jdbcType="VARCHAR"/>
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR"/>
+        <result column="ZISSUETXT" property="zissuetxt" jdbcType="VARCHAR"/>
+        <result column="ZBPJC" property="zbpjc" jdbcType="VARCHAR"/>
+        <result column="ZJTGX" property="zjtgx" jdbcType="VARCHAR"/>
+        <result column="ZOPLO" property="zoplo" jdbcType="VARCHAR"/>
+        <result column="OUTDAT" property="outdat" jdbcType="VARCHAR"/>
+        <result column="OUTNAM" property="outnam" jdbcType="DECIMAL"/>
+        <result column="REDAT" property="redat" jdbcType="DATE"/>
+        <result column="RENAM" property="renam" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="KUNNR" property="kunnr" jdbcType="VARCHAR"/>
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR"/>
+        <result column="PLINE_ID" property="plineId" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.inoutrecord.dto.InOutRecord">
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR"/>
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR"/>
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="BaseResultMap3" type="yj.core.inoutrecord.dto.InOutRecord">
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR"/>
+        <result column="ZWIPQID" property="zwipqid" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR"/>
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR"/>
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR"/>
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR"/>
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR"/>
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR"/>
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR"/>
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR"/>
+        <result column="ZOUTNUM" property="zoutnum" jdbcType="DECIMAL"/>
+        <result column="REFLAG" property="reflag" jdbcType="DECIMAL"/>
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR"/>
+        <result column="CHARG" property="charg" jdbcType="VARCHAR"/>
+        <result column="ZREMADE" property="zremade" jdbcType="DECIMAL"/>
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR"/>
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR"/>
+        <result column="ZOTYPE" property="zotype" jdbcType="VARCHAR"/>
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR"/>
+        <result column="ZISSUETXT" property="zissuetxt" jdbcType="VARCHAR"/>
+        <result column="ZBPJC" property="zbpjc" jdbcType="VARCHAR"/>
+        <result column="ZJTGX" property="zjtgx" jdbcType="VARCHAR"/>
+        <result column="ZOPLO" property="zoplo" jdbcType="VARCHAR"/>
+        <result column="OUTDAT" property="outdat" jdbcType="DATE"/>
+        <result column="OUTNAM" property="outnam" jdbcType="DECIMAL"/>
+        <result column="REDAT" property="redat" jdbcType="DATE"/>
+        <result column="RENAM" property="renam" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="KUNNR" property="kunnr" jdbcType="VARCHAR"/>
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR"/>
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="MAKTX2" property="maktx2" jdbcType="VARCHAR"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="GSTRP" property="gstrp" jdbcType="VARCHAR"/>
+        <result column="DESMINALINETXT" property="desmianlinetxt" jdbcType="VARCHAR"/>
+        <result column="DESLINETXT" property="deslinetxt" jdbcType="VARCHAR"/>
+        <result column="ZTEXT" property="ztext" jdbcType="VARCHAR"/>
+        <result column="OUTNAM" property="outnam" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="zissuetxtCount" parameterType="yj.core.inoutrecord.dto.InOutRecord" resultMap="BaseResultMap3">
+        select  re.*
+        from wip_in_out_record re
+        LEFT join wip_lines li on li.LINE_ID = re.LINE_ID
+        <where>
+            re.reflag != 1
+            <if test="creationDateBefore != null">
+                and re.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                and #{creationDateAfter} > re.creation_date
+            </if>
+            <if test="werks != null">
+                AND li.werks = #{werks}
+            </if>
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND (re.line_id = #{lineId} OR li.pline_id = #{lineId})
+            </if>
+            <if test="matnr2 != null">
+                and re.matnr2 = #{matnr2}
+            </if>
+            <if test="zotype != null">
+                and re.zotype = #{zotype}
+            </if>
+            <if test="zissuetxt != null">
+                and re.zissuetxt = #{zissuetxt}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByNgRecode" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select distinct re.line_id,li.werks,li.dept_id,re.matnr2,ma.maktx,re.ZISSUETXT,df.ztext,re.gmein,re.zotype
+        from wip_in_out_record re
+        join wip_lines li on li.LINE_ID = re.LINE_ID and li.PLINE_ID is null
+        left join sap_dftdtl df on df.TLEVELCODE = re.ZISSUETXT and df.matnr = re.matnr2
+        left join sap_marc ma on ma.matnr = re.matnr2
+        <where>
+            re.zissuetxt != ''
+            AND re.reflag != 1
+            AND re.zissuetxt != 'J099'
+            <if test="creationDateBefore != null">
+                and re.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                and #{creationDateAfter} > re.creation_date
+            </if>
+        </where>
+    </select>
+
+    <select id="RmngaCount" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select re.* from wip_in_out_record re
+        LEFT JOIN wip_lines li ON re.line_id = li.line_id
+        <where>
+            re.reflag != 1
+            AND re.zqxdm LIKE 'M%'
+            <if test="lineId != null">
+                AND (re.line_id = #{lineId} OR li.pline_id = #{lineId})
+            </if>
+            <if test="matnr2 != null">
+                AND re.matnr2 = #{matnr2}
+            </if>
+            <if test="creationDateBefore != null">
+                AND re.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                AND #{creationDateAfter} > re.creation_date
+            </if>
+        </where>
+    </select>
+
+    <select id="XmngaCount" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select re.* from wip_in_out_record re
+        LEFT JOIN wip_lines li ON re.line_id = li.line_id
+        <where>
+            re.reflag != 1
+            AND re.zqxdm not LIKE 'M%'
+            AND re.zissuetxt != 'J099'
+            <if test="lineId != null">
+                AND (re.line_id = #{lineId} OR li.pline_id = #{lineId})
+            </if>
+            <if test="matnr2 != null">
+                AND re.matnr2 = #{matnr2}
+            </if>
+            <if test="creationDateBefore != null">
+                AND re.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                AND #{creationDateAfter} > re.creation_date
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByCreateDate" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select DISTINCT re.line_id,re.matnr2 as matnr2,(select maktx from sap_marc where matnr = matnr2) as maktx,
+        li.werks,li.dept_id,re.gmein
+        from wip_in_out_record re,wip_lines li
+        <where>
+            re.line_id = li.line_id
+            AND li.pline_id is null
+            <if test="creationDateBefore != null">
+                and re.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                and #{creationDateAfter} >= re.creation_date
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDftdtl" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from wip_in_out_record
+        <where>
+            matnr2 = #{matnr2}
+            AND ZISSUETXT = #{zissuetxt}
+        </where>
+    </select>
+
+    <select id="selectforlines" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select distinct re.line_id,li.descriptions,li.werks,li.dept_id,b.name,re.matnr,m.maktx,re.sfflg,re.diecd
+        from wip_in_out_record re,wip_lines li,hr_org_unit_b b,sap_marc m
+        <where>
+            li.line_id = re.line_id
+            AND re.matnr = m.matnr
+            AND li.dept_id = b.unit_code
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND (re.line_id = #{lineId} OR li.pline_id = #{plineId})
+            </if>
+        </where>
+        UNION select distinct q.line_id,li.descriptions,li.werks,li.dept_id,b.name,q.matnr,m.maktx,q.sfflg,q.diecd
+        from wip_lines li,hr_org_unit_b b,zwipq q,sap_marc m
+        <where>
+            li.line_id = q.line_id
+            AND q.matnr = m.matnr
+            AND li.dept_id = b.unit_code
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND (q.line_id = #{lineId} OR li.pline_id = #{plineId})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectZoutnum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(DISTINCT zqjjlh) from wip_in_out_record
+        <where>
+            reflag in(0,3)
+            AND line_id = #{lineId}
+            AND sfflg = #{sfflg}
+            AND diecd = #{diecd}
+            AND matnr = #{matnr}
+            <if test="zremade != null">
+                AND zremade = #{zremade}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectZoutnum1" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select COALESCE(sum(zoutnum),0) FROM wip_in_out_record
+        <where>
+            line_id = #{lineId}
+            AND matnr2 = #{matnr}
+            AND zpgdbar = #{zpgdbar}
+            <if test="reflag == 2">
+                AND reflag = 2
+            </if>
+            <if test="reflag == 3">
+                AND reflag in (0,3)
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertQjrecode" parameterType="yj.core.inoutrecord.dto.InOutRecord">
+        insert INTO wip_in_out_record (ZQJJLH,ZWIPQID,LINE_ID,ARBPR,ZBANZ,ZBANC,ZPGDBAR,VORNR,ZXHBAR,ZPGDBAR2,MATNR,MATNR2,ZGJBAR,ZOUTNUM,REFLAG,GMEIN,CHARG,DIECD,SFFLG,
+        ZOTYPE,ZQXDM,ZISSUETXT,ZBPJC,ZJTGX,ZOPLO,OUTDAT,OUTNAM,REDAT,RENAM,ZREMADE,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)VALUES (#{zqjjlh},#{zwipqid},#{lineId},#{arbpr},#{zbanz},#{zbanc},#{zpgdbar},#{vornr},#{zxhbar},#{zpgdbar2},#{matnr},#{matnr2},
+        #{zgjbar},#{zoutnum},#{reflag},#{gmein},#{charg},#{diecd},#{sfflg},#{zotype},#{zqxdm},#{zissuetxt},#{zbpjc},#{zjtgx},#{zoplo},#{outdat},#{outnam},#{redat},#{renam},#{zremade},#{creationDate},#{createdBy},#{lastUpdateDate},#{lastUpdatedBy})
+    </insert>
+
+    <select id="selectforjjhj" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_in_out_record
+        <where>
+            LINE_ID = #{line_id}
+            and ZOTYPE = #{qjcodeval}
+            and VORNR = #{lineiocfgval}
+            and MATNR2 = #{matnr}
+            and REFLAG = #{hjtype}
+            and ZREMADE = 0
+            and ZGJBAR IS NULL
+        </where>
+        order by SFFLG asc;
+    </select>
+
+    <select id="selectNoReflg" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_in_out_record
+        <where>
+            LINE_ID = #{line_id}
+            and ZOTYPE = #{zotype}
+            and VORNR = #{vornr}
+            and MATNR2 = #{matnr}
+            and SFFLG = #{sfflg}
+            and REFLAG = #{hjtype}
+            AND ZREMADE = 0
+        </where>
+        order by SFFLG asc;
+    </select>
+    <update id="updateReflag" parameterType="yj.core.inoutrecord.dto.InOutRecord">
+        update wip_in_out_record set REFLAG = #{reflag}
+        <if test="redat != null">
+            ,REDAT = #{redat}
+        </if>
+        <if test="renam != null">
+            ,RENAM = #{renam}
+        </if>
+        <if test="createdBy != null">
+            ,CREATED_BY = #{createdBy}
+        </if>
+        <if test="creationDate != null">
+            ,CREATION_DATE = #{creationDate}
+        </if>
+        <if test="lastUpdateDate != null">
+            ,LAST_UPDATE_DATE = #{lastUpdateDate}
+        </if>
+        <if test="lastUpdatedBy != null">
+            ,LAST_UPDATED_BY = #{lastUpdatedBy}
+        </if>
+        <where>
+            ZQJJLH = #{zqjjlh}
+        </where>
+    </update>
+
+    <!--<select id="selectforZud" parameterType="java.lang.String" resultMap="BaseResultMap">-->
+        <!--select a.*-->
+               <!--from wip_in_out_record a,wip_qjcode b-->
+        <!--<where>-->
+            <!--a.ZOTYPE = b.ID-->
+            <!--AND b.SLD1 = 'X'-->
+            <!--AND REFLAG = 0-->
+            <!--<if test="line_id != null">-->
+                <!--and LINE_ID = #{line_id}-->
+            <!--</if>-->
+            <!--<if test="classgrp != null">-->
+                <!--and ZBANZ = #{classgrp}-->
+            <!--</if>-->
+
+        <!--</where>-->
+    <!--</select>-->
+
+    <select id="selectforZud" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.*,
+               c.name1,
+               d.kunnr
+        from wip_in_out_record a,wip_qjcode b,sap_cust c,wip_products_cfg d,wip_lines e
+        <where>
+            a.ZOTYPE = b.ID
+            and ( a.LINE_ID = d.LINE_ID and a.MATNR2 = d.PMATNR )
+            AND c.KUNNR = d.KUNNR
+            AND b.SLD1 = 'X'
+            AND a.REFLAG = 0
+            AND a.LINE_ID = e.LINE_ID
+            and ( a.LINE_ID = #{line_id} or e.PLINE_ID = #{pline_id} )
+            <if test="classgrp != null">
+                and a.ZBANZ = #{classgrp}
+            </if>
+            <if test="matnr2 != null">
+                and a.matnr2 = #{matnr2}
+            </if>
+            <if test="creationDateBefore != null">
+                and a.creation_date >= #{creationDateBefore}
+            </if>
+            <if test="creationDateAfter != null">
+                and #{creationDateAfter} >= a.creation_date
+            </if>
+            ORDER BY a.LINE_ID ASC;
+
+        </where>
+    </select>
+
+    <select id="selectforZrwk" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.* from wip_in_out_record a,wip_qjcode b,wip_lines e
+        <where>
+            a.ZOTYPE = b.ID
+            AND b.SLD2 = 'X'
+            AND REFLAG = 0
+            AND a.LINE_ID = e.LINE_ID
+            and ( a.LINE_ID = #{line_id} or e.PLINE_ID = #{pline_id} )
+
+            <if test="classgrp != null">
+                and ZBANZ = #{classgrp}
+            </if>
+            <if test="zotype != null">
+                and ZOTYPE = #{zotype}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_in_out_record
+        <where>
+            ZQJJLH = #{zqjjlh}
+        </where>
+    </select>
+
+    <select id="selectforQcaudit1" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select
+        d.WERKS,
+        i.ZQJJLH,
+        i.ZWIPQID,
+        l.DEPT_ID,
+        org.NAME as depttxt,
+        i.LINE_ID,
+        l.DESCRIPTIONS as DESLINETXT,
+        l.PLINE_ID,
+        l1.DESCRIPTIONS as DESMINALINETXT,
+        i.matnr,
+        m.maktx,
+        i.matnr2,
+        m2.MAKTX as maktx2,
+        i.ZGJBAR,
+        i.ZXHBAR,
+        i.SFFLG,
+        i.CHARG,
+        i.DIECD,
+        i.ZOTYPE,
+        qj.RCODE,
+        i.vornr,
+        i.ZQXDM,
+        qp.KURZTEXT,
+        i.ZISSUETXT,
+        dtl.ZTEXT,
+        i.ZOUTNUM,
+        i.GMEIN,
+        i.ZBANZ,
+        i.ZBANC,
+        c.CREATION_DATE as gstrp,
+        i.zpgdbar2,
+        i.zpgdbar,
+        cfg.KUNNR,
+        k.name1 as SORTL,
+        i.REFLAG,
+        i.ZOPLO,
+        i.OUTDAT,
+        i.OUTNAM
+        FROM wip_in_out_record i
+        LEFT JOIN wip_lines l on l.line_id = i.line_id
+        LEFT JOIN zwipq c on i.ZWIPQID = c.ZSXJLH
+        LEFT JOIN sap_marc m on i.MATNR = m.matnr
+        LEFT JOIN SAP_marc m2 on i.MATNR2 = m2.matnr
+        LEFT JOIN hr_org_unit_b org on org.UNIT_CODE = l.DEPT_ID
+        LEFT JOIN wip_lines l1 on l1.LINE_ID	= l.PLINE_ID
+        LEFT JOIN wip_qjcode qj on qj.id = i.ZOTYPE
+        LEFT JOIN sap_qpcd qp on qp.code = i.zqxdm
+        left JOIN sap_dftdtl dtl on ( dtl.matnr = i.matnr2 and dtl.TLEVELCODE = i.ZISSUETXT )
+        left join wip_products_cfg cfg on ( cfg.PMATNR = i.matnr2 and cfg.line_id = i.line_id )
+        left JOIN sap_cust k on k.kunnr = cfg.kunnr
+        left join sap_xhcard d on d.zxhbar = i.zxhbar
+        <where>
+            and REFLAG in ('0','3')
+            and i.LINE_ID = #{line_id}
+            and d.WERKS = #{werks}
+            and i.ZBANZ = #{zbanz}
+            AND i.ZQXDM = #{zqxdm}
+            and i.ZISSUETXT = #{zissuetxt}
+            and i.ZREMADE = '0'
+            <if test="matnr != null">
+                and i.MATNR = #{matnr}
+            </if>
+            <if test="matnr2 != null">
+                and i.MATNR2 = #{matnr2}
+            </if><if test="gstrp != null">
+                and c.CREATION_DATE like #{gstrp}
+            </if>
+        </where>
+            order BY c.CREATION_DATE,i.ZBANZ,i.ZQXDM,i.ZISSUETXT;
+    </select>
+
+    <select id="selectforQcaudit3" parameterType="java.lang.String" resultMap="BaseResultMap3">
+        select
+        d.WERKS,
+        i.ZQJJLH,
+        i.ZWIPQID,
+        l.DEPT_ID,
+        org.NAME as depttxt,
+        i.LINE_ID,
+        l.DESCRIPTIONS as DESLINETXT,
+        l.PLINE_ID,
+        l1.DESCRIPTIONS as DESMINALINETXT,
+        i.matnr,
+        m.maktx,
+        i.matnr2,
+        m2.MAKTX as maktx2,
+        i.ZGJBAR,
+        i.ZXHBAR,
+        i.SFFLG,
+        i.CHARG,
+        i.DIECD,
+        i.ZOTYPE,
+        qj.RCODE,
+        i.vornr,
+        i.ZQXDM,
+        qp.KURZTEXT,
+        i.ZISSUETXT,
+        dtl.ZTEXT,
+        i.ZOUTNUM,
+        i.GMEIN,
+        i.ZBANZ,
+        i.ZBANC,
+        c.CREATION_DATE as gstrp,
+        i.zpgdbar2,
+        i.zpgdbar,
+        cfg.KUNNR,
+        k.name1 as SORTL,
+        i.REFLAG,
+        i.ZOPLO,
+        i.OUTDAT,
+        i.OUTNAM
+        FROM wip_in_out_record i
+        LEFT JOIN wip_lines l on l.line_id = i.line_id
+        LEFT JOIN zwipq c on i.ZWIPQID = c.ZSXJLH
+        LEFT JOIN sap_marc m on i.MATNR = m.matnr
+        LEFT JOIN SAP_marc m2 on i.MATNR2 = m2.matnr
+        LEFT JOIN hr_org_unit_b org on org.UNIT_CODE = l.DEPT_ID
+        LEFT JOIN wip_lines l1 on l1.LINE_ID	= l.PLINE_ID
+        LEFT JOIN wip_qjcode qj on qj.id = i.ZOTYPE
+        LEFT JOIN sap_qpcd qp on qp.code = i.zqxdm
+        left JOIN sap_dftdtl dtl on ( dtl.matnr = i.matnr2 and dtl.TLEVELCODE = i.ZISSUETXT )
+        left join wip_products_cfg cfg on ( cfg.PMATNR = i.matnr2 and cfg.line_id = i.line_id )
+        left JOIN sap_cust k on k.kunnr = cfg.kunnr
+        left join sap_xhcard d on d.zxhbar = i.zxhbar
+        <where>
+            and REFLAG in ('0','3')
+            and i.LINE_ID = #{line_id}
+            and d.WERKS = #{werks}
+            and i.ZBANZ = #{zbanz}
+            AND i.ZQXDM = #{zqxdm}
+            and i.ZISSUETXT = #{zissuetxt}
+            and i.ZREMADE = '1'
+            <if test="matnr != null">
+                and i.MATNR = #{matnr}
+            </if>
+            <if test="matnr2 != null">
+                and i.MATNR2 = #{matnr2}
+            </if><if test="gstrp != null">
+            and c.CREATION_DATE like #{gstrp}
+        </if>
+        </where>
+        order BY c.CREATION_DATE,i.ZBANZ,i.ZQXDM,i.ZISSUETXT;
+    </select>
+
+    <select id="selectforKanb" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_in_out_record
+        <where>
+             LINE_ID = #{line_id}
+            and MATNR2 = #{matnr}
+            and   reflag != '1'
+            and OUTDAT >= #{start}
+            and #{end} >= OUTDAT
+            and ZREMADE != '1'
+        </where>
+    </select>
+
+    <select id="selectByZpgdbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_in_out_record
+        <where>
+            ZPGDBAR = #{zpgdbar}
+        </where>
+    </select>
+</mapper>

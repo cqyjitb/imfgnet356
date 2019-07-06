@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<#include "../include/header.html">
+    <body>
+    <script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var viewModel2 = kendo.observable({
+            model: {},
+            closeWin: function (e) {
+                window.parent.$("#newWin").data("kendoWindow").close();
+            },
+            save: function (e) {
+                 var aufnr = document.getElementById("aufnr").value;
+                 var date = window.parent.item;
+                 $.ajax({
+                    url: "${base.contextPath}/sap/afko/selectByAufnr",
+                    type: "get",
+                    data: {
+                        "aufnr":aufnr,
+                        "matnr":date[0].matnr2
+
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    success: function (res) {
+                        if (res.success) {
+
+                            //生产订单满足
+                            var viewModeltmp = window.parent.viewModel;
+                            var werks = viewModeltmp.model.werks;
+                            var recordid = viewModeltmp.model.recordid;
+
+                            $.ajax({
+                                url:"${base.contextPath}/wip/qcauditprocessheader/sumbitBf",
+                                type: "get",
+                                data: {
+                                    "werks":werks,
+                                    "recordid":recordid,
+                                    "aufnr":aufnr
+
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                success: function (res) {
+                                    if (res.success) {
+                                        window.parent.$("#newWin").data("kendoWindow").close();
+                                    }else{
+                                        window.parent.$("#newWin").data("kendoWindow").close();
+                                    }
+                                }
+                            });
+
+                        }else{
+                            //生产订单不满足
+                            document.getElementById("aufnr").value = "";
+                            kendo.ui.showErrorDialog({
+                                title: '提示',
+                                message: res.message
+                            });
+                        }
+                    }
+                });
+                 //检查aufnr是否满足
+            }
+        });
+    </script>
+    <div id="page-content" style="width:870px;margin-top: 5px;">
+        <form id="mainform" class="form-horizontal" method="post" enctype="application/json;charset=UTF-8">
+            <div class="row" style="margin-left: 5px;">
+                <div class="form-group">
+                    <div class="col-sm-12" style="float: left;">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">生产订单</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="aufnr" style="width:100%" name="aufnr"
+                                           data-bind="value:model.aufnr" class="k-textbox">
+                                    <span data-for="aufnr" class=".k-invalid-msg"></span>
+                                    <!--<script>-->
+                                        <!--$("#unit_codedepart").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW")}, {-->
+                                            <!--query: function (e) {-->
+                                                <!--e.param['enabledFlag'] = 'Y';-->
+                                            <!--}-->
+                                        <!--}));-->
+                                    <!--</script>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="mainBottom" class="text-right"
+         style="bottom: 15px;position: fixed;  float: left;padding-top:15px;border-top:1px solid #ebebeb;width:100%; background: #fff;">
+        <span class="btn btn-primary" data-bind="click:save" type="submit" style="margin-right:5px"><@spring.message "hap.save"/></span>
+        <span class="btn btn-default" data-bind="click:closeWin" type="button" style="margin-right:25px;"><@spring.message "hap.cancel"/></span>
+    </div>
+    <script type="text/javascript">
+        kendo.bind($('#mainBottom'), viewModel2);
+        kendo.bind($('#mainform'), viewModel2);
+    </script>
+    </body>
+    </html>

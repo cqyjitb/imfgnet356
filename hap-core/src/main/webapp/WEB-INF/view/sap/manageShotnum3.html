@@ -1,0 +1,398 @@
+<!--
+    压射号异常明细表 918100064
+-->
+<#include "../include/header.html" />
+<body>
+<style>
+    span[class='k-window-title'] {
+        user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+    }
+    .action_ok {
+        color: #5fb760;
+    }
+
+    .action_dangerous {
+        color: #eeac5f;
+    }
+    .label{
+        color: red;
+    }
+
+</style>
+<Script src="${base.contextPath}/resources/js/yj-pda.js"></Script>
+<script type="text/javascript">
+    var date = getYesterdayDate();
+    var viewModel = kendo.observable({
+        model: {
+            werks:"1001",
+            prdDateAfter: date,
+            prdDateBefore: date
+        },
+        queryGrid: function () {
+            var prdDateAfter = document.getElementById('prdDateAfter').value;
+            var prdDateBefore = document.getElementById('prdDateBefore').value;
+            var total = document.getElementById('total').value;
+            if(prdDateAfter == null || prdDateAfter == "" || prdDateAfter == ''){
+                kendo.ui.showErrorDialog({
+                    title: '错误',
+                    message: "查询条件:开始日期,必输！"
+                });
+            }else if(prdDateBefore == null || prdDateBefore == "" || prdDateBefore == ''){
+                kendo.ui.showErrorDialog({
+                    title: '错误',
+                    message: "查询条件:结束日期,必输！"
+                });
+            }else{
+                grid.dataSource.data([]);
+                if(total == 'Y'){
+                    grid.hideColumn("shifts");
+                    grid.hideColumn("sClass");
+                    grid.showColumn("prdDateBefore");
+                    grid.thead[0].lastChild.cells[5].innerText = "开始日期";
+                }else{
+                    grid.showColumn("shifts");
+                    grid.showColumn("sClass");
+                    grid.hideColumn("prdDateBefore");
+                    grid.thead[0].lastChild.cells[5].innerText = "日期";
+                }
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+        }
+    });
+</script>
+<div id="content-container">
+    <div id="page-content">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="test">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工厂<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">开始日期<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="prdDateAfter" style="width: 100%" data-role="datepicker" data-bind="value:model.prdDateAfter" class="k-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">结束日期<label class="label">*</label></label>
+                                    <div class="col-sm-8">
+                                        <input id="prdDateBefore" style="width: 100%" data-role="datepicker" data-bind="value:model.prdDateBefore" class="k-datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">汇总查询</label>
+                                    <div class="col-sm-8">
+                                        <input  type="checkbox" id="total" data-bind="checked:total,value:model.total"
+                                                data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-right: -8px;">
+                        <div class="pull-right" style="margin-right:15px">
+							<span class="btn btn-primary" data-bind="click:queryGrid" type="submit">
+                                <i class="fa fa-search" style="margin-right:3px;"></i>
+                            <@spring.message "hap.query"/></span>
+                            <span class="btn btn-info" type="button" id="panel_hidden1" onclick="test1()">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_hidden"/></span>
+                            <span class="btn btn-info" type="button" id="panel_show1" onclick="test1()" style="display: none">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_show"/></span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div style="clear:both">
+            <div id="Grid"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content'), viewModel);
+    function test1() {
+        var apply = $("#test");
+        var button_hidden = $("#panel_hidden1");
+        var button_show = $("#panel_show1");
+        if (apply.is(":hidden")) {
+            button_hidden.show();
+            button_show.hide();
+            apply.show();    //如果元素为隐藏,则将它显现
+        } else {
+            button_hidden.hide();
+            button_show.show();
+            apply.hide();     //如果元素为显现,则将其隐藏
+        }
+        Hap.autoResizeGrid("#Grid");
+    }
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/shotnum/queryShotnum3",
+                type: "POST",
+                dataType: "json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        //pageSize: 20,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "werks",
+                fields: {
+                    werks:{type:'string'},
+                    fevor:{type:'string'},
+                    prdDateAfter:{type:'date'},
+                    prdDateBefore:{type:'date'},
+                    total:{type:'string'}
+                }
+            }
+        }
+    });
+
+    $("#Grid").kendoGrid({
+        dataSource: dataSource,
+        autoBind:false,
+        height: '100%',
+        resizable: true,
+        scrollable: true,
+        navigatable: false,
+        pageable: {
+            pageSizes: ["all"],
+            refresh: true,
+            buttonCount: 10
+        },
+        toolbar: ["excel"],
+        columns: [
+            {
+                field: "werks",
+                title: '工厂',
+                width: 60,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "fevor",
+                title: '车间',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "txt",
+                title: '车间名称',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "arbpl",
+                title: '工作中心',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "ktext",
+                title: '工作中心名称',
+                width: 240,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "prdDateAfter",
+                title: '日期',
+                width: 100,
+                format:"{0:yyyy-MM-dd}",
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "prdDateBefore",
+                title: '结束日期',
+                width: 100,
+                format:"{0:yyyy-MM-dd}",
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "shifts",
+                title: '班次',
+                width: 80,
+                template:function (e) {
+                    if(e.shifts == "1"){
+                        return "白班";
+                    }else if(e.shifts == "2"){
+                        return "中班";
+                    }else if(e.shifts == "3"){
+                        return "夜班";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "sClass",
+                title: '班组',
+                width: 80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "shotStart",
+                title: '起始压射号',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "shotEnd",
+                title: '终止压射号',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "shotNum",
+                title: '压模次数',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "yeild",
+                title: '报工合格数量',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "wasteNum",
+                title: '报工废品数量',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "differentNum",
+                title: '差异数',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field: "brgew",
+                title: '浇注重量-KG',
+                width: 120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ],
+        editable: false
+    });
+
+    var grid = $("#Grid").data("kendoGrid");
+    grid.bind("excelExport", function(e) {
+        e.workbook.fileName = "压射号及报工统计表.xlsx";
+    });
+    Hap.autoResizeGrid("#Grid");
+</script>
+</body>
+</html>

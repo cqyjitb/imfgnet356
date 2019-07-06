@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipbarcodesetting.mapper.BarcodeSettingMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipbarcodesetting.dto.BarcodeSetting">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="HEADER_ID" property="headerId" jdbcType="DECIMAL"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL"/>
+        <result column="MATNR" property="matnr" jdbcType="DECIMAL"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="DECIMAL"/>
+        <result column="BARCODE_CNT" property="barcodeCnt" jdbcType="DECIMAL"/>
+        <result column="PKG_QTY" property="pkgQty" jdbcType="DECIMAL"/>
+        <result column="TUO_QTY" property="tuoQty" jdbcType="DECIMAL"/>
+        <result column="ADMIN_PASSWORD" property="adminPassword" jdbcType="VARCHAR"/>
+        <result column="IS_CHECK" property="isCheck" jdbcType="DECIMAL"/>
+        <result column="IS_STEP" property="isStep" jdbcType="DECIMAL"/>
+        <result column="IS_PRINT" property="isPrint" jdbcType="DECIMAL"/>
+        <result column="IS_REL_CUSTOMER" property="isRelCustomer" jdbcType="DECIMAL"/>
+        <result column="ONLINE_PER" property="onlinePer" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE1" property="attribute1" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE2" property="attribute2" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE3" property="attribute3" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE4" property="attribute4" jdbcType="VARCHAR"/>
+        <result column="ATTRIBUTE5" property="attribute5" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectFromPage" parameterType="yj.core.wipbarcodesetting.dto.BarcodeSetting" resultMap="BaseResultMap">
+        select bs.*,li.dept_id,bs.matnr as matnr2,(select maktx from sap_marc where matnr = matnr2) as maktx
+        from wip_barcode_setting bs,wip_lines li
+        <where>
+            bs.line_id = li.line_id
+            <if test="werks != null">
+                AND bs.werks = #{werks}
+            </if>
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND bs.line_id = #{lineId}
+            </if>
+            <if test="matnr != null">
+                AND bs.matnr = #{matnr}
+            </if>
+            <if test="status != null">
+                AND bs.status = #{status}
+            </if>
+            <if test="isCheck != null">
+                AND bs.is_check = #{isCheck}
+            </if>
+            <if test="isPrint != null">
+                AND bs.is_print = #{isPrint}
+            </if>
+            <if test="isStep != null">
+                AND bs.is_step = #{isStep}
+            </if>
+            <if test="isRelCustomer != null">
+                AND bs.is_rel_customer = #{isRelCustomer}
+            </if>
+        </where>
+    </select>
+
+    <select id="maxBarcodeSettingByHeaderId" resultType="java.lang.Integer">
+        select COALESCE(max(header_id),0) from wip_barcode_setting
+    </select>
+
+    <update id="updateBarcodeSetting" parameterType="yj.core.wipbarcodesetting.dto.BarcodeSetting">
+        UPDATE wip_barcode_setting SET WERKS=#{werks},LINE_ID=#{lineId},HEADER_ID=#{headerId},MATNR=#{matnr},STATUS=#{status},
+        BARCODE_CNT=#{barcodeCnt},PKG_QTY=#{pkgQty},TUO_QTY=#{tuoQty},ADMIN_PASSWORD=#{adminPassword},
+        IS_CHECK=#{isCheck},IS_STEP=#{isStep},IS_PRINT=#{isPrint},IS_REL_CUSTOMER=#{isRelCustomer},ONLINE_PER=#{onlinePer},
+        ATTRIBUTE1=#{attribute1},ATTRIBUTE2=#{attribute2},ATTRIBUTE3=#{attribute3},ATTRIBUTE4=#{attribute4},ATTRIBUTE5=#{attribute5},
+        LAST_UPDATED_BY=#{lastUpdatedBy},LAST_UPDATED_DATE=#{lastUpdatedDate}
+        <where>
+            HEADER_ID=#{headerId}
+        </where>
+    </update>
+
+    <insert id="insertBarcodeSetting" parameterType="yj.core.wipbarcodesetting.dto.BarcodeSetting">
+        INSERT INTO wip_barcode_setting(WERKS,LINE_ID,HEADER_ID,MATNR,STATUS,BARCODE_CNT,PKG_QTY,TUO_QTY,ADMIN_PASSWORD,
+                              IS_CHECK,IS_STEP,IS_PRINT,IS_REL_CUSTOMER,ONLINE_PER,ATTRIBUTE1,ATTRIBUTE2,
+                              ATTRIBUTE3,ATTRIBUTE4,ATTRIBUTE5,CREATED_BY,CREATION_DATE)
+        VALUES (#{werks},#{lineId},#{headerId},#{matnr},#{status},#{barcodeCnt},#{pkgQty},#{tuoQty},#{adminPassword},
+                 #{isCheck},#{isStep},#{isPrint},#{isRelCustomer},#{onlinePer},#{attribute1},#{attribute2},
+                 #{attribute3},#{attribute4},#{attribute5},#{createdBy},#{creationDate})
+    </insert>
+
+    <delete id="deleteBarcodeSetting" parameterType="yj.core.wipbarcodesetting.dto.BarcodeSetting">
+        delete from wip_barcode_setting
+        <where>
+            HEADER_ID=#{headerId}
+        </where>
+    </delete>
+</mapper>

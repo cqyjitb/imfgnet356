@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.bomroutings.mapper.RoutingsMapper">
+    <resultMap id="BaseResultMap" type="yj.core.bomroutings.dto.Routings">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="ROUTING_ID" property="routingId" jdbcType="DECIMAL"/>
+        <result column="ROUTING_CODE" property="routingCode" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="VARCHAR"/>
+        <result column="END_DATE" property="endDate" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy2" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate2" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectFromPage" parameterType="yj.core.bomroutings.dto.Routings" resultMap="BaseResultMap">
+        select *,MATNR as matnr2,(select maktx from sap_marc where matnr = matnr2) as maktx,
+        created_by as createdBy2,creation_date as creationDate2 from bom_routings
+        <where>
+            1 = 1
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="routingCode != null">
+                AND routing_code = #{routingCode}
+            </if>
+            <if test="descriptions != null">
+                AND descriptions = #{descriptions}
+            </if>
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+            <if test="enableFlag != null">
+                AND enable_flag = #{enableFlag}
+            </if>
+            <if test="startDateAfter != null">
+                AND start_date >= #{startDateAfter}
+            </if>
+            <if test="startDateBefore != null">
+                AND #{startDateBefore} >= start_date
+            </if>
+            <if test="endDateAfter != null">
+                AND end_date >= #{endDateAfter}
+            </if>
+            <if test="endDateBefore != null">
+                AND #{endDateBefore} >= end_date
+            </if>
+        </where>
+    </select>
+
+    <select id="selectMaxRoutings" resultType="java.lang.Integer">
+        select COALESCE(max(routing_id),0) from bom_routings
+    </select>
+
+    <update id="updateRoutings" parameterType="yj.core.bomroutings.dto.Routings">
+        update bom_routings set WERKS = #{werks},ROUTING_ID=#{routingId},ROUTING_CODE=#{routingCode},DESCRIPTIONS=#{descriptions},
+        MATNR=#{matnr},ENABLE_FLAG=#{enableFlag},START_DATE=#{startDate},END_DATE=#{endDate},CREATION_DATE=#{creationDate2},
+        CREATED_BY=#{createdBy2},LAST_UPDATED_DATE=#{lastUpdatedDate},LAST_UPDATED_BY=#{lastUpdatedBy}
+        <where>
+            ROUTING_ID = #{routingId}
+        </where>
+    </update>
+
+    <insert id="insertRoutings" parameterType="yj.core.bomroutings.dto.Routings">
+        insert into bom_routings(WERKS,ROUTING_ID,ROUTING_CODE,DESCRIPTIONS,MATNR,
+        ENABLE_FLAG,START_DATE,END_DATE,CREATION_DATE,CREATED_BY)
+        values (#{werks},#{routingId},#{routingCode},#{descriptions},#{matnr},
+        #{enableFlag},#{startDate},#{endDate},#{creationDate2},#{createdBy2})
+    </insert>
+
+    <select id="isExit" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from bom_routings
+        <where>
+            ROUTING_ID = #{routingId}
+        </where>
+    </select>
+
+    <delete id="deleteRoutings" parameterType="java.lang.Integer">
+        delete from bom_routings
+        <where>
+            ROUTING_ID = #{routingId}
+        </where>
+    </delete>
+</mapper>

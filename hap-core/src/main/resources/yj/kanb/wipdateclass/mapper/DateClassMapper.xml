@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.wipdateclass.mapper.DateClassMapper">
+    <resultMap id="BaseResultMap" type="yj.kanb.wipdateclass.dto.DateClass">
+        <result column="START_DATE" property="startDate" jdbcType="DATE"/>
+        <result column="END_DATE" property="endDate" jdbcType="DATE"/>
+        <result column="CLASS_NAME" property="className" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="queryDateClass" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_date_class
+        <where>
+            <if test="className != null">
+                class_name = #{className}
+            </if>
+        </where>
+        ORDER BY start_date desc
+    </select>
+
+    <insert id="insertDateClass" parameterType="yj.kanb.wipdateclass.dto.DateClass">
+        insert into wip_date_class(start_date,end_date,class_name,creation_date,created_by)
+        values(#{startDate},#{endDate},#{className},#{creationDate},#{createdBy})
+    </insert>
+
+    <update id="updateDateClass" parameterType="yj.kanb.wipdateclass.dto.DateClass">
+        update wip_date_class set start_date = #{startDate},end_date = #{endDate},class_name = #{className},
+        last_updated_by = #{lastUpdatedBy},last_update_date = #{lastUpdateDate}
+        <where>
+            class_name = #{className}
+        </where>
+    </update>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.dispatch.mapper.LogMapper">
+    <resultMap id="BaseResultMap" type="yj.core.dispatch.dto.Log">
+        <result column="id" property="id" jdbcType="DECIMAL" />
+        <result column="tran_type" property="tranType" jdbcType="VARCHAR" />
+        <result column="ref_id" property="refId" jdbcType="DECIMAL" />
+        <result column="msgty" property="msgty" jdbcType="VARCHAR" />
+        <result column="msgtx" property="msgtx" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <select id="queryLogById" resultMap="BaseResultMap">
+        SELECT *
+        FROM confirmation_log
+        WHERE id=#{id};
+    </select>
+
+    <insert id="insertLog" parameterType="yj.core.dispatch.dto.Log">
+        INSERT INTO confirmation_log(
+        tran_type,ref_id,msgty,msgtx,CREATED_BY,CREATION_DATE,LAST_UPDATE_DATE
+        )
+        VALUES (
+        #{tranType}, #{refId},#{msgty},#{msgtx},#{created_by},#{creationDate},#{lastUpdateDate}
+      )
+    </insert>
+
+    <select id="queryLogByRefidbg" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from confirmation_log
+        <where>
+            ref_id = #{refId}
+            and tran_type = '0'
+        </where>
+    </select>
+
+    <select id="queryLogByRefidcx" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from confirmation_log
+        <where>
+            ref_id = #{refId}
+            and tran_type = '1'
+        </where>
+    </select>
+
+    <update id="updateMsgty" parameterType="yj.core.dispatch.dto.Log">
+        UPDATE confirmation_log set msgty = #{msgty},
+                                    msgtx = #{msgtx}
+             <where>
+                 id = #{id}
+             </where>
+
+    </update>
+</mapper>

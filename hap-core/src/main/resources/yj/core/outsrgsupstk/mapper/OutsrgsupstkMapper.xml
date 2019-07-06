@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.outsrgsupstk.mapper.OutsrgsupstkMapper">
+    <resultMap id="BaseResultMap" type="yj.core.outsrgsupstk.dto.Outsrgsupstk">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="AHR" property="ahr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="MTH_OPEN1" property="mthOpen1" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE1" property="mthIssue1" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM1" property="mthZshnum1" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM1" property="mthZlfnum1" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM1" property="mthZgfnum1" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST1" property="mthZlost1" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM1" property="mthZthnum1" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN2" property="mthOpen2" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE2" property="mthIssue2" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM2" property="mthZshnum2" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM2" property="mthZlfnum2" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM2" property="mthZgfnum2" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST2" property="mthZlost2" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM2" property="mthZthnum2" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN3" property="mthOpen3" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE3" property="mthIssue3" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM3" property="mthZshnum3" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM3" property="mthZlfnum3" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM3" property="mthZgfnum3" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST3" property="mthZlost3" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM3" property="mthZthnum3" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN4" property="mthOpen4" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE4" property="mthIssue4" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM4" property="mthZshnum4" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM4" property="mthZlfnum4" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM4" property="mthZgfnum4" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST4" property="mthZlost4" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM4" property="mthZthnum4" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN5" property="mthOpen5" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE5" property="mthIssue5" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM5" property="mthZshnum5" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM5" property="mthZlfnum5" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM5" property="mthZgfnum5" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST5" property="mthZlost5" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM5" property="mthZthnum5" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN6" property="mthOpen6" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE6" property="mthIssue6" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM6" property="mthZshnum6" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM6" property="mthZlfnum6" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM6" property="mthZgfnum6" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST6" property="mthZlost6" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM6" property="mthZthnum6" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN7" property="mthOpen7" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE7" property="mthIssue7" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM7" property="mthZshnum7" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM7" property="mthZlfnum7" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM7" property="mthZgfnum7" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST7" property="mthZlost7" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM7" property="mthZthnum7" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN8" property="mthOpen8" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE8" property="mthIssue8" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM8" property="mthZshnum8" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM8" property="mthZlfnum8" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM8" property="mthZgfnum8" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST8" property="mthZlost8" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM8" property="mthZthnum8" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN9" property="mthOpen9" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE9" property="mthIssue9" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM9" property="mthZshnum9" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM9" property="mthZlfnum9" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM9" property="mthZgfnum9" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST9" property="mthZlost9" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM9" property="mthZthnum9" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN10" property="mthOpen10" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE10" property="mthIssue10" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM10" property="mthZshnum10" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM10" property="mthZlfnum10" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM10" property="mthZgfnum10" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST10" property="mthZlost10" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM10" property="mthZthnum10" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN11" property="mthOpen11" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE11" property="mthIssue11" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM11" property="mthZshnum11" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM11" property="mthZlfnum11" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM11" property="mthZgfnum11" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST11" property="mthZlost11" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM11" property="mthZthnum11" jdbcType="DECIMAL" />
+        <result column="MTH_OPEN12" property="mthOpen12" jdbcType="DECIMAL" />
+        <result column="MTH_ISSUE12" property="mthIssue12" jdbcType="DECIMAL" />
+        <result column="MTH_ZSHNUM12" property="mthZshnum12" jdbcType="DECIMAL" />
+        <result column="MTH_ZLFNUM12" property="mthZlfnum12" jdbcType="DECIMAL" />
+        <result column="MTH_ZGFNUM12" property="mthZgfnum12" jdbcType="DECIMAL" />
+        <result column="MTH_ZLOST12" property="mthZlost12" jdbcType="DECIMAL" />
+        <result column="MTH_ZTHNUM12" property="mthZthnum12" jdbcType="DECIMAL" />
+        <result column="REQUEST_ID" property="requestId" jdbcType="DECIMAL" />
+        <result column="PROGRAM_ID" property="programId" jdbcType="DECIMAL" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATE_LOGIN" property="lastUpdateLogin" jdbcType="DECIMAL" />
+    </resultMap>
+
+
+</mapper>

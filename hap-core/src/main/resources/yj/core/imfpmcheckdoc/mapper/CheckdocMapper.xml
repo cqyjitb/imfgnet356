@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.imfpmcheckdoc.mapper.CheckdocMapper">
+    <resultMap id="BaseResultMap" type="yj.core.imfpmcheckdoc.dto.Checkdoc">
+        <result column="CHECKDOC" property="checkdoc" jdbcType="DECIMAL"/>
+        <result column="MPOBJ" property="mpobj" jdbcType="VARCHAR"/>
+        <result column="EQKTU" property="eqktu" jdbcType="VARCHAR"/>
+        <result column="POINT" property="point" jdbcType="VARCHAR"/>
+        <result column="PTTXT" property="pttxt" jdbcType="VARCHAR"/>
+        <result column="CHECKREQ" property="checkreq" jdbcType="VARCHAR"/>
+        <result column="CHECKCYCLE" property="checkcycle" jdbcType="VARCHAR"/>
+        <result column="CHECKDE" property="checkde" jdbcType="VARCHAR"/>
+        <result column="IWERK" property="iwerk" jdbcType="VARCHAR"/>
+        <result column="TPLNR" property="tplnr" jdbcType="VARCHAR"/>
+        <result column="PLTXT" property="pltxt" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR"/>
+        <result column="CHECKDATE" property="checkdate" jdbcType="DATE"/>
+        <result column="CHECKTIME" property="checktime" jdbcType="TIME"/>
+        <result column="CHECKSHIFT" property="checkshift" jdbcType="VARCHAR"/>
+        <result column="CHECKUSER" property="checkuser" jdbcType="VARCHAR"/>
+        <result column="CHECKOBJECT" property="checkobject" jdbcType="VARCHAR"/>
+        <result column="CHECKPLAN_ID" property="checkplanId" jdbcType="DECIMAL"/>
+        <result column="CODCT" property="codct" jdbcType="VARCHAR"/>
+        <result column="CODGR" property="codgr" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT1" property="kurztext1" jdbcType="VARCHAR"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT2" property="kurztext2" jdbcType="VARCHAR"/>
+        <result column="ATINN" property="atinn" jdbcType="VARCHAR"/>
+        <result column="ATBEZ" property="atbez" jdbcType="VARCHAR"/>
+        <result column="READG" property="readg" jdbcType="VARCHAR"/>
+        <result column="MRMIN" property="mrmin" jdbcType="VARCHAR"/>
+        <result column="MRMAX" property="mrmax" jdbcType="VARCHAR"/>
+        <result column="MRNGU" property="mrngu" jdbcType="VARCHAR"/>
+        <result column="MDTXT" property="mdtxt" jdbcType="VARCHAR"/>
+        <result column="CHECK_SUBDATE" property="checkSubdate" jdbcType="DATE"/>
+        <result column="CHECK_SUBTIME" property="checkSubtime" jdbcType="TIME"/>
+        <result column="COSTATE" property="costate" jdbcType="VARCHAR"/>
+        <result column="CODATE" property="codate" jdbcType="DATE"/>
+        <result column="COTIME" property="cotime" jdbcType="TIME"/>
+        <result column="COUSER" property="couser" jdbcType="VARCHAR"/>
+        <result column="MRONOTICR_FLAG" property="mronoticrFlag" jdbcType="VARCHAR"/>
+        <result column="QMNUM" property="qmnum" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectCheckcycleAndCheckreq" parameterType="yj.core.imfpmcheckdoc.dto.Checkdoc" resultMap="BaseResultMap">
+        SELECT * from imf_pm_checkdoc
+        <where>
+            1 = 1
+            <if test="checkcycle != null">
+                AND checkcycle = #{checkcycle}
+            </if>
+            <if test="checkreq != null">
+                AND checkreq = #{checkreq}
+            </if>
+        </where>
+    </select>
+
+</mapper>

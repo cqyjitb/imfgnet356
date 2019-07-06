@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.zudlog.mapper.ZudlogMapper">
+    <resultMap id="BaseResultMap" type="yj.core.zudlog.dto.Zudlog">
+        <result column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="ZUDNUM" property="zudnum" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="INPUTLOGID" property="inputlogid" jdbcType="DECIMAL" />
+        <result column="MSGTX" property="msgtx" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectFromPage" parameterType="yj.core.zudlog.dto.Zudlog" resultMap="BaseResultMap">
+        select zu.*,zu.creation_date as creationDate1,us.user_name as createdBy1 from wip_zudlog zu,sys_user us
+        <where>
+            zu.created_by = us.user_id
+            <if test="zudnum != null">
+                AND zudnum = #{zudnum}
+            </if>
+        </where>
+        order by CREATION_DATE desc
+    </select>
+
+    <insert id="insertLog" parameterType="yj.core.zudlog.dto.Zudlog">
+        insert into wip_zudlog (ID,ZUDNUM,ITEM,STATUS,INPUTLOGID,MSGTX,CREATION_DATE,CREATED_BY) VALUES (#{id},#{zudnum},#{item},#{status},#{inputlogid},#{msgtx},#{creationDate},#{createdBy});
+    </insert>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.pmcabn.mapper.CabnMapper">
+    <resultMap id="BaseResultMap" type="yj.core.pmcabn.dto.Cabn">
+        <result column="ATINN" property="atinn" jdbcType="VARCHAR"/>
+        <result column="ATBEZ" property="atbez" jdbcType="VARCHAR"/>
+        <result column="ATKLA" property="atkla" jdbcType="VARCHAR"/>
+        <result column="ATMST" property="anmst" jdbcType="VARCHAR"/>
+        <result column="ANZST" property="anzst" jdbcType="DECIMAL"/>
+        <result column="ANZDZ" property="anzdz" jdbcType="DECIMAL"/>
+        <result column="MSEHI" property="msehi" jdbcType="DECIMAL"/>
+        <result column="ANAME" property="aname" jdbcType="VARCHAR"/>
+        <result column="ADATU" property="adatu" jdbcType="DATE"/>
+        <result column="VNAME" property="vname" jdbcType="VARCHAR"/>
+        <result column="VDATU" property="vdatu" jdbcType="DATE"/>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.afvc.mapper.AfvcMapper">
+    <resultMap id="BaseResultMap" type="yj.core.afvc.dto.Afvc">
+        <result column="AUFPL" property="aufpl" jdbcType="VARCHAR" />
+        <result column="APLZL" property="aplzl" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="STEUS" property="steus" jdbcType="VARCHAR" />
+        <result column="LTXA1" property="ltxa1" jdbcType="VARCHAR" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="FLAG" property="flag" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByArbpl" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select distinct arbpl, ktext from sap_afvc
+        <where>
+            arbpl IS NOT NULL
+            <if test="arbpl != null">
+                AND arbpl = #{arbpl}
+            </if>
+        </where>
+        order by arbpl desc
+    </select>
+
+    <select id="selectByAufpl" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        FROM sap_afvc
+        <where>
+            aufpl = #{aufpl}
+            and FLAG IS NULL
+        </where>
+    </select>
+
+    <select id="selectReturnNum" parameterType="yj.core.afvc.dto.Afvc" resultType="java.lang.Integer">
+        select count(*)
+        from sap_afvc
+        <where>
+            AUFPL = #{aufpl}
+            and APLZL = #{aplzl}
+        </where>
+    </select>
+
+    <insert id="insertSync" parameterType="yj.core.afvc.dto.Afvc">
+        INSERT INTO sap_afvc(AUFPL,APLZL,WERKS,VORNR,STEUS,LTXA1,ARBPL,KTEXT,KTSCH,FLAG,CREATION_DATE)
+               VALUES (#{aufpl},#{aplzl},#{werks},#{vornr},#{steus},#{ltxa1},#{arbpl},#{ktext},#{ktsch},#{flag},#{creationDate})
+    </insert>
+
+    <update id="updateSync" parameterType="yj.core.afvc.dto.Afvc">
+        UPDATE sap_afvc set WERKS = #{werks},VORNR = #{vornr},STEUS = #{steus},LTXA1 = #{ltxa1},ARBPL = #{arbpl},KTEXT = #{ktext},KTSCH = #{ktsch},FLAG = #{flag}
+        <where>
+            AUFPL = #{aufpl}
+            and APLZL = #{aplzl}
+        </where>
+    </update>
+
+    <!-- 根据生产订单 取末工序-->
+    <select id="selectByAufnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select a.VORNR,
+               a.AUFPL,
+               a.APLZL,
+               a.WERKS,
+               a.STEUS,
+               a.LTXA1,
+               a.ARBPL,
+               a.KTEXT,
+               a.KTSCH,
+               a.FLAG
+               FROM  sap_afvc a,sap_afko  b
+               <where>
+                   a.AUFPL = b.AUFPL
+                   and b.AUFNR = #{aufnr}
+               </where>
+               order by a.vornr desc;
+    </select>
+
+    <delete id="deleteByAufpl" parameterType="java.lang.String">
+        delete FROM sap_afvc where AUFPL = #{aufpl}
+    </delete>
+
+    <select id="selectByZpgdbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select  ARBPL,
+				KTEXT
+				from sap_afvc afvc
+				inner join sap_afko afko on afko.AUFPL = afvc.AUFPL
+				INNER JOIN sap_cardh card on card.AUFNR = afko.AUFNR
+				<where>
+                    and card.zpgdbar = #{zpgdbar}
+                    and afvc.vornr = '0010'
+                    and ( afvc.flag  = '' OR afvc.flag is null )
+                </where>
+
+    </select>
+</mapper>

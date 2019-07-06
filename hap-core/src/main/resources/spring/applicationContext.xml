@@ -17,9 +17,9 @@
 
     <!-- middleware datasource  com.hand.hap.core.JndiObjectFactoryBean-->
     <!-- jndi dataSource-->
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="${db.jndiName}"/>
-    </bean>
+    <!--<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+    <!--<property name="jndiName" value="${db.jndiName}"/>-->
+    <!--</bean>-->
     <!-- builtin datasource -->
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->
     <!--<property name="driverClassName"-->
@@ -29,6 +29,40 @@
     <!--<property name="password" value="hap_dev"/>-->
     <!--</bean>-->
 
+    <bean id="mainDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/hap_dev"/>
+    </bean>
+
+    <bean id="mySqlDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/kb_dev"/>
+        <!--<property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+        <!--<property name="url" value="jdbc:mysql://127.0.0.1:3306/kb_dev"/>-->
+        <!--<property name="username" value="hap_dev"/>-->
+        <!--<property name="password" value="hap_dev"/>-->
+        <!--<property name="initialSize" value="${jdbc.initialSize}"/>-->
+        <!--<property name="minIdle" value="${jdbc.minIdle}"/>-->
+        <!--<property name="maxIdle" value="${jdbc.maxIdle}"/>-->
+        <!--<property name="maxActive" value="${jdbc.maxActive}"/>-->
+        <!--<property name="maxWait" value="${jdbc.maxWait}"/>-->
+        <!--<property name="defaultAutoCommit" value="${jdbc.defaultAutoCommit}"/>-->
+        <!--<property name="removeAbandoned" value="${jdbc.removeAbandoned}"/>-->
+        <!--<property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}"/>-->
+        <!--<property name="testWhileIdle" value="${jdbc.testWhileIdle}"/>-->
+        <!--<property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}"/>-->
+        <!--<property name="numTestsPerEvictionRun" value="${jdbc.numTestsPerEvictionRun}"/>-->
+        <!--<property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}"/>-->
+    </bean>
+
+    <bean id="dataSource" class="com.hand.hap.comm.DynamicDataSource"><!-- 这里写选择数据源的类地址 下面跟着给出-->
+        <property name="defaultTargetDataSource" ref="mainDataSource"/><!-- 设置默认为此mySqlDataSource数据源-->
+        <property name="targetDataSources">
+            <map key-type="java.lang.String">
+                <entry key="mySqlDataSource" value-ref="mySqlDataSource"/>
+                <entry key="mainDataSource" value-ref="mainDataSource"/>
+            </map>
+        </property>
+    </bean>
+
     <bean id="languageProvider" class="com.hand.hap.core.impl.LanguageProviderImpl"/>
 
     <bean id="messageSource" class="com.hand.hap.core.i18n.CacheMessageSource"/>
@@ -37,6 +71,23 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <!-- 拦截器方式配置事物 -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="insert*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true" />
+            <tx:method name="seach*" propagation="SUPPORTS" read-only="true" />
+        </tx:attributes>
+    </tx:advice>
+
+
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
@@ -85,10 +136,13 @@
 
     <bean id="requestAD" class="com.hand.hap.core.impl.ServiceExecutionAdvice"/>
 
+    <bean id="DataSourceExchange" class="com.hand.hap.comm.DataSourceExchange" />
+
     <aop:config expose-proxy="true">
         <aop:pointcut id="servicePointcut" expression="execution(* *..*ServiceImpl.*(..))"/>
         <aop:advisor advice-ref="requestAD" pointcut-ref="servicePointcut"/>
     </aop:config>
+
 
 
     <!-- 密码加密 PasswordEncoder-->

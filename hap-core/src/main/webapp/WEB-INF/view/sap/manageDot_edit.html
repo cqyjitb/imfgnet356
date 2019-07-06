@@ -1,0 +1,287 @@
+<!--
+        机加采集点配置维护对话框 918100064
+ -->
+<#include "../include/header.html">
+<body>
+<script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var isedit = location.search.substring(1);
+    var newViewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        alertFlagSource: [
+        {
+            text: "正常",
+            value: "0"
+        }, {
+            text: "提示",
+            value: "1"
+        }, {
+            text: "警告",
+            value: "2"
+        },{
+            text: "拒绝",
+            value: "3"
+        }],
+        save: function(e){
+            var data= newViewModel.model.toJSON();
+            //转换启用状态
+            data.enabledFlag = data.enabledFlag?'Y':'N';
+            var validator = $("#myForm").data("kendoValidator");
+            if(newViewModel.model.lineId==''||newViewModel.model.lineId==null){
+                kendo.ui.showInfoDialog({
+                    message:'生产线不能为空'
+                })
+            }else if(newViewModel.model.dotCode==''||newViewModel.model.dotCode==null){
+                kendo.ui.showInfoDialog({
+                    message:'采集点代码不能为空'
+                })
+            }else if(newViewModel.model.descriptions==''||newViewModel.model.descriptions==null){
+                kendo.ui.showInfoDialog({
+                    message:'采集点名称不能为空'
+                })
+            }else if(newViewModel.model.pointId==''||newViewModel.model.pointId==null){
+                kendo.ui.showInfoDialog({
+                    message:'工序不能为空'
+                })
+            }else{
+                var BaseUrl = _basePath;
+                $.ajax({
+                    type   : 'POST',
+                    url    : BaseUrl + "/wip/dot/submitDot",
+                    dataType : "json",
+                    contentType : "application/json",
+                    data   : kendo.stringify([data]),
+                    success: function (data) {
+                        if(data.success==false){
+                            kendo.ui.showErrorDialog({
+                                message:data.message
+                            });
+                        }
+                        else{
+                            window.parent.$("#newWin").data("kendoWindow").close();
+                        }
+                    }
+                });
+            }
+        },
+        closeWin: function(e){
+            window.parent.$("#newWin").data("kendoWindow").close();
+        }
+    });
+</script>
+<div id="content-container2">
+    <div id="page-content2">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="condition">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工厂</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                        <span data-for="werks" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产车间</label>
+                                    <div class="col-sm-8">
+                                        <input id="unit_code" class="k-textbox" data-bind="value:model.deptId,text:model.deptId" style="width: 100%">
+                                        <span data-for="deptId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#unit_code").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产线</label>
+                                    <div class="col-sm-8">
+                                        <input id="line-id" class="k-textbox" data-bind="value:model.lineId,text:model.lineId" style="width: 100%">
+                                        <span data-for="lineId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#line-id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                query: function (e) {
+                                                    e.param['deptId'] = document.getElementById("unit_code").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">采集点代码</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.dotCode" class="k-textbox">
+                                        <span data-for="dotCode" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">采集点名称</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.descriptions" class="k-textbox">
+                                        <span data-for="descriptions" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工序</label>
+                                    <div class="col-sm-8">
+                                        <input id="point-id" class="k-textbox" data-bind="value:model.pointId,text:model.pointId" style="width: 100%">
+                                        <span data-for="pointId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#point-id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_POINTS_NEW2")}, {
+                                                query: function (e) {
+                                                    e.param['lineId'] = document.getElementById("line-id").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生效标志</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" data-bind="checked:enableFlag,value:model.enableFlag" class="t-textbox"
+                                               data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                        <span data-for="enableFlag" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生效日期</label>
+                                    <div class="col-sm-8">
+                                        <input style="width: 100%;" data-role="datepicker" data-bind="value:model.startDate" class="k-datepicker">
+                                        <span data-for="startDate" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">失效日期</label>
+                                    <div class="col-sm-8">
+                                        <input style="width: 100%;" data-role="datepicker" data-bind="value:model.endDate" class="k-datepicker">
+                                        <span data-for="endDate" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">监控标志</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" data-bind="checked:monitorFlag,value:model.monitorFlag" class="t-textbox"
+                                               data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                        <span data-for="monitorFlag" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">首标志</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" data-bind="checked:firstFlag,value:model.firstFlag" class="t-textbox"
+                                               data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                        <span data-for="firstFlag" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">尾标志</label>
+                                    <div class="col-sm-8">
+                                        <input type="checkbox" data-bind="checked:endFlag,value:model.endFlag" class="t-textbox"
+                                               data-role="checkbox" data-value-primitive="true" data-checked-field="checked" data-value-field="value">
+                                        <span data-for="endFlag" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">前点漏采</label>
+                                    <div class="col-sm-8">
+                                        <input name="alertFlag" required placeholder="前点漏采" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: alertFlagSource, value:model.alertFlag" style="width: 100%;"/>
+                                        <span data-for="alertFlag" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="btn">
+            <div class="pull-right">
+                <span class="btn btn-primary" data-bind="click:save" type="submit" style="margin-right:5px"><@spring.message "hap.save"/></span>
+                <span class="btn btn-default" data-bind="click:closeWin" type="button" style="margin-right:25px;"><@spring.message "hap.cancel"/></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content2'), newViewModel);
+    var checked = window.parent.$("#Grid").data('kendoGrid').selectedDataItems()[0];
+    if(isedit != 0){
+        newViewModel.model.set("werks",checked.werks);
+        newViewModel.model.set("deptId",checked.deptId);
+        newViewModel.model.set("lineId",checked.lineId);
+        newViewModel.model.set("dotId",checked.dotId);
+        newViewModel.model.set("dotCode",checked.dotCode);
+        newViewModel.model.set("descriptions",checked.descriptions);
+        newViewModel.model.set("pointId",checked.pointId);
+        if("1" == checked.enableFlag){
+            newViewModel.model.set("enableFlag","Y");
+        }else{
+            newViewModel.model.set("enableFlag","N");
+        }if("1" == checked.firstFlag){
+            newViewModel.model.set("firstFlag","Y");
+        }else{
+            newViewModel.model.set("firstFlag","N");
+        }if("1" == checked.endFlag){
+            newViewModel.model.set("endFlag","Y");
+        }else{
+            newViewModel.model.set("endFlag","N");
+        }if("1" == checked.monitorFlag){
+            newViewModel.model.set("monitorFlag","Y");
+        }else{
+            newViewModel.model.set("monitorFlag","N");
+        }
+        newViewModel.model.set("startDate",checked.startDate);
+        newViewModel.model.set("endDate",checked.endDate);
+        newViewModel.model.set("alertFlag",checked.alertFlag);
+    }else{
+        newViewModel.model.set("enableFlag","Y");
+        newViewModel.model.set("firstFlag","N");
+        newViewModel.model.set("endFlag","N");
+        newViewModel.model.set("monitorFlag","N");
+        newViewModel.model.set("startDate",new Date());
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.qjcode.mapper.QjcodeMapper">
+    <resultMap id="BaseResultMap" type="yj.core.qjcode.dto.Qjcode">
+        <result column="ID" property="id" jdbcType="DECIMAL" />
+        <result column="RCODE" property="rcode" jdbcType="VARCHAR" />
+        <result column="SLD1" property="sld1" jdbcType="VARCHAR" />
+        <result column="SLD2" property="sld2" jdbcType="VARCHAR" />
+        <result column="SORTNUM" property="sortnum" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectcode" resultMap="BaseResultMap">
+        select * from wip_qjcode
+        order by ID ASC ;
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * from wip_qjcode
+        <where>
+            ID = #{id}
+        </where>
+    </select>
+</mapper>

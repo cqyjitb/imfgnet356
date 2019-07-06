@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.t001l.mapper.T001LMapper">
+    <resultMap id="BaseResultMap" type="yj.core.t001l.dto.T001L">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR"/>
+        <result column="LGOBE" property="lgobe" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectLgort" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_t001l
+        <where>
+            lgort like "9%"
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="lgort != null">
+                AND lgort = #{lgort}
+            </if>
+        </where>
+        order by lgort asc
+    </select>
+</mapper>

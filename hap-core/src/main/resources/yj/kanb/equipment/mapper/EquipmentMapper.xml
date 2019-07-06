@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.kanb.equipment.mapper.EquipmentMapper">
+    <resultMap id="BaseResultMap" type="yj.kanb.equipment.dto.Equipment">
+        <result column="bukrs" property="bukrs" jdbcType="VARCHAR"/>
+        <result column="werks" property="werks" jdbcType="VARCHAR"/>
+        <result column="eqId" property="eqId" jdbcType="VARCHAR"/>
+        <result column="mac" property="mac" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="workshopId" property="workshopId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectAllData" resultMap="BaseResultMap">
+        select * from vb_equipment;
+    </select>
+    <select id="selectEquipment" parameterType="yj.kanb.equipment.dto.Equipment" resultMap="BaseResultMap">
+        select eq.*,gh.vbgroupName,gh.vbgroupNameEn from vb_equipment eq left join vb_group_h gh on eq.eqId = gh.eqId
+        <where>
+            1 = 1
+            <if test="bukrs != null">
+                AND eq.bukrs = #{bukrs}
+            </if>
+            <if test="werks != null">
+                AND eq.werks = #{werks}
+            </if>
+            <if test="workshopId != null">
+                AND eq.workshopId = #{workshopId}
+            </if>
+        </where>
+    </select>
+
+    <delete id="deleteEquipment" parameterType="yj.kanb.equipment.dto.Equipment">
+        delete from vb_equipment
+        <where>
+            bukrs = #{bukrs}
+            AND werks = #{werks}
+            AND mac = #{mac}
+            AND eqId = #{eqId}
+        </where>
+    </delete>
+
+    <select id="selectByMac" parameterType="java.lang.String" resultType="yj.kanb.equipment.dto.Equipment">
+        select * from vb_equipment
+        <where>
+            <if test="mac != null">
+                mac = #{mac}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertEquipment" parameterType="yj.kanb.equipment.dto.Equipment">
+        insert into vb_equipment(bukrs,werks,eqId,mac,workshopId,address,created_by,creation_date)
+        values(#{bukrs},#{werks},#{eqId},#{mac},#{workshopId},#{address},#{createdBy},#{creationDate})
+    </insert>
+
+    <update id="updateEquipment" parameterType="yj.kanb.equipment.dto.Equipment">
+        update vb_equipment set bukrs = #{bukrs},werks = #{werks},mac = #{mac},eqId = #{eqId},workshopId = #{workshopId},
+                            address = #{address},last_updated_by = #{lastUpdatedBy},last_update_date = #{lastUpdateDate}
+        <where>
+            bukrs = #{bukrs}
+            AND werks = #{werks}
+            AND mac = #{mac}
+            AND eqId = #{eqId}
+        </where>
+    </update>
+</mapper>

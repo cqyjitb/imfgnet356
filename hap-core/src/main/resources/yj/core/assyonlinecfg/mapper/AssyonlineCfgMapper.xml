@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.assyonlinecfg.mapper.AssyonlineCfgMapper">
+    <resultMap id="BaseResultMap" type="yj.core.assyonlinecfg.dto.AssyonlineCfg">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="LINE_ID2" property="lineId2" jdbcType="VARCHAR" />
+        <result column="OPERATION_CODE" property="operationCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+</mapper>

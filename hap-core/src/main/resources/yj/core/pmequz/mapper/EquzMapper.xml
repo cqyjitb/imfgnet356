@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.pmequz.mapper.EquzMapper">
+    <resultMap id="BaseResultMap" type="yj.core.pmequz.dto.Equz">
+        <result column="EQUNR" property="mpobj" jdbcType="VARCHAR"/>
+        <result column="EQKTU" property="eqktu" jdbcType="VARCHAR"/>
+        <result column="DATBI" property="datbl" jdbcType="DATE"/>
+        <result column="EQTYP" property="eqtyp" jdbcType="VARCHAR"/>
+        <result column="TYPTX" property="typtx" jdbcType="VARCHAR"/>
+        <result column="EQART" property="eqart" jdbcType="VARCHAR"/>
+        <result column="EARTX" property="eartx" jdbcType="VARCHAR"/>
+        <result column="TPLNR" property="tplnr" jdbcType="VARCHAR"/>
+        <result column="PLTXT" property="pltxt" jdbcType="VARCHAR"/>
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR"/>
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR"/>
+        <result column="KOSTL" property="kostl" jdbcType="VARCHAR"/>
+        <result column="LTEXT" property="ltext" jdbcType="VARCHAR"/>
+        <result column="ANLNR" property="anlnr" jdbcType="VARCHAR"/>
+        <result column="TXT50" property="txt50" jdbcType="VARCHAR"/>
+        <result column="ERDAT" property="erdat" jdbcType="DATE"/>
+        <result column="ERNAM" property="ernam" jdbcType="VARCHAR"/>
+        <result column="AEDAT" property="aedat" jdbcType="DATE"/>
+        <result column="AENAM" property="aenam" jdbcType="VARCHAR"/>
+        <result column="TIMBI" property="timbi" jdbcType="VARCHAR"/>
+        <result column="ABBRNM" property="abbrnm" jdbcType="VARCHAR"/>
+        <result column="MOLDNM" property="moldnm" jdbcType="DECIMAL"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="DIELIFENM" property="dielifenm" jdbcType="DECIMAL"/>
+        <result column="ACTUALNM" property="actualnm" jdbcType="DECIMAL"/>
+        <result column="INBDT" property="inbdt" jdbcType="DATE"/>
+        <result column="TYPBZ" property="typba" jdbcType="VARCHAR"/>
+        <result column="SERGE" property="serge" jdbcType="VARCHAR"/>
+        <result column="HERST" property="herst" jdbcType="VARCHAR"/>
+        <result column="BAUJJ" property="baujj" jdbcType="VARCHAR"/>
+        <result column="SWERK" property="swerk" jdbcType="VARCHAR"/>
+        <result column="BEBER" property="beber" jdbcType="VARCHAR"/>
+        <result column="ABCKZ" property="abckz" jdbcType="VARCHAR"/>
+        <result column="IWERK" property="iwerk" jdbcType="VARCHAR"/>
+        <result column="INGRP" property="ingrp" jdbcType="VARCHAR"/>
+        <result column="RBNR" property="rbnr" jdbcType="VARCHAR"/>
+        <result column="BUKRS" property="bukrs" jdbcType="VARCHAR"/>
+        <result column="ATBEZ" property="atbez" jdbcType="VARCHAR"/>
+        <result column="ISTAT" property="istat" jdbcType="VARCHAR"/>
+        <result column="ESTAT" property="estat" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>

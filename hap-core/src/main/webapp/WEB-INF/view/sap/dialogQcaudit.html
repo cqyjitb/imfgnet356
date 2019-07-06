@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<#include "../include/header.html">
+    <body>
+    <script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var viewModel = kendo.observable({
+            model: {},
+            closeWin: function (e) {
+                window.parent.$("#newWin").data("kendoWindow").close();
+            },
+            save: function (e) {
+                var grid = window.parent.$("#Grid").data("kendoGrid");
+                selections2 = grid.selectedDataItems();
+                if (selections2.length > 0) {
+//                //判断输入项是否为空
+                    var departbm = document.getElementById("unit_codedepart").value;
+                    var departcj = document.getElementById("unit_codedepartcj").value;
+                    var vornr1 = document.getElementById("vornr").value;
+                    var userName = document.getElementById("userName").value;
+                    var userNameQC = document.getElementById("userNameQC").value;
+                    var dfectTxt = document.getElementById("dfectTxt").value;
+                    var message = "请录入：";
+                    var l_flg = "";
+                    if (departbm == "") {
+                        message = message + " 责任部门";
+                        l_flg = "X";
+                    }
+
+                    if (departcj == "") {
+                        message = message + " 责任车间/产线";
+                        l_flg = "X"
+                    }
+
+                    if (vornr == "") {
+                        message = message + " 责任工序/机台";
+                        l_flg = "X"
+                    }
+
+                    if (userName == "") {
+                        message = message + "责任人";
+                        l_flg = "X"
+                    }
+
+                    if (userNameQC == "") {
+                        message = message + "产品质量工程师";
+                        l_flg = "X"
+                    }
+
+                    if (l_flg == "X") {
+                        kendo.ui.showErrorDialog({
+                            title: '错误',
+                            message: message
+                        });
+                    } else {
+                        //判断不合格品数据来源
+                        var Ogytype = window.parent.$("#gytype");
+                        var gytype = Ogytype[0].value;
+                        if (gytype == "Q1") {
+                            //把页面数据传输到后台 创建不合格品审理单2
+                            var dataarray = new Array();
+                            for (var i = 0; i < selections2.length; i++) {
+                                var viewModel = kendo.observable({
+                                    model: {
+                                        werks: selections2[i].werks,
+                                        zqjjlh: selections2[i].zqjjlh,
+                                        zwipqid: selections2[i].zwipqid,
+                                        lineId: selections2[i].lineId,
+                                        arbpr: selections2[i].arbpr,
+                                        zbanz: selections2[i].zbanz,
+                                        zbanc: selections2[i].zbanc,
+                                        zpgdbar: selections2[i].zpgdbar,
+                                        vornr: selections2[i].vornr,
+                                        zxhbar: selections2[i].zxhbar,
+                                        zpgdbar2: selections2[i].zpgdbar2,
+                                        matnr: selections2[i].matnr,
+                                        matnr2: selections2[i].matnr2,
+                                        zgjbar: selections2[i].zgjbar,
+                                        zoutnum: selections2[i].zoutnum,
+                                        reflag: selections2[i].reflag,
+                                        gmein: selections2[i].gmein,
+                                        charg: selections2[i].charg,
+                                        zremade: selections2[i].zremade,
+                                        diecd: selections2[i].diecd,
+                                        sfflg: selections2[i].sfflg,
+                                        zotype: selections2[i].zotype,
+                                        zqxdm: selections2[i].zqxdm,
+                                        zbpjc: selections2[i].zbpjc,
+                                        zjtgx: selections2[i].zjtgx,
+                                        zoplo: selections2[i].zoplo,
+                                        outdat: selections2[i].outdat,
+                                        outnam: selections2[i].outnam,
+                                        redat: selections2[i].redat,
+                                        renam: selections2[i].renam,
+                                        kunnr: selections2[i].kunnr,
+                                        sortl: selections2[i].sortl,
+                                        attr1: selections2[i].attr1,
+                                        maktx: selections2[i].maktx,
+                                        maktx2: selections2[i].maktx2,
+                                        deptId: selections2[i].deptId,
+                                        gstrpfrom: selections2[i].gstrpfrom,
+                                        desmianlinetxt: selections2[i].desmianlinetxt,
+                                        deslinetxt: selections2[i].deslinetxt,
+                                        zissuetxt: selections2[i].zissuetxt,
+                                        ztext: selections2[i].ztext,
+                                        gstrp: selections2[i].gstrp,
+                                        departbm: departbm,
+                                        departcj: departcj,
+                                        dfectTxt:dfectTxt,
+                                        vornr1: vornr1,
+                                        userName: userName,
+                                        userNameQC: userNameQC
+                                    }
+                                });
+                                dataarray[i] = viewModel.model.toJSON();
+
+                            }
+                            var data = JSON.stringify(dataarray);
+                            $.ajax({
+                                url: "${base.contextPath}/wip/qcaudithead/createQcaudit1",
+                                type: "POST",
+                                data: data,
+                                async: false,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (res) {
+                                    if (res.success == true) {
+                                        window.parent.$("#Grid").data("kendoGrid").dataSource.read();
+                                        Hap.autoResizeGrid("#Grid");
+
+                                        kendo.ui.showConfirmDialog({
+                                            title: '',
+                                            message: "不合格品审理单2创建成功！"
+                                        }).done(function () {
+                                            window.parent.$("#newWin").data("kendoWindow").close();
+                                        });
+
+                                    }
+                                },
+                                error: function (res) {
+                                    kendo.ui.showErrorDialog({
+                                        title: '错误',
+                                        message: "XXXXXXXX！"
+                                    });
+                                }
+                            });
+                        } else if (gytype == "Q2") {
+
+                            //把页面数据传输到后台 创建不合格品审理单2
+                            var dataarray = new Array();
+                            for (var i = 0; i < selections2.length; i++) {
+                                var viewModel = kendo.observable({
+                                    model: {
+                                        werks: selections2[i].werks,
+                                        recordid: selections2[i].recordid,
+                                        deptId: selections2[i].deptId,
+                                        depttxt: selections2[i].depttxt,
+                                        lineId: selections2[i].lineId,
+                                        plineId: selections2[i].plineId,
+                                        desmianlinetxt: selections2[i].desmianlinetxt,
+                                        deslinetxt: selections2[i].deslinetxt,
+                                        zbanz: selections2[i].zbanz,
+                                        charg: selections2[i].charg,
+                                        zqxdm: selections2[i].zqxdm,
+                                        matnr: selections2[i].matnr,
+                                        matnr2: selections2[i].matnr2,
+                                        maktx: selections2[i].maktx,
+                                        maktx2: selections2[i].maktx2,
+                                        zxhbar: selections2[i].zxhbar,
+                                        zpgdbar2: selections2[i].zpgdbar2,
+                                        gmein: selections2[i].gmein,
+                                        zoutnum: selections2[i].zoutnum,
+                                        zbanc: selections2[i].zbanc,
+                                        zgjbar: selections2[i].zgjbar,
+                                        diecd: selections2[i].diecd,
+                                        sfflg: selections2[i].sfflg,
+                                        kunnr: selections2[i].kunnr,
+                                        sortl: selections2[i].sortl,
+                                        gstrp: selections2[i].gstrp,
+                                        zotype: selections2[i].zotype,
+                                        zissuetxt: selections2[i].zissuetxt,
+                                        ztext: selections2[i].ztext,
+                                        gstrp: selections2[i].gstrp,
+                                        reflag: selections2[i].reflag,
+                                        departbm: departbm,
+                                        departcj: departcj,
+                                        vornr1: vornr1,
+                                        userName: userName,
+                                        userNameQC: userNameQC,
+                                        dfectTxt:dfectTxt,
+                                        outdat: selections2[i].outdat,
+                                        outnam: selections2[i].outnam
+                                    }
+                                });
+                                dataarray[i] = viewModel.model.toJSON();
+
+                            }
+                            var data = JSON.stringify(dataarray);
+                            $.ajax({
+                                url: "${base.contextPath}/wip/qcaudithead/createQcaudit2",
+                                type: "POST",
+                                data: data,
+                                async: false,
+                                contentType: "application/json; charset=utf-8",
+                                success: function (res) {
+                                    if (res.success == true) {
+                                        window.parent.$("#Grid").data("kendoGrid").dataSource.read();
+                                        Hap.autoResizeGrid("#Grid");
+
+                                        kendo.ui.showConfirmDialog({
+                                            title: '',
+                                            message: "不合格品审理单2创建成功！"
+                                        }).done(function () {
+                                            window.parent.$("#newWin").data("kendoWindow").close();
+                                        });
+
+                                    }
+                                },
+                                error: function (res) {
+                                    kendo.ui.showErrorDialog({
+                                        title: '错误',
+                                        message: "XXXXXXXX！"
+                                    });
+                                }
+                            });
+                        } else if (gytype == "Q3") {
+
+                        }
+                    }
+
+                } else {
+
+                }
+            }
+
+
+        });
+    </script>
+    <div id="page-content" style="width:870px;margin-top: 5px;">
+        <form id="mainform" class="form-horizontal" method="post" enctype="application/json;charset=UTF-8">
+            <div class="row" style="margin-left: 5px;">
+                <div class="form-group">
+                    <div class="col-sm-12" style="float: left;">
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">责任部门</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="unit_codedepart" style="width:100%" name="departbm"
+                                           data-bind="value:model.departbm" class="k-textbox">
+                                    <span data-for="departbm" class=".k-invalid-msg"></span>
+                                    <script>
+                                        $("#unit_codedepart").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW")}, {
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            }
+                                        }));
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">责任车间/产线</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="unit_codedepartcj" style="width:100%" name="name"
+                                           data-bind="value:model.departcj" class="k-textbox">
+                                    <script>
+                                        $("#unit_codedepartcj").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+                                            query: function (e) {
+                                                e.param['enabledFlag'] = 'Y';
+                                            }
+                                        }));
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">责任工序/工位/机台</label>
+                                <div class="col-sm-9">
+                                    <input type="text" required style="width:100%" id="vornr"
+                                           data-bind="value:model.vornr" class="k-textbox">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">责任人</label>
+                                <div class="col-sm-9">
+                                    <div class="col-sm-9">
+                                        <input type="text" required style="width:100%" id="userName"
+                                               data-bind="value:model.userName" class="k-textbox">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label">产品质量工程师</label>
+                                <div class="col-sm-9">
+                                    <input type="text" required style="width:100%" id="userNameQC"
+                                           data-bind="value:model.userNameQC" class="k-textbox">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="col-sm-9">
+                                    <textarea id="dfectTxt" rows="10" cols="30" style="height:300px;width: 800px"
+                                              aria-label="editor" data-bind="value:model.dfectTxt"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="mainBottom" class="text-right"
+         style="bottom: 15px;position: fixed;  float: left;padding-top:15px;border-top:1px solid #ebebeb;width:100%; background: #fff;">
+        <span class="btn btn-primary" data-bind="click:save" type="submit" style="margin-right:5px"><@spring.message "hap.save"/></span>
+        <span class="btn btn-default" data-bind="click:closeWin" type="button" style="margin-right:25px;"><@spring.message "hap.cancel"/></span>
+    </div>
+    <script type="text/javascript">
+        kendo.bind($('#mainBottom'), viewModel);
+        kendo.bind($('#mainform'), viewModel);
+    </script>
+    </body>
+    </html>

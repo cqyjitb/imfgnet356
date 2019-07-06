@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.t435t.mapper.T435tMapper">
+    <resultMap id="BaseResultMap" type="yj.core.t435t.dto.T435t">
+        <result column="VLSCH" property="vlsch" jdbcType="VARCHAR" />
+        <result column="TXT" property="txt" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="isExit" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) FROM sap_t435t
+        <where>
+            VLSCH = #{vlsch}
+        </where>
+    </select>
+
+    <update id="updateByVlsch" parameterType="yj.core.t435t.dto.T435t">
+        UPDATE sap_t435t SET VLSCH = #{vlsch},
+                              TXT = #{txt}
+             <where>
+                 VLSCH = #{vlsch}
+             </where>
+    </update>
+
+    <insert id="insertByVlsch" parameterType="yj.core.t435t.dto.T435t">
+        INSERT into sap_t435t(VLSCH,TXT) VALUES (#{vlsch},#{txt})
+    </insert>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.pmqpgr.mapper.QpgrMapper">
+    <resultMap id="BaseResultMap" type="yj.core.pmqpgr.dto.Qpgr">
+        <result column="KATALOGART" property="katalogart" jdbcType="VARCHAR"/>
+        <result column="CODEGRUPPE" property="codegruppe" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT1" property="kurztext1" jdbcType="VARCHAR"/>
+        <result column="ERSTELLER" property="ersteller" jdbcType="VARCHAR"/>
+        <result column="E_DATUM" property="eDatum" jdbcType="DATE"/>
+        <result column="AENDERER" property="aenderer" jdbcType="VARCHAR"/>
+        <result column="A_DATUM" property="aDatum" jdbcType="DATE"/>
+        <result column="INAKTIV" property="inaktiv" jdbcType="VARCHAR"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT2" property="kurztext2" jdbcType="VARCHAR"/>
+        <result column="ZCODE_OBJECT" property="zcodeObject" jdbcType="VARCHAR"/>
+        <result column="ZREPEAT_CHECK" property="zrepeatCheck" jdbcType="VARCHAR"/>
+        <result column="CRDATE" property="crdate" jdbcType="DATE"/>
+        <result column="CRTIME" property="crtime" jdbcType="TIME"/>
+        <result column="CRUSER" property="cruser" jdbcType="VARCHAR"/>
+        <result column="CHDATE" property="chdate" jdbcType="DATE"/>
+        <result column="CHTIME" property="chtime" jdbcType="TIME"/>
+        <result column="CHUSER" property="chuser" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>

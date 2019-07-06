@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.zrwkhead.mapper.ZrwkheadMapper">
+    <resultMap id="BaseResultMap" type="yj.core.zrwkhead.dto.Zrwkhead">
+        <result column="ZRWKNUM" property="zrwknum" jdbcType="VARCHAR" />
+        <result column="ZOTYPE" property="zotype" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="CRDAT" property="crdat" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectMaxNo" parameterType="java.lang.String" resultType="java.lang.String">
+        select MAX(ZRWKNUM)
+        FROM wip_zrwkhead
+        <where>
+            CRDAT = #{crdat}
+        </where>
+    </select>
+
+    <insert id="insertHead" parameterType="yj.core.zrwkhead.dto.Zrwkhead">
+        insert into wip_zrwkhead(ZRWKNUM,ZOTYPE,LINE_ID,ARBPR,CRDAT,CREATION_DATE,CREATED_BY)VALUES (#{zrwknum},#{zotype},#{lineId},#{arbpr},#{crdat},#{creationDate},#{createdBy})
+    </insert>
+</mapper>

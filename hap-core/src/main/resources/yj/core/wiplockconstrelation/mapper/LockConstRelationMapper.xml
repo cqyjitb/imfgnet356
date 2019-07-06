@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wiplockconstrelation.mapper.LockConstRelationMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wiplockconstrelation.dto.LockConstRelation">
+        <result column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="REASON_ID" property="reasonId" jdbcType="VARCHAR" />
+        <result column="DEAL_ID" property="dealId" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="selectLockConstRelation" parameterType="yj.core.wiplockconstrelation.dto.LockConstRelation" resultMap="BaseResultMap">
+        select lr.id,lr.creation_date,lr.created_by,lc.line_id as lineId,li.descriptions,lr.reason_id as reasonId,
+                (select const_value from wip_lock_const where id = reasonId) as reasonValue,lr.deal_id as dealId,
+                (select const_value from wip_lock_const where id = dealId) as dealValue,li.dept_id as deptId
+        from wip_lock_const_relation lr,wip_lock_const lc,wip_lines li
+        <where>
+            lc.line_id = li.line_id
+            AND lc.const_type = 'REASON'
+            AND lc.id = lr.reason_id
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND lc.line_id = #{lineId}
+            </if>
+        </where>
+        order by lc.line_id asc,lr.reason_id asc
+    </select>
+    <insert id="insertLockConstRelation" parameterType="yj.core.wiplockconstrelation.dto.LockConstRelation">
+        insert into wip_lock_const_relation(ID,REASON_ID,DEAL_ID,CREATION_DATE,CREATED_BY)
+        VALUES (#{id},#{reasonId},#{dealId},#{creationDate},#{createdBy})
+    </insert>
+    <update id="updateLockConstRelation" parameterType="yj.core.wiplockconstrelation.dto.LockConstRelation">
+        update wip_lock_const_relation set ID = #{id},REASON_ID=#{reasonId},DEAL_ID=#{dealId},
+                LAST_UPDATED_DATE=#{lastUpdatedDate},LAST_UPDATED_BY=#{lastUpdatedBy}
+        <where>
+            ID = #{id}
+        </where>
+    </update>
+</mapper>

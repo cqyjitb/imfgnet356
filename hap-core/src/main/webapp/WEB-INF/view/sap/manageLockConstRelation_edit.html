@@ -1,0 +1,162 @@
+<!--
+        装箱报错锁程序常量关系维护对话框 918100064
+ -->
+<#include "../include/header.html">
+<body>
+<script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var isedit = location.search.substring(1);
+    var newViewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        save: function(e){
+            var data= newViewModel.model.toJSON();
+            //转换启用状态
+            data.enabledFlag = data.enabledFlag?'Y':'N';
+            var validator = $("#myForm").data("kendoValidator");
+            if(newViewModel.model.deptId==''||newViewModel.model.deptId==null){
+                kendo.ui.showInfoDialog({
+                    message:'生产车间不能为空'
+                })
+            }else if(newViewModel.model.lineId==''||newViewModel.model.lineId==null){
+                kendo.ui.showInfoDialog({
+                    message:'生产线不能为空'
+                })
+            }else if(newViewModel.model.reasonId==''||newViewModel.model.reasonId==null){
+                kendo.ui.showInfoDialog({
+                    message:'原因描述不能为空'
+                })
+            }else if(newViewModel.model.dealId==''||newViewModel.model.dealId==null){
+                kendo.ui.showInfoDialog({
+                    message:'处理描述不能为空'
+                })
+            }else{
+                var BaseUrl = _basePath;
+                $.ajax({
+                    type   : 'POST',
+                    url    : BaseUrl + "/wip/lock/const/relation/submitLockConstRelation",
+                    dataType : "json",
+                    contentType : "application/json",
+                    data   : kendo.stringify([data]),
+                    success: function (data) {
+                        if(data.success==true){
+                            window.parent.$("#newWin").data("kendoWindow").close();
+                        }
+                    }
+                });
+            }
+        },
+        closeWin: function(e){
+            window.parent.$("#newWin").data("kendoWindow").close();
+        }
+    });
+</script>
+<div id="content-container2">
+    <div id="page-content2">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="condition">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">生产车间</label>
+                                    <div class="col-sm-8">
+                                        <input id="unit_code" class="k-textbox" data-bind="value:model.deptId,text:model.deptId" style="width: 100%">
+                                        <span data-for="deptId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#unit_code").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">生产线</label>
+                                    <div class="col-sm-8">
+                                        <input id="line_id" class="k-textbox" data-bind="value:model.lineId,text:model.lineId" style="width: 100%">
+                                        <span data-for="lineId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#line_id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                query: function (e) {
+                                                    e.param['deptId'] = document.getElementById("unit_code").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">原因描述</label>
+                                    <div class="col-sm-8">
+                                        <input id="reasonId" class="k-textbox" data-bind="value:model.reasonId,text:model.reasonId" style="width: 100%">
+                                        <span data-for="reasonId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#reasonId").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_CONST_VALUE")}, {
+                                                query: function (e) {
+                                                    e.param['lineId'] = document.getElementById("line_id").value;
+                                                    e.param['constType'] = 'REASON';
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br/>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">处理描述</label>
+                                    <div class="col-sm-8">
+                                        <input id="dealId" class="k-textbox" data-bind="value:model.dealId,text:model.dealId" style="width: 100%">
+                                        <span data-for="dealId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#dealId").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_CONST_VALUE")}, {
+                                                query: function (e) {
+                                                    e.param['lineId'] = document.getElementById("line_id").value;
+                                                    e.param['constType'] = 'DEAL';
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="btn">
+            <div class="pull-right">
+                <span class="btn btn-primary" data-bind="click:save" type="submit" style="margin-right:5px"><@spring.message "hap.save"/></span>
+                <span class="btn btn-default" data-bind="click:closeWin" type="button" style="margin-right:25px;"><@spring.message "hap.cancel"/></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content2'), newViewModel);
+    var checked = window.parent.$("#Grid").data('kendoGrid').selectedDataItems()[0];
+    if(isedit != 0){
+        newViewModel.model.set("id",checked.id);
+        newViewModel.model.set("deptId",checked.deptId);
+        newViewModel.model.set("lineId",checked.lineId);
+        newViewModel.model.set("reasonId",checked.reasonId);
+        newViewModel.model.set("dealId",checked.dealId);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.outsrgissuehead.mapper.OutsrgissueheadMapper">
+    <resultMap id="BaseResultMap" type="yj.core.outsrgissuehead.dto.Outsrgissuehead">
+        <result column="ISSUENM" property="issuenm" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="TXZ01" property="txz01" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="PRTFLAG" property="prtflag" jdbcType="VARCHAR" />
+        <result column="ZIPDAT" property="zipdat" jdbcType="VARCHAR" />
+        <result column="ZIPTIM" property="ziptim" jdbcType="VARCHAR" />
+        <result column="ZIPUSER" property="zipuser" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByMatnrAndLifnrDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissuehead
+        <where>
+            MATNR = #{matnr}
+            and LIFNR = #{lifnr}
+        </where>
+        order by ISSUENM DESC;
+    </select>
+
+    <insert id="insertNewRow" parameterType="yj.core.outsrgissuehead.dto.Outsrgissuehead">
+        insert into wip_outsrgissuehead (ISSUENM,WERKS,TXZ01,LIFNR,MATNR,STATUS,PRTFLAG,ZIPDAT,ZIPTIM,ZIPUSER,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)
+        values(#{issuenm},#{werks},#{txz01},#{lifnr},#{matnr},#{status},#{prtflag},#{zipdat},#{ziptim},#{zipuser},#{creationDate},#{createdBy},#{lastUpdateDate},#{lastUpdatedBy})
+    </insert>
+
+    <update id="updateOutsrgissueHead" parameterType="yj.core.outsrgissuehead.dto.Outsrgissuehead">
+        update wip_outsrgissuehead SET STATUS = #{status}
+                                       <if test="zipdat != null">
+                                           ,ZIPDAT = #{zipdat}
+                                       </if>
+                                        <if test="ziptim != null">
+                                            ,ZIPTIM = #{ziptim}
+                                        </if>
+                                        <if test="zipuser != null">
+                                            ,ZIPUSER = #{zipuser}
+                                        </if>
+                                        <if test="prtflag != null">
+                                            ,PRTFLAG = #{prtflag}
+                                        </if>
+                                       ,LAST_UPDATE_DATE = #{lastUpdateDate}
+                                       ,LAST_UPDATED_BY = #{lastUpdatedBy}
+                                    <where>
+                                        ISSUENM = #{issuenm}
+                                    </where>
+
+    </update>
+
+    <select id="selectByIssuenm" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_outsrgissuehead
+        <where>
+            ISSUENM = #{issuenm}
+        </where>
+    </select>
+
+    <select id="selectMaxIssuenm" parameterType="java.lang.String" resultType="java.lang.String">
+        select Max(ISSUENM) from wip_outsrgissuehead
+        <where>
+            ISSUENM like #{issuenm}
+        </where>
+    </select>
+</mapper>

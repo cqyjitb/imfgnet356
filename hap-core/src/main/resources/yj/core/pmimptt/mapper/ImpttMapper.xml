@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.pmimptt.mapper.ImpttMapper">
+    <resultMap id="BaseResultMap" type="yj.core.pmimptt.dto.Imptt">
+        <result column="POINT" property="point" jdbcType="VARCHAR"/>
+        <result column="MPOBJ" property="mpobj" jdbcType="VARCHAR"/>
+        <result column="PTTXT" property="pttxt" jdbcType="VARCHAR"/>
+        <result column="MPTYP" property="mptyp" jdbcType="VARCHAR"/>
+        <result column="ERDAT" property="erdat" jdbcType="DATE"/>
+        <result column="ERNAM" property="ernam" jdbcType="VARCHAR"/>
+        <result column="AEDAT" property="aedat" jdbcType="DATE"/>
+        <result column="AENAM" property="aenam" jdbcType="VARCHAR"/>
+        <result column="INACT" property="inact" jdbcType="VARCHAR"/>
+        <result column="LVORM" property="lvorm" jdbcType="VARCHAR"/>
+        <result column="ATINN" property="atinn" jdbcType="VARCHAR"/>
+        <result column="DECIM" property="decim" jdbcType="DECIMAL"/>
+        <result column="MRMIN" property="mrmin" jdbcType="VARCHAR"/>
+        <result column="MRMAX" property="mrmax" jdbcType="VARCHAR"/>
+        <result column="MRNGU" property="mrngu" jdbcType="DECIMAL"/>
+        <result column="CODCT" property="codct" jdbcType="VARCHAR"/>
+        <result column="CODGR" property="codgr" jdbcType="VARCHAR"/>
+        <result column="CHECKSEQ" property="checkseq" jdbcType="DECIMAL"/>
+        <result column="CHECKREQ" property="checkreq" jdbcType="VARCHAR"/>
+        <result column="CHECKCYCLE" property="checkcycle" jdbcType="VARCHAR"/>
+        <result column="CHECKDE" property="checkde" jdbcType="VARCHAR"/>
+        <result column="JOINCHECK" property="joincheck" jdbcType="VARCHAR"/>
+        <result column="CHECKKEY" property="checkkey" jdbcType="VARCHAR"/>
+        <result column="CHECKPLAN" property="checkplan" jdbcType="VARCHAR"/>
+        <result column="MRONOTICE" property="mronotice" jdbcType="VARCHAR"/>
+        <result column="CRDATE" property="crdate" jdbcType="DATE"/>
+        <result column="CRTIME" property="crtime" jdbcType="TIME"/>
+        <result column="CRUSER" property="cruser" jdbcType="VARCHAR"/>
+        <result column="CHDATE" property="chdate" jdbcType="DATE"/>
+        <result column="CHTIME" property="chtime" jdbcType="TIME"/>
+        <result column="CHUSER" property="chuser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectCheckcycleAndCheckreq" parameterType="yj.core.pmimptt.dto.Imptt" resultMap="BaseResultMap">
+        SELECT * from sap_pm_imptt
+        <where>
+            1 = 1
+            <if test="checkcycle != null">
+                AND checkcycle = #{checkcycle}
+            </if>
+            <if test="checkreq != null">
+                AND checkreq = #{checkreq}
+            </if>
+        </where>
+    </select>
+</mapper>

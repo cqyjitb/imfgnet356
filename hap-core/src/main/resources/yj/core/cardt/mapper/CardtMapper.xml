@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.cardt.mapper.CardtMapper">
+    <resultMap id="BaseResultMap" type="yj.core.cardt.dto.Cardt">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBH" property="zpgdbh" jdbcType="VARCHAR" />
+        <result column="ZGXBAR" property="zgxbar" jdbcType="VARCHAR" />
+        <result column="ZGXBH" property="zgxbh" jdbcType="VARCHAR" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR" />
+        <result column="AUFNR" property="aufnr" jdbcType="VARCHAR" />
+        <result column="CONFIRMED" property="confirmed" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="STEUS" property="steus" jdbcType="VARCHAR" />
+        <result column="KTSCH" property="ktsch" jdbcType="VARCHAR" />
+        <result column="LTXA1" property="ltxa1" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZSFDY" property="zsfdy" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="yj.core.cardt.dto.Cardt">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBH" property="zpgdbh" jdbcType="VARCHAR" />
+        <result column="ZGXBAR" property="zgxbar" jdbcType="VARCHAR" />
+        <result column="ZGXBH" property="zgxbh" jdbcType="VARCHAR" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="LTXA1" property="ltxa1" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZSFDY" property="zsfdy" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="STEUS" property="steus" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="yj.core.cardt.dto.VCardt">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="RELZPGDBAR" property="relzpgdbar" jdbcType="VARCHAR"/>
+        <result column="ZPGDBH" property="zpgdbh" jdbcType="VARCHAR" />
+        <result column="ZGXBAR" property="zgxbar" jdbcType="VARCHAR" />
+        <result column="ZGXBH" property="zgxbh" jdbcType="VARCHAR" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="KTEXT" property="ktext" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="LTXA1" property="ltxa1" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZSFDY" property="zsfdy" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="STEUS" property="steus" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="selectViewVCardt" parameterType="yj.core.cardt.dto.VCardt" resultMap="BaseResultMap2">
+        select *
+        FROM v_zuhecardt
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and VORNR = #{vornr}
+        </where>
+    </select>
+
+    <insert id="insertCardt" parameterType="yj.core.cardt.dto.Cardt">
+        INSERT INTO sap_cardt (ZPGDBAR,ZPGDBH,ZGXBAR,ZGXBH,ARBPL,KTEXT,AUFNR,STEUS,KTSCH,CONFIRMED,VORNR,LTXA1,WERKS,ZSFDY,ATTR1,ATTR2,ATTR3,ATTR4,ATTR5,ATTR6,ATTR7,CREATION_DATE,CREATED_BY,LAST_UPDATE_DATE,LAST_UPDATED_BY)
+        VALUES (#{zpgdbar},#{zpgdbh},#{zgxbar},#{zgxbh},#{arbpl},#{ktext},#{aufnr},#{steus},#{ktsch},#{confirmed},#{vornr},#{ltxa1},#{werks},#{zsfdy},#{attr1},#{attr2},#{attr3},#{attr4},#{attr5},#{attr6},#{attr7},#{creationDate},#{createdBy},#{lastUpdatedDate},#{lastUpdatedBy})
+    </insert>
+
+    <select id="selectByZpgdbar" parameterType="java.lang.String"  resultMap="BaseResultMap1">
+        SELECT
+        tt.ZGXBAR,
+        tt.KTEXT,
+        tt.LTXA1,
+        th.AUFNR,
+        th.ZPGDBAR,
+        th.ZXHNUM,
+        xh.ZXHBAR,
+        ak.MAKTX,
+        tt.WERKS
+        from sap_cardt tt,sap_cardh th,sap_xhcard xh,sap_afko ak
+        <where>
+          tt.ZPGDBAR = th.ZPGDBAR
+            AND xh.ZXHNUM = tt.ZPGDBH
+            AND tt.WERKS = th.WERKS
+            AND xh.WERKS = tt.WERKS
+            AND xh.AUFNR = th.AUFNR
+            AND xh.AUFNR = ak.AUFNR
+            AND tt.ZPGDBAR = #{zpgdbar}
+        </where>
+    </select>
+
+    <select id="selectBybarcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT
+          *
+        from sap_cardt
+        <where>
+          zpgdbar = #{zpgdbar}
+        </where>
+    </select>
+
+    <select id="selectByBarcodeAndKtsch" parameterType="yj.core.cardt.dto.Cardt" resultMap="BaseResultMap">
+        SELECT
+          *
+          FROM  sap_cardt
+          <where>
+              ZPGDBAR = #{zpgdbar}
+              and KTSCH = #{ktsch}
+              and STEUS != 'ZP03'
+          </where>
+    </select>
+
+    <select id="queryAfterSort" parameterType="yj.core.cardt.dto.Cardt" resultMap="BaseResultMap">
+        SELECT
+        DISTINCT
+        *
+        FROM sap_cardt
+        <where>
+            1 = 1
+            <if test="zpgdbar != null">
+               and ZPGDBAR = #{zpgdbar}
+            </if>
+            <if test="zgxbar != null">
+              and  ZGXBAR = #{zgxbar}
+            </if>
+            <if test="zgxbh != null">
+              and  ZGXBH = #{zgxbh}
+            </if>
+            ORDER BY WERKS,ZGXBAR ASC
+        </where>
+    </select>
+
+    <delete id="deleteCardt" parameterType="yj.core.cardt.dto.Cardt">
+        DELETE FROM  sap_cardt
+        <where>
+            WERKS = #{werks}
+            and ZPGDBAR = #{zpgdbar}
+        </where>
+    </delete>
+
+    <update id="updateCardtConfirmed" parameterType="yj.core.cardt.dto.Cardt">
+        update sap_cardt SET CONFIRMED = #{confirmed}
+          <where>
+              ZGXBAR = #{zgxbar}
+          </where>
+    </update>
+
+    <select id="selectByZpgdbarDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  sap_cardt
+        <where>
+            ZPGDBAR = #{zpgdbar}
+        </where>
+        ORDER BY WERKS,ZGXBAR DESC;
+    </select>
+
+    <select id="selectByZpgdbarAsc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  sap_cardt
+        <where>
+            ZPGDBAR = #{zpgdbar}
+        </where>
+        ORDER BY WERKS,ZGXBAR ASC;
+    </select>
+
+    <select id="selectByZpgdbarAndVornr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_cardt
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and VORNR = #{vornr}
+        </where>
+    </select>
+
+    <select id="selectByAufnrAndKtsch" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select DISTINCT vornr,ktsch,arbpl from sap_cardt
+        <where>
+            AUFNR = #{aufnr}
+            and KTSCH = #{ktsch}
+        </where>
+    </select>
+</mapper>

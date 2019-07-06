@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipusers.mapper.UsersMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipusers.dto.Users">
+        <result column="SEQ_ID" property="seqId" jdbcType="DECIMAL"/>
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR"/>
+        <result column="USERID" property="userId" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL"/>
+        <result column="DOT_ID" property="dotId" jdbcType="DECIMAL"/>
+        <result column="DOT_CODE" property="dotCode" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR"/>
+        <result column="START_DATE" property="startDate" jdbcType="VARCHAR"/>
+        <result column="END_DATE" property="endDate" jdbcType="VARCHAR"/>
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="VARCHAR"/>
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.hand.hap.account.dto.User" extends="com.hand.hap.mapper.StdMapper.STD">
+        <id column="USER_ID" property="userId" jdbcType="DECIMAL" />
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+        <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+        <result column="PASSWORD_ENCRYPTED" property="passwordEncrypted" jdbcType="VARCHAR" />
+        <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+        <result column="PHONE" property="phone" jdbcType="VARCHAR" />
+        <result column="START_ACTIVE_DATE" property="startActiveDate" javaType="DATE"/>
+        <result column="END_ACTIVE_DATE" property="endActiveDate" javaType="DATE"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="LAST_PASSWORD_UPDATE_DATE" property="lastPasswordUpdateDate" javaType="DATE"/>
+        <result column="LAST_LOGIN_DATE" property="lastLoginDate" javaType="DATE"/>
+        <result column="FIRST_LOGIN" property="firstLogin" jdbcType="VARCHAR" />
+        <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+        <result column="EMPLOYEE_ID" property="employeeId" jdbcType="DECIMAL" />
+        <result column="EMPLOYEE_CODE" property="employeeCode" jdbcType="VARCHAR" />
+        <result column="EMPLOYEE_NAME" property="employeeName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--用户查询LOV_USER-->
+    <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select * from sys_user
+        <where>
+            1 = 1
+            <if test="userName != null">
+                AND USER_NAME = #{userName}
+            </if>
+            <if test="userId != null">
+                AND USER_ID = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectFromPage" parameterType="yj.core.wipusers.mapper.UsersMapper" resultMap="BaseResultMap">
+        select us.*,li.dept_id,dot.dot_code,dot.descriptions,su.user_name from wip_users us,wip_lines li,wip_dot dot,sys_user su
+        <where>
+            us.line_id = li.line_id
+            AND us.dot_id = dot.dot_id
+            AND su.user_name = us.userid
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND us.line_id = #{lineId}
+            </if>
+            <if test="dotId != null">
+                AND us.dot_id = #{dotId}
+            </if>
+            <if test="userId != null">
+                AND us.userid = #{userId}
+            </if>
+            <if test="enableFlag != null">
+                AND us.enable_flag = #{enableFlag}
+            </if>
+            <if test="startDateAfter != null">
+                AND us.start_date >= #{startDateAfter}
+            </if>
+            <if test="startDateBefore != null">
+                AND #{startDateBefore} >= us.start_date
+            </if>
+            <if test="endDateAfter != null">
+                AND us.end_date >= #{endDateAfter}
+            </if>
+            <if test="endDateBefore != null">
+                AND #{endDateBefore} >= us.end_date
+            </if>
+        </where>
+    </select>
+
+    <update id="updateUsers" parameterType="yj.core.wipusers.mapper.UsersMapper">
+        UPDATE wip_users SET SEQ_ID=#{seqId},LINE_ID=#{lineId},USERID=#{userId},DOT_ID=#{dotId},ENABLE_FLAG=#{enableFlag},
+        END_DATE=#{endDate},LAST_UPDATED_BY=#{lastUpdatedBy},LAST_UPDATED_DATE=#{lastUpdatedDate}
+        <where>
+            SEQ_ID=#{seqId}
+        </where>
+    </update>
+
+    <insert id="insertUsers" parameterType="yj.core.wipusers.mapper.UsersMapper">
+        INSERT INTO wip_users(SEQ_ID,LINE_ID,USERID,DOT_ID,ENABLE_FLAG,START_DATE,END_DATE,CREATED_BY,CREATION_DATE)
+        VALUES (#{seqId},#{lineId},#{userId},#{dotId},#{enableFlag},#{startDate},#{endDate},#{createdBy},#{creationDate})
+    </insert>
+
+    <select id="selectDotId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from wip_users
+        <where>
+            dot_id = #{dotId}
+        </where>
+    </select>
+</mapper>

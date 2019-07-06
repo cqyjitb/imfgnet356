@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wmsxhcard.mapper.WmsxhcardMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wmsxhcard.dto.Wmsxhcard">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="LIFNR" property="lifnr" jdbcType="VARCHAR" />
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR" />
+        <result column="LIFNR_DATE" property="lifnrDate" jdbcType="DATE" />
+        <result column="LIFNR_LOTN" property="lifnrLotn" jdbcType="VARCHAR" />
+        <result column="ZXHZT" property="zxhzt" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="MEINS" property="meins" jdbcType="VARCHAR" />
+        <result column="ZXHWZ" property="zxhwz" jdbcType="VARCHAR" />
+        <result column="ZTXT" property="ztxt" jdbcType="VARCHAR" />
+        <result column="ZBQBD" property="zbqbd" jdbcType="VARCHAR" />
+        <result column="CHARGKC" property="chargkc" jdbcType="VARCHAR" />
+        <result column="ZSXWC" property="zsxwc" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_wmsxhcard
+        <where>
+            ZXHBAR = #{zxhbar}
+            <if test="werks != null">
+                AND WERKS = #{werks}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateZsxwc" parameterType="yj.core.wmsxhcard.dto.Wmsxhcard">
+        update wip_wmsxhcard  set ZSXWC = #{zsxwc}
+        <where>
+            WERKS = #{werks}
+            and ZXHBAR = #{zxhbar}
+        </where>
+    </update>
+</mapper>

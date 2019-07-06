@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.mouldcavity.mapper.MouldcavityMapper">
+    <resultMap id="BaseResultMap" type="yj.core.mouldcavity.dto.Mouldcavity">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="MDNUM" property="mdnum" jdbcType="DECIMAL"/>
+        <result column="MDNO" property="mdno" jdbcType="VARCHAR"/>
+        <result column="MDQRCODE" property="mdqrcode" jdbcType="VARCHAR"/>
+        <result column="MDNO2" property="mdno2" jdbcType="VARCHAR"/>
+        <result column="STATUS" property="status" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectMouldcavity" parameterType="yj.core.mouldcavity.dto.Mouldcavity" resultMap="BaseResultMap">
+        select * from sap_mouldcavity
+        <where>
+            1 = 1
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+            <if test="mdno != null">
+                AND mdno = #{mdno}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertMouldcavity" parameterType="yj.core.mouldcavity.dto.Mouldcavity">
+        insert into sap_mouldcavity(werks,matnr,maktx,mdnum,mdno,mdno2,mdqrcode,status,CREATED_BY,CREATION_DATE)
+        values(#{werks},#{matnr},#{maktx},#{mdnum},#{mdno},#{mdno2},#{mdqrcode},#{status},#{createdBy},#{creationDate})
+    </insert>
+
+    <update id="updateMouldcavity" parameterType="yj.core.mouldcavity.dto.Mouldcavity">
+        update sap_mouldcavity set werks = #{werks},matnr = #{matnr},maktx = #{maktx},mdnum = #{mdnum},
+        mdno = #{mdno},mdno2 = #{mdno2},mdqrcode = #{mdqrcode},status = #{status},
+        LAST_UPDATE_DATE = #{lastUpdateDate},LAST_UPDATED_BY = #{lastUpdatedBy}
+        <where>
+            werks = #{werks}
+            AND matnr = #{matnr}
+            AND mdno = #{mdno}
+        </where>
+    </update>
+
+    <delete id="deleteMouldcavity" parameterType="yj.core.mouldcavity.dto.Mouldcavity">
+        delete from sap_mouldcavity
+        <where>
+            werks = #{werks}
+            AND matnr = #{matnr}
+            AND mdno = #{mdno}
+        </where>
+    </delete>
+
+    <select id="selectByMatnr" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select mdnum from sap_mouldcavity
+        <where>
+            1 = 1
+            <if test="matnr != null">
+                AND matnr = #{matnr}
+            </if>
+            <if test="mdno != null">
+                AND mdno = #{mdno}
+            </if>
+        </where>
+        limit 1
+    </select>
+
+    <select id="selectByWerksAndMatnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_mouldcavity
+        <where>
+            WERKS = #{werks}
+            and MATNR = #{matnr}
+            and STATUS != '0'
+        </where>
+    </select>
+</mapper>

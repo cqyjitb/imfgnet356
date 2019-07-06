@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.dftdtl.mapper.DftdtlMapper">
+    <resultMap id="BaseResultMap" type="yj.core.dftdtl.dto.Dftdtl">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="TLEVELCODE" property="tlevelcode" jdbcType="VARCHAR" />
+        <result column="ZTEXT" property="ztext" jdbcType="VARCHAR" />
+        <result column="CODE" property="code" jdbcType="VARCHAR" />
+        <result column="MACHING_FLAG" property="machingflag" jdbcType="VARCHAR" />
+        <result column="CASTING_FLAG" property="castingflag" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="yj.core.dftdtl.dto.Dftdtl">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="TLEVELCODE" property="tlevelcode" jdbcType="VARCHAR" />
+        <result column="ZTEXT" property="ztext" jdbcType="VARCHAR" />
+        <result column="CODE" property="code" jdbcType="VARCHAR" />
+        <result column="MACHING_FLAG" property="machingFlag" jdbcType="VARCHAR"/>
+        <result column="CASTING_FLAG" property="castingFlag" jdbcType="VARCHAR"/>
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR"/>
+        <result column="DFTALARM" property="dftalarm" jdbcType="VARCHAR"/>
+        <result column="DEFAULT_DEPT" property="defaultDept" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT" property="kurztext" jdbcType="VARCHAR"/>
+        <result column="CRTATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE"/>
+    </resultMap>
+    <select id="selectFromPage" parameterType="java.lang.String" resultMap="BaseResultMap1">
+        select distinct df.werks,df.matnr,df.code,df.tlevelcode,df.ztext,df.maching_flag,
+        df.casting_flag,df.dftalarm,df.default_dept,df.matnr2 as matnr2,
+        (select maktx from sap_marc where matnr=matnr2) as maktx2,ma.maktx,pq.kurztext
+        from sap_dftdtl df,sap_marc ma,sap_qpcd pq
+        <where>
+            df.matnr = ma.matnr
+            AND df.code = pq.code
+            <if test="werks != null">
+                AND df.werks = #{werks}
+            </if>
+            <if test="matnr != null">
+                AND df.matnr = #{matnr}
+            </if>
+            <if test="code != null">
+                AND df.code = #{code}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateDftdtl" parameterType="yj.core.dftdtl.dto.Dftdtl">
+        update sap_dftdtl set WERKS=#{werks}, MATNR = #{matnr}, TLEVELCODE = #{tlevelcode}, ZTEXT = #{ztext},
+        CODE = #{code}, MACHING_FLAG = #{machingFlag}, CASTING_FLAG = #{castingFlag}, MATNR2 = #{matnr2}, DFTALARM = #{dftalarm},
+        DEFAULT_DEPT = #{defaultDept}, CREATED_BY = #{createdBy}, CREATION_DATE = #{creationDate},
+        LAST_UPDATED_BY = #{lastUpdatedBy}, LAST_UPDATE_DATE = #{lastUpdateDate}
+        <where>
+            WERKS=#{werks}
+            AND MATNR = #{matnr}
+            AND TLEVELCODE = #{tlevelcode}
+        </where>
+    </update>
+
+    <insert id="insertDftdtl" parameterType="yj.core.dftdtl.dto.Dftdtl">
+        insert into sap_dftdtl(WERKS,MATNR,TLEVELCODE,ZTEXT,CODE,MACHING_FLAG,CASTING_FLAG,MATNR2,DFTALARM,
+        DEFAULT_DEPT,CREATED_BY,CREATION_DATE)
+        values(#{werks},#{matnr},#{tlevelcode},#{ztext},#{code},#{machingFlag},#{castingFlag}, #{matnr2},#{dftalarm},
+        #{defaultDept}, #{createdBy},#{creationDate})
+    </insert>
+
+    <delete id="deleteDftdtl" parameterType="yj.core.dftdtl.dto.Dftdtl">
+        delete from sap_dftdtl
+        <where>
+            WERKS=#{werks}
+            AND MATNR = #{matnr}
+            AND TLEVELCODE = #{tlevelcode}
+        </where>
+    </delete>
+
+    <select id="isExit" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(*) from sap_dftdtl
+        <where>
+            WERKS=#{werks}
+            AND MATNR = #{matnr}
+            AND TLEVELCODE = #{tlevelcode}
+        </where>
+    </select>
+
+    <select id="selectForLov" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select TLEVELCODE,
+                ZTEXT,
+               MATNR
+               FROM  sap_dftdtl
+               <where>
+                   1 = 1
+                   <if test="matnr != null">
+                       and MATNR = #{matnr}
+                   </if>
+                   <if test="tlevelcode != null">
+                       and TLEVELCODE = #{tlevelcode}
+                   </if>
+                   <if test="code != null">
+                       and CODE = #{code}
+                   </if>
+               </where>
+    </select>
+
+    <select id="selectByQpcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select TLEVELCODE,
+               ZTEXT
+               FROM  sap_dftdtl
+               <where>
+                   MATNR2 = #{matnr}
+                   AND CODE = #{code}
+                   AND CASTING_FLAG = '1'
+               </where>
+
+    </select>
+
+    <select id="selectByQpcodeForJj" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select TLEVELCODE,
+        ZTEXT
+        FROM  sap_dftdtl
+        <where>
+            MATNR = #{matnr}
+            AND CODE = #{code}
+            AND MACHING_FLAG = '1'
+        </where>
+
+    </select>
+
+    <select id="selectforQcaudit2" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    </select>
+
+    <select id="selectbyWerksAndMatnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_dftdtl
+        <where>
+            WERKS = #{werks}
+            and MATNR= #{matnr}
+        </where>
+    </select>
+</mapper>

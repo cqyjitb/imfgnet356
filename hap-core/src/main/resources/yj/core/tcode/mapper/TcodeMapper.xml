@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.tcode.mapper.TcodeMapper">
+    <resultMap id="BaseResultMap" type="yj.core.tcode.dto.Tcode">
+        <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+        <result column="APP0001" property="app0001" jdbcType="VARCHAR" />
+        <result column="APP0002" property="app0002" jdbcType="VARCHAR" />
+        <result column="APP0003" property="app0003" jdbcType="VARCHAR" />
+        <result column="APP0004" property="app0004" jdbcType="VARCHAR" />
+        <result column="APP0005" property="app0005" jdbcType="VARCHAR" />
+        <result column="APP0006" property="app0006" jdbcType="VARCHAR" />
+        <result column="APP0007" property="app0007" jdbcType="VARCHAR" />
+        <result column="APP0008" property="app0008" jdbcType="VARCHAR" />
+        <result column="APP0009" property="app0009" jdbcType="VARCHAR" />
+        <result column="APP0010" property="app0010" jdbcType="VARCHAR" />
+        <result column="APP0011" property="app0011" jdbcType="VARCHAR" />
+        <result column="APP0012" property="app0012" jdbcType="VARCHAR" />
+        <result column="APP0013" property="app0013" jdbcType="VARCHAR" />
+        <result column="APP0014" property="app0014" jdbcType="VARCHAR" />
+        <result column="APP0015" property="app0015" jdbcType="VARCHAR" />
+        <result column="APP0016" property="app0016" jdbcType="VARCHAR" />
+        <result column="APP0017" property="app0017" jdbcType="VARCHAR" />
+        <result column="APP0018" property="app0018" jdbcType="VARCHAR" />
+        <result column="APP0019" property="app0019" jdbcType="VARCHAR" />
+        <result column="APP0020" property="app0020" jdbcType="VARCHAR" />
+        <result column="APP0021" property="app0021" jdbcType="VARCHAR" />
+        <result column="APP0022" property="app0022" jdbcType="VARCHAR" />
+        <result column="APP0023" property="app0023" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="isExit" parameterType="yj.core.tcode.dto.Tcode" resultType="java.lang.Integer">
+        select count(*)
+          FROM sap_tcode
+          <where>
+              USER_NAME = #{userName}
+              AND TCODE = #{tcode}
+          </where>
+    </select>
+
+    <select id="selectByUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*)
+        FROM  sap_tcode
+        <where>
+            USER_NAME = #{userName}
+        </where>
+    </select>
+
+    <update id="update" parameterType="yj.core.tcode.dto.Tcode">
+        update sap_tcode set
+        APP0001 = #{app0001},
+        APP0002 = #{app0002},
+        APP0003 = #{app0003},
+        APP0004 = #{app0004},
+        APP0005 = #{app0005},
+        APP0006 = #{app0006},
+        APP0007 = #{app0007},
+        APP0008 = #{app0008},
+        APP0009 = #{app0009},
+        APP0010 = #{app0010},
+        APP0011 = #{app0011},
+        APP0012 = #{app0012},
+        APP0013 = #{app0013},
+        APP0014 = #{app0014},
+        APP0015 = #{app0015},
+        APP0016 = #{app0016},
+        APP0017 = #{app0017},
+        APP0018 = #{app0018},
+        APP0019 = #{app0019},
+        APP0020 = #{app0020},
+        APP0021 = #{app0021},
+        APP0022 = #{app0022},
+        APP0023 = #{app0023}
+          <where>
+              USER_NAME = #{userName}
+          </where>
+    </update>
+
+    <select id="getProfile" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_tcode
+                <where>
+                    USER_NAME = #{userName}
+                </where>
+    </select>
+
+
+
+</mapper>

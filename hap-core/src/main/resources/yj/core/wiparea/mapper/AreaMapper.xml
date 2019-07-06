@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wiparea.mapper.AreaMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wiparea.dto.Area">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="AREANO" property="areano" jdbcType="VARCHAR"/>
+        <result column="AREATXT" property="areatxt" jdbcType="VARCHAR"/>
+        <result column="LOCATION" property="location" jdbcType="VARCHAR"/>
+        <result column="STWKS" property="stwks" jdbcType="VARCHAR"/>
+        <result column="MANAGER" property="manager" jdbcType="VARCHAR"/>
+        <result column="CAPACITY" property="capacity" jdbcType="VARCHAR"/>
+        <result column="CAPUNIT" property="capunit" jdbcType="VARCHAR"/>
+        <result column="QUOTA" property="quota" jdbcType="DECIMAL"/>
+        <result column="QTAUNIT" property="qtaunit" jdbcType="VARCHAR"/>
+        <result column="AVGTRASTM" property="avgtrastm" jdbcType="DECIMAL"/>
+        <result column="TMUNIT" property="tmunit" jdbcType="VARCHAR"/>
+        <result column="CYCLETM" property="cycletm" jdbcType="DECIMAL"/>
+        <result column="ISCONFIRM" property="isconfirm" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap1" type="yj.core.wiparea.dto.Area">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="AREANO" property="areano" jdbcType="VARCHAR"/>
+        <result column="AREATXT" property="areatxt" jdbcType="VARCHAR"/>
+        <result column="LOCATION" property="location" jdbcType="VARCHAR"/>
+        <result column="STWKS" property="stwks" jdbcType="VARCHAR"/>
+        <result column="MANAGER" property="manager" jdbcType="VARCHAR"/>
+        <result column="CAPACITY" property="capacity" jdbcType="VARCHAR"/>
+        <result column="CAPUNIT" property="capunit" jdbcType="VARCHAR"/>
+        <result column="QUOTA" property="quota" jdbcType="DECIMAL"/>
+        <result column="QTAUNIT" property="qtaunit" jdbcType="VARCHAR"/>
+        <result column="AVGTRASTM" property="avgtrastm" jdbcType="DECIMAL"/>
+        <result column="TMUNIT" property="tmunit" jdbcType="VARCHAR"/>
+        <result column="CYCLETM" property="cycletm" jdbcType="DECIMAL"/>
+        <result column="ISCONFIRM" property="isconfirm" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="USERNAME" property="userName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insertArea" parameterType="yj.core.wiparea.dto.Area">
+        insert into wip_area(WERKS,AREANO,AREATXT,LOCATION,STWKS,MANAGER,CAPACITY,CAPUNIT,QUOTA,QTAUNIT,AVGTRASTM,TMUNIT,CYCLETM,ISCONFIRM,REMARK,CREATED_BY,CREATION_DATE)
+        VALUES (#{werks},#{areano},#{areatxt},#{location},#{stwks},#{manager},#{capacity},#{capunit},#{quota},#{qtaunit},#{avgtrastm},#{tmunit},#{cycletm},#{isconfirm},#{remark},#{createdBy},#{creationDate})
+    </insert>
+    <update id="updateAreaBatch" parameterType="yj.core.wiparea.dto.Area">
+        UPDATE wip_area SET WERKS = #{werks},
+        AREANO = #{areano},
+        AREATXT = #{areatxt}
+        <if test="location != null">
+            ,LOCATION = #{location}
+        </if>
+        <if test="stwks != null">
+            ,STWKS = #{stwks}
+        </if>
+        <if test="manager != null">
+            ,MANAGER = #{manager}
+        </if>
+        <if test="capacity != null">
+            ,CAPACITY = #{capacity}
+        </if>
+        <if test="capunit != null">
+            ,CAPUNIT = #{capunit}
+        </if>
+        <if test="quota != null">
+            ,QUOTA = #{quota}
+        </if>
+        <if test="qtaunit != null">
+            ,QTAUNIT = #{qtaunit}
+        </if>
+        <if test="avgtrastm != null">
+            ,AVGTRASTM = #{avgtrastm}
+        </if>
+        <if test="cycletm != null">
+            ,CYCLETM = #{cycletm}
+        </if>
+        <if test="tmunit != null">
+            ,TMUNIT = #{tmunit}
+        </if>
+        <if test="isconfirm != null">
+            ,ISCONFIRM = #{isconfirm}
+        </if>
+        <if test="remark != null">
+            ,REMARK = #{remark}
+        </if>
+        <if test="lastUpdateDate != null">
+            ,LAST_UPDATE_DATE = #{lastUpdateDate}
+        </if>
+        <if test="lastUpdatedBy != null">
+            ,LAST_UPDATED_BY = #{lastUpdatedBy}
+        </if>
+        <if test="creationDate != null">
+            ,CREATION_DATE = #{creationDate}
+        </if>
+        <if test="createdBy != null">
+            ,CREATED_BY = #{createdBy}
+        </if>
+        <where>
+            WERKS = #{werks}
+            and AREANO = #{areano}
+        </where>
+    </update>
+
+    <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap1">
+        select a.WERKS,
+        a.AREANO,
+        a.AREATXT,
+        a.LOCATION,
+        a.STWKS,
+        a.MANAGER,
+        a.CAPACITY,
+        a.CAPUNIT,
+        a.QUOTA,
+        a.QTAUNIT,
+        a.AVGTRASTM,
+        a.TMUNIT,
+        a.CYCLETM,
+        a.ISCONFIRM,
+        a.REMARK,
+        b.USERNAME
+        FROM wip_area a,wip_arearole b
+        <where>
+            a.AREANO = b.AREANO
+            and b.USERNAME = #{userName}
+        </where>
+    </select>
+</mapper>

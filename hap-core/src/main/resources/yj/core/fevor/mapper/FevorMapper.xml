@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.fevor.mapper.FevorMapper">
+    <resultMap id="BaseResultMap" type="yj.core.fevor.dto.Fevor">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="FEVOR" property="fevor" jdbcType="VARCHAR"/>
+        <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR"/>
+        <result column="SHIFT_SEQ" property="shiftSeq" jdbcType="VARCHAR"/>
+        <result column="SHIFT_DAY" property="shiftDay" jdbcType="VARCHAR"/>
+        <result column="TXT" property="txt" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.fevor.dto.Zwipqhz">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR"/>
+        <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR"/>
+        <result column="TXT" property="txt" jdbcType="VARCHAR"/>
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="PMATNR" property="pmatnr" jdbcType="VARCHAR"/>
+        <result column="PMAKTX" property="pmaktx" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="selectZwipqhz" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select fe.werks,fe.unit_code,fe.txt,li.line_id,li.descriptions,pc.matnr as matnr2,pc.pmatnr as pmatnr,
+        (select maktx from sap_marc where matnr = matnr2) as maktx,
+        (select maktx from sap_marc where matnr = pmatnr) as pmaktx
+        from sap_fevor fe,wip_lines li,wip_products_cfg pc
+        <where>
+            fe.unit_code = li.dept_id
+            AND li.line_id = pc.line_id
+            <if test="unitCode != null">
+                AND fe.unit_code = #{unitCode}
+            </if>
+            <if test="lineId != null">
+                AND li.line_id = #{lineId}
+            </if>
+        </where>
+    </select>
+
+	<select id="selectFevor" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select * from sap_fevor
+		<where>
+			fevor like "4%"
+			<if test="fevor != null">
+                AND fevor = #{fevor}
+            </if>
+		</where>
+		order by fevor desc
+	</select>
+
+    <select id="selectFevor2" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_fevor
+        <where>
+            fevor not like "4%"
+            <if test="fevor != null">
+                AND fevor = #{fevor}
+            </if>
+        </where>
+        order by fevor desc
+    </select>
+
+    <select id="selectByfevorSinger" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_fevor
+        <where>
+            FEVOR = #{fevor}
+        </where>
+    </select>
+	
+</mapper>

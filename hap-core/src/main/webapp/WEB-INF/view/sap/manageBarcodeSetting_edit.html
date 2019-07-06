@@ -1,0 +1,561 @@
+<!--
+        机加产品识别码配置维护对话框 918100064
+ -->
+<#include "../include/header.html">
+<body>
+<script src="${base.contextPath}/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var isedit = location.search.substring(1);
+    var newViewModel = kendo.observable({
+        model: {
+            werks:"1001"
+        },
+        statusSource:[
+        {
+            text:"1-失效",
+            value:"1"
+        },{
+            text:"0-有效",
+            value:"0"
+        }],
+        isCheckSource:[
+        {
+            text:"1-验证",
+            value:"1"
+        },{
+            text:"0-不验证",
+            value:"0"
+        }],
+        isPrintSource:[
+        {
+            text:"1-不打印",
+            value:"1"
+        },{
+            text:"0-打印",
+            value:"0"
+        }],
+        isStepSource:[
+        {
+            text:"1-验证",
+            value:"1"
+        },{
+            text:"0-不验证",
+            value:"0"
+        }],
+        isRelCustomerSource:[
+        {
+            text:"1-绑定",
+            value:"1"
+        },{
+            text:"0-不绑定",
+            value:"0"
+        }],
+        create2Function: function () {
+            $('#Grid2').data('kendoGrid').addRow();
+        },
+        save2Function: function(e){
+            var data= newViewModel.model.toJSON();
+            //转换启用状态
+            data.enabledFlag = data.enabledFlag?'Y':'N';
+            var validator = $("#myForm").data("kendoValidator");
+            if(newViewModel.model.lineId==''||newViewModel.model.lineId==null){
+                kendo.ui.showInfoDialog({
+                    message:'生产线不能为空'
+                })
+            }else if(newViewModel.model.matnr ==''||newViewModel.model.matnr==null){
+                kendo.ui.showInfoDialog({
+                    message:'产品不能为空'
+                })
+            }else if(newViewModel.model.barcodeCnt ==''||newViewModel.model.barcodeCnt==null){
+                kendo.ui.showInfoDialog({
+                    message:'条码位数不能为空'
+                })
+            }else if(newViewModel.model.pkgQty ==''||newViewModel.model.pkgQty==null){
+                kendo.ui.showInfoDialog({
+                    message:'箱容不能为空'
+                })
+            }else if(newViewModel.model.barcodeCnt < 0){
+                kendo.ui.showInfoDialog({
+                    message:'条码位数必须输入正整数'
+                });
+            }else if(newViewModel.model.pkgQty < 0){
+                kendo.ui.showInfoDialog({
+                    message:'箱容必须输入正整数'
+                });
+            }else if(newViewModel.model.tuoQty < 0){
+                kendo.ui.showInfoDialog({
+                    message:'托容必须输入正整数'
+                });
+            }else{
+                var BaseUrl = _basePath;
+                $.ajax({
+                    type   : 'POST',
+                    url    : BaseUrl + "/wip/barcode/setting/submitBarcodeSetting",
+                    dataType : "json",
+                    contentType : "application/json",
+                    data   : kendo.stringify([data]),
+                    success: function (data) {
+                        if(data.success==false){
+                            kendo.ui.showErrorDialog({
+                                message:data.message
+                            });
+                        }
+                        else{
+                            $('#Grid2').data('kendoGrid').saveChanges();
+                            window.parent.$("#newWin").data("kendoWindow").close();
+                        }
+                    }
+                });
+            }
+        },
+        closeWin: function(e){
+            window.parent.$("#newWin").data("kendoWindow").close();
+        }
+    });
+</script>
+<div id="content-container2">
+    <div id="page-content2">
+        <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+            <form class="form-horizontal" id="myForm">
+                <div class="panel-body">
+                    <div id="condition">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">工厂</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.werks" class="k-textbox" readonly="readonly">
+                                        <span data-for="werks" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产车间</label>
+                                    <div class="col-sm-8">
+                                        <input id="unit_code" class="k-textbox" data-bind="value:model.deptId,text:model.deptId" style="width: 100%">
+                                        <span data-for="deptId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#unit_code").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_UNIT_NEW2")}, {
+                                                query: function (e) {
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">生产线</label>
+                                    <div class="col-sm-8">
+                                        <input id="line-id" class="k-textbox" data-bind="value:model.lineId,text:model.lineId" style="width: 100%">
+                                        <span data-for="lineId" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#line-id").kendoLov($.extend(${lovProvider.getLov(base.contextPath, base.locale, "LOV_LINE_NEW")}, {
+                                                query: function (e) {
+                                                    e.param['deptId'] = document.getElementById("unit_code").value;
+                                                    e.param['enabledFlag'] = 'Y';
+                                                }
+                                            }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">物料编码</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="matnr" style="width: 100%" data-bind="value:model.matnr,text:model.matnr" class="k-textbox">
+                                        <span data-for="matnr" class=".k-invalid-msg"></span>
+                                        <script>
+                                            $("#matnr").kendoLov($.extend(<@lov "LOV_MATNR"/>,
+                                                {
+                                                    model: {},
+                                                    query: function (e) {
+                                                        e.param['enabledFlag'] = 'Y';
+                                                    },
+                                                    dataTextField:"matnr"
+                                                }));
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">条码位数</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.barcodeCnt" class="k-textbox">
+                                        <span data-for="barcodeCnt" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">NG放行密码</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.adminPassword" class="k-textbox">
+                                        <span data-for="adminPassword" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">状态</label>
+                                    <div class="col-sm-8">
+                                        <input name="status" required placeholder="状态" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: statusSource, value:model.status" style="width: 100%;"/>
+                                        <span data-for="status" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">检测验证</label>
+                                    <div class="col-sm-8">
+                                        <input name="isCheck" required placeholder="检测验证" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: isCheckSource, value:model.isCheck" style="width: 100%;"/>
+                                        <span data-for="isCheck" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">跳序验证</label>
+                                    <div class="col-sm-8">
+                                        <input name="isStep" required placeholder="跳序验证" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: isStepSource, value:model.isStep" style="width: 100%;"/>
+                                        <span data-for="isStep" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">绑定客户条码</label>
+                                    <div class="col-sm-8">
+                                        <input name="isRelCustomer" required placeholder="绑定客户条码" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: isRelCustomerSource, value:model.isRelCustomer" style="width: 100%;"/>
+                                        <span data-for="isRelCustomer" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">打印箱码</label>
+                                    <div class="col-sm-8">
+                                        <input name="isPrint" required placeholder="打印箱码" data-role="combobox" data-value-primitive="true" data-text-field="text" data-value-field="value"
+                                               data-bind="enabled: isEnabled, source: isPrintSource, value:model.isPrint" style="width: 100%;"/>
+                                        <span data-for="isPrint" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">箱容</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.pkgQty" class="k-textbox">
+                                        <span data-for="pkgQty" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">托容</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" style="width: 100%" data-bind="value:model.tuoQty" class="k-textbox">
+                                        <span data-for="tuoQty" class=".k-invalid-msg"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div id="btn">
+            <div class="pull-left" id="toolbar-btn2" style="padding-bottom:10px;">
+                <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:create2Function">添加</span>
+                <span onclick="deleteData()" class="btn btn-danger" style="float:left;margin-right:5px;">移除</span>
+            </div>
+            <div class="pull-right">
+                <span class="btn btn-success" data-bind="click:save2Function" style="float:left;margin-right:5px;">保存</span>
+            </div>
+        </div>
+        <div>
+            <div style="clear:both">
+                <div id="Grid2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    kendo.bind($('#page-content2'), newViewModel);
+    var checked = window.parent.$("#Grid").data('kendoGrid').selectedDataItems()[0];
+    if(isedit != 0){
+        newViewModel.model.set("werks",checked.werks);
+        newViewModel.model.set("deptId",checked.deptId);
+        newViewModel.model.set("headerId",checked.headerId);
+        newViewModel.model.set("lineId",checked.lineId);
+        newViewModel.model.set("matnr",checked.matnr2);
+        newViewModel.model.set("barcodeCnt",checked.barcodeCnt);
+        newViewModel.model.set("adminPassword",checked.adminPassword);
+        newViewModel.model.set("status",checked.status);
+        newViewModel.model.set("isCheck",checked.isCheck);
+        newViewModel.model.set("isPrint",checked.isPrint);
+        newViewModel.model.set("isStep",checked.isStep);
+        newViewModel.model.set("isRelCustomer",checked.isRelCustomer);
+        newViewModel.model.set("pkgQty",checked.pkgQty);
+        newViewModel.model.set("tuoQty",checked.tuoQty);
+        if(isedit == 2){
+            $(":input").attr("readOnly",true);
+            $("#btn").hide();
+        }
+    }else{
+        newViewModel.model.set("status","0");
+        newViewModel.model.set("isCheck","1");
+        newViewModel.model.set("isPrint","1");
+        newViewModel.model.set("isStep","1");
+    }
+    var BaseUrl = _basePath;
+    var dataSource2 = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/barcode/specialcode/queryBarcodeSpecialcode",
+                type: "POST",
+                dataType: "json"
+            },
+            update: {
+                url: BaseUrl + "/wip/barcode/specialcode/submitBarcodeSpecialcode",
+                type: "POST",
+                contentType: "application/json"
+            },
+            destroy: {
+                url: BaseUrl + "/wip/barcode/specialcode/remove",
+                type: "POST",
+                contentType: "application/json"
+            },
+            create: {
+                url: BaseUrl + "/wip/barcode/specialcode/submitBarcodeSpecialcode",
+                type: "POST",
+                contentType: "application/json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read") {
+                    if(checked){
+                        for(var i=0;i<options.models.length;i++) {
+                            options.models[i].headerId = checked.headerId;
+                        }
+                    }
+                    var datas = Hap.prepareSubmitParameter(options, type);
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(newViewModel.model.toJSON(), options);
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "specRowId",
+                fields: {
+                    werks: {defaultValue: "1001", type: "string"},
+                    specRowId:{type:"number"},
+                    headerId:{type:"number"},
+                    startPos:{type:"number"},
+                    endPos:{type:"number"},
+                    codeType:{defaultValue:"0"},
+                    status:{defaultValue:"0"},
+                    checkUpData:{type:"number"},
+                    checkDownData:{type:"number"}
+                }
+            }
+        }
+    });
+    $("#Grid2").kendoGrid({
+        dataSource:dataSource2,
+        height:'100%',
+        resizable:true,
+        scrollable:true,
+        navigatable:false,
+        editable: true,
+        selectable:'multiple,rowbox',
+        pageable:{
+            pageSizes:[5,10,20,50,"all"],
+            refresh:true,
+            buttonCount:5
+        },
+        columns:[
+            {
+                field:"specRowId",
+                title:"行ID",
+                width:80,
+                hidden:true,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"remark",
+                title:"特殊字符描述",
+                width:100,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"startPos",
+                title:"起始位置",
+                width:120,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"endPos",
+                title:"结束位置",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"codeType",
+                title:"数据类型",
+                width:80,
+                editor: function (container,options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoComboBox({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        valuePrimitive: true,
+                        dataSource:[
+                            { text: "0-特殊字符", value: 0},
+                            { text: "1-检测值项", value: 1},
+                            { text: "2-产线区分字符", value: 2}
+                        ]
+                    })
+                },
+                template:function (e) {
+                    if(e.codeType == "1"){
+                        return "1-检测值项";
+                    }else if(e.codeType == "0"){
+                        return "0-特殊字符";
+                    }else if(e.codeType == "2"){
+                        return "0-产线区分字符";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"speciallCode",
+                title:"特殊字符",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"checkUpData",
+                title:"针对检测值的上限",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"checkDownData",
+                title:"针对检测值的下限",
+                width:80,
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            },
+            {
+                field:"status",
+                title:"状态",
+                width:80,
+                editor: function (container,options) {
+                    $('<input name="'+options.field+'"/>').appendTo(container).kendoComboBox({
+                        dataTextField: "text",
+                        dataValueField: "value",
+                        valuePrimitive: true,
+                        dataSource: [
+                            { text:"1-失效",value:"1"},
+                            { text:"0-有效",value:"0"}
+                        ]
+                    })
+                },
+                template:function (e) {
+                    if(e.status == "1"){
+                        return "1-失效";
+                    }else if(e.status == "0"){
+                        return "0-有效";
+                    }else{
+                        return "";
+                    }
+                },
+                headerAttributes: {
+                    style: "text-align: center;"
+                },
+                attributes: {
+                    style: "text-align: center;"
+                }
+            }
+        ]
+    });
+    var grid = $('#Grid2').data("kendoGrid");
+    function deleteData() {
+        var data = grid.selectedDataItems();
+        if(data.length >= 1){
+            Hap.deleteGridSelection({
+                grid: $('#Grid2')
+            });
+        }else{
+            kendo.ui.showInfoDialog({
+                message: '请至少选择一行数据'
+            })
+        }
+    }
+    Hap.autoResizeGrid("#Grid2");
+</script>
+</body>
+</html>

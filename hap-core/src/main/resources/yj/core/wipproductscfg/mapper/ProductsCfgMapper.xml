@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wipproductscfg.mapper.ProductsCfgMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wipproductscfg.dto.ProductsCfg">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="PMATNR" property="pmatnr" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="LGORTASSY" property="lgortassy" jdbcType="VARCHAR" />
+        <result column="LGORTREW" property="lgortrew" jdbcType="VARCHAR" />
+        <result column="SXMIN" property="sxmin" jdbcType="DECIMAL" />
+        <result column="SXMAX" property="sxmax" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+    <resultMap id="BaseResultMap1" type="yj.core.wipproductscfg.dto.ProductsCfg">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR" />
+        <result column="PMATNR" property="pmatnr" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MAKTX2" property="maktx2" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="LGORTASSY" property="lgortassy" jdbcType="VARCHAR" />
+        <result column="LGORTREW" property="lgortrew" jdbcType="VARCHAR" />
+        <result column="CUSTBARCODEYN_CARTON" property="custbarcodeynCarton" jdbcType="VARCHAR" />
+        <result column="CUSTBARCODEYN_BOX" property="custbarcodeynBox" jdbcType="VARCHAR" />
+        <result column="KUNNR" property="kunnr" jdbcType="VARCHAR" />
+        <result column="NAME1" property="name1" jdbcType="VARCHAR" />
+        <result column="CUSTMANTR" property="custmantr" jdbcType="VARCHAR" />
+        <result column="SPOST_CARTON" property="spostCarton" jdbcType="DECIMAL" />
+        <result column="EPOST_CARTON" property="epostCarton" jdbcType="DECIMAL" />
+        <result column="SPOST_BOX" property="spostBox" jdbcType="DECIMAL" />
+        <result column="EPOST_BOX" property="epostBox" jdbcType="DECIMAL" />
+        <result column="SXMIN" property="sxmin" jdbcType="DECIMAL" />
+        <result column="SXMAX" property="sxmax" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="queryByMatnrKunnr" parameterType="java.lang.String" resultMap="BaseResultMap1">
+        select DISTINCT pc.pmatnr,ma.maktx,pc.kunnr,cu.name1 from wip_products_cfg pc
+        left join sap_marc ma on pc.pmatnr = ma.matnr
+        left join sap_cust cu on pc.kunnr = cu.kunnr
+        <where>
+            1 = 1
+            <if test="pmatnr != null">
+                AND pc.pmatnr = #{pmatnr}
+            </if>
+            <if test="kunnr != null">
+                AND pc.kunnr = #{kunnr}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByMatnr" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select matnr as matnr2, (select maktx FROM sap_marc where matnr = matnr2) as maktx FROM wip_products_cfg
+        <where>
+            LINE_ID = #{lineId}
+        </where>
+    </select>
+
+    <select id="selectFromPage" parameterType="yj.core.wipproductscfg.dto.ProductsCfg" resultMap="BaseResultMap1">
+        select WERKS,LINE_ID as lineId,(select descriptions from wip_lines where line_id = lineId) as descriptions,PMATNR as pmatnr,
+        (select maktx from sap_marc where matnr = pmatnr) as maktx,MATNR as matnr2,(select maktx from sap_marc where matnr = matnr2) as maktx2,
+        LGORT,LGORTASSY,LGORTREW,CUSTBARCODEYN_CARTON,CUSTBARCODEYN_BOX,CUSTMANTR,SPOST_CARTON,EPOST_CARTON,SPOST_BOX,EPOST_BOX,SXMIN,SXMAX,
+        KUNNR as kunnr1,(select name1 from sap_cust where kunnr = kunnr1) as name1
+        from wip_products_cfg
+        <where>
+            1 = 1
+            <if test="werks != null">
+                AND werks = #{werks}
+            </if>
+            <if test="lineId != null">
+                AND line_id = #{lineId}
+            </if>
+            <if test="pmatnr != null">
+                AND pmatnr = #{pmatnr}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateProductsCfg" parameterType="yj.core.wipproductscfg.dto.ProductsCfg">
+        update wip_products_cfg set WERKS = #{werks},LINE_ID = #{lineId},PMATNR = #{pmatnr},MATNR = #{matnr},LGORT = #{lgort},
+        LGORTASSY = #{lgortassy},LGORTREW = #{lgortrew},CUSTBARCODEYN_CARTON = #{custbarcodeynCarton},CUSTBARCODEYN_BOX = #{custbarcodeynBox},
+        KUNNR = #{kunnr},CUSTMANTR = #{custmantr},SPOST_CARTON = #{spostCarton},EPOST_CARTON = #{epostCarton},SPOST_BOX = #{spostBox},
+        EPOST_BOX = #{epostBox},SXMIN = #{sxmin},SXMAX = #{sxmax},LAST_UPDATED_DATE =#{lastUpdatedDate},LAST_UPDATED_BY =#{lastUpdatedBy}
+        <where>
+            WERKS = #{werks}
+            and LINE_ID = #{lineId}
+            and PMATNR = #{pmatnr}
+        </where>
+    </update>
+
+    <insert id="insertProductsCfg" parameterType="yj.core.wipproductscfg.dto.ProductsCfg">
+        insert into wip_products_cfg(WERKS,LINE_ID,PMATNR,MATNR,LGORT,LGORTASSY,LGORTREW,CUSTBARCODEYN_CARTON,
+                      CUSTBARCODEYN_BOX,KUNNR,CUSTMANTR,SPOST_CARTON,EPOST_CARTON,SPOST_BOX,EPOST_BOX,SXMIN,SXMAX,
+                      CREATION_DATE,CREATED_BY)
+        values(#{werks}, #{lineId}, #{pmatnr}, #{matnr}, #{lgort}, #{lgortassy}, #{lgortrew}, #{custbarcodeynCarton},
+         #{custbarcodeynBox}, #{kunnr}, #{custmantr}, #{spostCarton}, #{epostCarton}, #{spostBox}, #{epostBox}, #{sxmin},
+         #{sxmax}, #{creationDate}, #{createdBy})
+    </insert>
+
+    <select id="isExit" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from wip_products_cfg
+        <where>
+            WERKS = #{werks}
+            and LINE_ID = #{lineId}
+            and PMATNR = #{pmatnr}
+        </where>
+    </select>
+
+    <delete id="deleteProductsCfg" parameterType="yj.core.wipproductscfg.dto.ProductsCfg">
+        delete from wip_products_cfg
+        <where>
+            WERKS = #{werks}
+            and LINE_ID = #{lineId}
+            and PMATNR = #{pmatnr}
+        </where>
+    </delete>
+
+    <select id="selectByLineId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select pmatnr as pmatnr, (select maktx FROM sap_marc where matnr = pmatnr) as maktx FROM wip_products_cfg
+        <where>
+            LINE_ID = #{lineId}
+            <if test="pmatnr != null">
+                AND pmatnr = #{pmatnr}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * FROM wip_products_cfg
+         <where>
+             LINE_ID = #{line_id}
+         </where>
+    </select>
+
+    <select id="selectMaxByLineidAndMatnr" parameterType="yj.core.wipproductscfg.dto.ProductsCfg" resultType="java.lang.Integer">
+        select COUNT(*) FROM wip_products_cfg
+        <where>
+            WERKS = #{werks}
+            and LINE_ID = #{lineId}
+            and PMATNR = #{pmatnr}
+            and MATNR = #{matnr}
+        </where>
+    </select>
+
+    <select id="selectMaxByLineidAndMatnrLgort" parameterType="yj.core.wipproductscfg.dto.ProductsCfg" resultType="java.lang.Integer">
+        select COUNT(*) FROM wip_products_cfg
+        <where>
+            WERKS = #{werks}
+            and LINE_ID = #{lineId}
+            and PMATNR = #{pmatnr}
+            and MATNR = #{matnr}
+            and LGORT = #{lgort}
+        </where>
+    </select>
+    <!-- 按照机加物料 生产线ID 查询-->
+    <select id="selectByLineidAndPMatnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_products_cfg
+        <where>
+            LINE_ID = #{line_id}
+            and PMATNR = #{matnr}
+        </where>
+    </select>
+
+    <!-- 按照毛坯物料 生产线ID 查询-->
+    <select id="selectByLineidAndMatnr" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_products_cfg
+        <where>
+            LINE_ID = #{line_id}
+            and MATNR = #{matnr}
+        </where>
+    </select>
+
+    <select id="selectByLineidAndMatnr2" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_products_cfg
+        <where>
+            LINE_ID = #{line_id}
+            and MATNR = #{matnr}
+        </where>
+    </select>
+
+    <select id="selectByLineIdForLov" parameterType="java.lang.String" resultMap="BaseResultMap1">
+        select a.LINE_ID,
+               a.PMATNR,
+               b.MAKTX
+               FROM wip_products_cfg a
+               INNER JOIN sap_marc b on b.MATNR = a.PMATNR and b.WERKS = a.WERKS
+               <where>
+                   a.LINE_ID = #{lineId}
+               </where>
+    </select>
+
+
+</mapper>

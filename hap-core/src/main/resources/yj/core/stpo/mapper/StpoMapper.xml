@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.stpo.mapper.StpoMapper">
+    <resultMap id="BaseResultMap" type="yj.core.stpo.dto.Stpo">
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="STLAN" property="stlan" jdbcType="VARCHAR" />
+        <result column="STLNR" property="stlnr" jdbcType="VARCHAR" />
+        <result column="STLAL" property="stlal" jdbcType="VARCHAR" />
+        <result column="STKOZ" property="stkoz" jdbcType="VARCHAR" />
+        <result column="DATUV" property="datuv" jdbcType="DATE" />
+        <result column="LKENZ" property="lkenz" jdbcType="VARCHAR" />
+        <result column="LOEKZ" property="loekz" jdbcType="VARCHAR" />
+        <result column="BMEIN" property="bmein" jdbcType="VARCHAR" />
+        <result column="BMENG" property="bmeng" jdbcType="DECIMAL" />
+        <result column="STLST" property="stlst" jdbcType="VARCHAR" />
+        <result column="VALID_TO" property="validTo" jdbcType="DATE" />
+        <result column="STLTY" property="stlty" jdbcType="VARCHAR" />
+        <result column="IDNRK" property="idnrk" jdbcType="VARCHAR" />
+        <result column="POSTP" property="postp" jdbcType="VARCHAR" />
+        <result column="POSNR" property="posnr" jdbcType="VARCHAR" />
+        <result column="MEINS" property="meins" jdbcType="VARCHAR" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="AUSCH" property="ausch" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+</mapper>

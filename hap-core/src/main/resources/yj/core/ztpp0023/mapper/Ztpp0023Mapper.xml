@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.ztpp0023.mapper.Ztpp0023Mapper">
+    <resultMap id="BaseResultMap" type="yj.core.ztpp0023.dto.Ztpp0023">
+        <result column="QDWERK" property="qdwerk" jdbcType="VARCHAR" />
+        <result column="QAUFNR" property="qaufnr" jdbcType="VARCHAR" />
+        <result column="YAUFNR" property="yaufnr" jdbcType="VARCHAR" />
+        <result column="QDAUAT" property="qdauat" jdbcType="VARCHAR" />
+        <result column="QMATNR" property="qmatnr" jdbcType="VARCHAR" />
+        <result column="QFEVOR" property="qfevor" jdbcType="VARCHAR" />
+        <result column="QGAMNG" property="qgamng" jdbcType="DECIMAL" />
+        <result column="MENGE" property="menge" jdbcType="DECIMAL" />
+        <result column="YDAUAT" property="ydauat" jdbcType="VARCHAR" />
+        <result column="YMATNR" property="ymatnr" jdbcType="VARCHAR" />
+        <result column="YFEVOR" property="yfevor" jdbcType="VARCHAR" />
+        <result column="YVERID" property="yverid" jdbcType="VARCHAR" />
+        <result column="YGSTRP" property="ygstrp" jdbcType="DATE" />
+        <result column="YGLTRP" property="ygltrp" jdbcType="DATE" />
+        <result column="YGAMNG" property="ygamng" jdbcType="DECIMAL" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="ATTR5" property="attr5" jdbcType="VARCHAR" />
+        <result column="ATTR6" property="attr6" jdbcType="VARCHAR" />
+        <result column="ATTR7" property="attr7" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+</mapper>

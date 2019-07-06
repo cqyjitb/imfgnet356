@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.zudlist.mapper.ZudlistMapper">
+    <resultMap id="BaseResultMap" type="yj.core.zudlist.dto.Zudlist">
+        <result column="ZUDNUM" property="zudnum" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR" />
+        <result column="ARBPR" property="arbpr" jdbcType="VARCHAR" />
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZDNUM" property="zdnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG2" property="charg2" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR" />
+        <result column="ZISSUETXT" property="zissuetxt" jdbcType="VARCHAR" />
+        <result column="ZBPJC" property="zbpjc" jdbcType="VARCHAR" />
+        <result column="ZOPLO" property="zoplo" jdbcType="VARCHAR" />
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR" />
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR" />
+        <result column="RSPART" property="rspart" jdbcType="VARCHAR" />
+        <result column="RSNAME" property="rsname" jdbcType="VARCHAR" />
+        <result column="REVIEWC" property="reviewc" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="VARCHAR" />
+        <result column="MARK" property="mark" jdbcType="VARCHAR" />
+        <result column="RUECK" property="rueck" jdbcType="VARCHAR" />
+        <result column="RMZHL" property="rmzhl" jdbcType="VARCHAR" />
+        <result column="ZCTYPE" property="zctype" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="RMZHL" property="rmzhl" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.zudlist.dto.Zudlist">
+        <result column="ZUDNUM" property="zudnum" jdbcType="VARCHAR" />
+        <result column="ITEM" property="item" jdbcType="VARCHAR" />
+        <result column="ZQJJLH" property="zqjjlh" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ZXHBAR" property="zxhbar" jdbcType="VARCHAR" />
+        <result column="ZPGDBAR2" property="zpgdbar2" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MATNR2" property="matnr2" jdbcType="VARCHAR" />
+        <result column="ZGJBAR" property="zgjbar" jdbcType="VARCHAR" />
+        <result column="ZDNUM" property="zdnum" jdbcType="DECIMAL" />
+        <result column="GMEIN" property="gmein" jdbcType="VARCHAR" />
+        <result column="CHARG2" property="charg2" jdbcType="VARCHAR" />
+        <result column="CHARG" property="charg" jdbcType="VARCHAR" />
+        <result column="DIECD" property="diecd" jdbcType="VARCHAR" />
+        <result column="SFFLG" property="sfflg" jdbcType="VARCHAR" />
+        <result column="ZQXDM" property="zqxdm" jdbcType="VARCHAR" />
+        <result column="ZTEXT" property="ztext" jdbcType="VARCHAR" />
+        <result column="ZISSUETXT" property="zissuetxt" jdbcType="VARCHAR" />
+        <result column="KURZTEXT" property="kurztext" jdbcType="VARCHAR" />
+        <result column="ZBPJC" property="zbpjc" jdbcType="VARCHAR" />
+        <result column="ZOPLO" property="zoplo" jdbcType="VARCHAR" />
+        <result column="ZBANZ" property="zbanz" jdbcType="VARCHAR" />
+        <result column="ZBANC" property="zbanc" jdbcType="VARCHAR" />
+        <result column="RSPART" property="rspart" jdbcType="VARCHAR" />
+        <result column="RSNAME" property="rsname" jdbcType="VARCHAR" />
+        <result column="REVIEWC" property="reviewc" jdbcType="VARCHAR" />
+        <result column="GSTRP" property="gstrp" jdbcType="VARCHAR" />
+        <result column="MARK" property="mark" jdbcType="VARCHAR" />
+        <result column="RUECK" property="rueck" jdbcType="VARCHAR" />
+        <result column="RMZHL" property="rmzhl" jdbcType="VARCHAR" />
+        <result column="ZCTYPE" property="zctype" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="LINE_ID" property="lineId" jdbcType="VARCHAR"/>
+        <result column="ZOTYPE" property="zotype" jdbcType="VARCHAR"/>
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR"/>
+        <result column="SORTL" property="sortl" jdbcType="VARCHAR"/>
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR"/>
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectByLineId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select distinct zl.zudnum from wip_zudlist zl,wip_lines li
+        <where>
+            li.line_id = zl.line_id
+            AND (zl.line_id = #{lineId} or li.pline_id = #{lineId})
+            AND zl.status != '1'
+            <if test="zudnum != null">
+                and zl.zudnum = #{zudnum}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDftdtl" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from wip_zudlist
+        <where>
+            matnr2 = #{matnr2}
+            AND ZISSUETXT = #{zissuetxt}
+        </where>
+    </select>
+    <select id="selectZudlistTypeBlpcl" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select distinct zl.zudnum,zl.item,zl.line_id,zl.zbanz,zl.zbanc,zl.zpgdbar,zl.matnr2 as matnr3,zl.zgjbar,zl.sfflg,zl.diecd,zl.zdnum,
+        zl.zbpjc as zbpjc2,zl.charg2,zl.charg,zl.zqxdm as zqxdm2,zl.zissuetxt,zl.rspart as rspart,zl.vornr,zl.zoplo,zl.rsname,zl.reviewc,
+        zl.mark,zl.CREATION_DATE as createDate,df.ztext,us.user_name as createBy1,li.descriptions,
+        (select name from hr_org_unit_b where UNIT_CODE = rspart) as name,
+        (select maktx from sap_marc where MATNR = matnr3) as maktx,
+        (select KURZTEXT from sap_qpcd where code = zqxdm2) as kurztext,
+        (select sortl from sap_cust where kunnr = zbpjc2) as sortl
+        from wip_zudlist zl,wip_zudhead zh,wip_lines li,sap_dftdtl df,sys_user us
+        <where>
+            zl.zudnum = zh.zudnum
+            AND zl.line_id = li.line_id
+            and ( zl.zissuetxt = df.tlevelcode and zl.matnr2 = df.matnr )
+            AND zl.created_by = us.user_id
+            AND (li.line_id = #{lineId} or li.pline_id = #{lineId})
+            AND zl.zctype = '1'
+            <if test="status != null">
+                AND zl.STATUS = #{status}
+            </if>
+            <if test="creationDateAfter != null">
+                AND zh.creation_date >= #{creationDateAfter}
+            </if>
+            <if test="creationDateBefore != null">
+                AND #{creationDateBefore} >= zh.creation_date
+            </if>
+            <if test="zudnum != null">
+                AND zh.zudnum = #{zudnum}
+            </if>
+            <if test="createBy1 != null">
+                AND us.user_name = #{createBy1}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectZudlist" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select distinct zl.zudnum,zl.item,zl.line_id,zl.zbanz,zl.zbanc,zl.zpgdbar,zl.matnr2 as matnr3,zl.zgjbar,zl.sfflg,zl.diecd,zl.zdnum,
+        zl.zbpjc as zbpjc2,zl.charg2,zl.charg,zl.zqxdm as zqxdm2,zl.zissuetxt,zl.rspart as rspart,zl.vornr,zl.zoplo,zl.rsname,zl.reviewc,
+        zl.mark,zl.CREATION_DATE as createDate,df.ztext,us.user_name as createBy1,li.descriptions,qj.rcode,re.zotype,re.vornr as vornr_old,
+        (select name from hr_org_unit_b where UNIT_CODE = rspart) as name,
+        (select maktx from sap_marc where MATNR = matnr3) as maktx,
+        (select KURZTEXT from sap_qpcd where code = zqxdm2) as kurztext,
+        (select sortl from sap_cust where kunnr = zbpjc2) as sortl
+        from wip_zudlist zl,wip_zudhead zh,wip_lines li,wip_in_out_record re,sap_dftdtl df,sys_user us,wip_qjcode qj
+        <where>
+            zl.zudnum = zh.zudnum
+            AND zl.line_id = li.line_id
+            AND (zl.zqjjlh = re.zqjjlh AND re.zotype = qj.id)
+            and ( zl.zissuetxt = df.tlevelcode and re.matnr2 = df.matnr )
+            AND zl.created_by = us.user_id
+            AND (li.line_id = #{lineId} or li.pline_id = #{lineId})
+            <if test="status != null">
+                AND zl.STATUS = #{status}
+            </if>
+            <if test="creationDateAfter != null">
+                AND zh.creation_date >= #{creationDateAfter}
+            </if>
+            <if test="creationDateBefore != null">
+                AND #{creationDateBefore} >= zh.creation_date
+            </if>
+            <if test="zudnum != null">
+                AND zh.zudnum = #{zudnum}
+            </if>
+            <if test="createBy1 != null">
+                AND us.user_name = #{createBy1}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertItem" parameterType="yj.core.zudlist.dto.Zudlist">
+        insert INTO  wip_zudlist(ZUDNUM,ITEM,LINE_ID,ARBPR,ZQJJLH,ZPGDBAR,VORNR,ZXHBAR,ZPGDBAR2,MATNR,MATNR2,ZGJBAR,ZDNUM,GMEIN,CHARG2,CHARG,DIECD,SFFLG,ZQXDM,
+        ZISSUETXT,ZBPJC,ZOPLO,ZBANZ,ZBANC,RSPART,RSNAME,REVIEWC,GSTRP,MARK,RUECK,RMZHL,ZCTYPE,STATUS,CREATION_DATE,CREATED_BY)VALUES (#{zudnum},#{item},#{lineId},#{arbpr},#{zqjjlh},#{zpgdbar},#{vornr},#{zxhbar},#{zpgdbar2},#{matnr},
+        #{matnr2},#{zgjbar},#{zdnum},#{gmein},#{charg2},#{charg},#{diecd},
+        #{sfflg},#{zqxdm},#{zissuetxt},#{zbpjc},#{zoplo},#{zbanz},#{zbanc},#{rspart},#{rsname},#{reviewc},#{gstrp},#{mark},#{rueck},#{rmzhl},#{zctype},#{status},#{creationDate},#{createdBy})
+    </insert>
+
+    <update id="updateItem" parameterType="yj.core.zudlist.dto.Zudlist">
+        update wip_zudlist set LAST_UPDATE_DATE = #{lastUpdateDate},
+        LAST_UPDATED_BY = #{lastUpdatedBy}
+        <if test="rueck != null">
+            ,RUECK = #{rueck}
+        </if>
+        <if test="rmzhl != null">
+            ,RMZHL = #{rmzhl}
+        </if>
+        <if test="status != null">
+            ,STATUS = #{status}
+        </if>
+        <if test="reviewc != null">
+            ,REVIEWC = #{reviewc}
+        </if>
+        <where>
+            ZUDNUM = #{zudnum}
+            and ITEM = #{item}
+        </where>
+    </update>
+
+    <select id="selectByZudnumForUnprocess" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_zudlist
+        <where>
+            ZUDNUM = #{zudnum}
+            and STATUS = '0'
+        </where>
+    </select>
+
+    <select id="selectByIdAndItem" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_zudlist
+        <where>
+            ZUDNUM = #{zudnum}
+            and ITEM = #{item}
+        </where>
+    </select>
+
+    <select id="selectForPassrateReportgf" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_zudlist
+        <where>
+            LINE_ID LIKE #{lineId}
+            and GSTRP >= #{datestart}
+            and #{dateend} >= GSTRP
+            and MATNR2 = #{matnr}
+            and ZISSUETXT like 'M%'
+        </where>
+    </select>
+
+    <select id="selectForPassrateReportlf" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from wip_zudlist
+        <where>
+            LINE_ID LIKE #{lineId}
+            and GSTRP >= #{datestart}
+            and #{dateend} >= GSTRP
+            and MATNR2 = #{matnr}
+            AND ZISSUETXT NOT like 'M%'
+        </where>
+    </select>
+
+    <select id="selectForBaltuChart" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select
+        zissuetxt,
+        count(ZDNUM) as ZDNUM
+        from wip_zudlist
+        <where>
+        LINE_ID LIKE #{lineId}
+        and GSTRP >= #{datestart}
+        and #{dateend} >= GSTRP
+        and MATNR2 = #{matnr}
+        </where>
+        GROUP BY ZISSUETXT order by zdnum desc
+    </select>
+</mapper>

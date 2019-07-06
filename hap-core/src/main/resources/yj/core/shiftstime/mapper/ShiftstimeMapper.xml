@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.shiftstime.mapper.ShiftstimeMapper">
+    <resultMap id="BaseResultMap" type="yj.core.shiftstime.dto.Shiftstime">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="STIFTS" property="stifts" jdbcType="VARCHAR" />
+        <result column="TYPE" property="type" jdbcType="VARCHAR" />
+        <result column="START_TIME" property="startTime" jdbcType="DATE" />
+        <result column="END_TIME" property="endTime" jdbcType="DATE" />
+        <result column="BGS_TIME" property="bgsTime" jdbcType="DATE" />
+        <result column="BGE_TIME" property="bgeTime" jdbcType="DATE" />
+        <result column="ZS_TIME" property="zsTime" jdbcType="DATE" />
+        <result column="ZE_TIME" property="zeTime" jdbcType="DATE" />
+        <result column="ZBGS_TIME" property="zbgsTime" jdbcType="DATE" />
+        <result column="ZBGE_TIME" property="zbgeTime" jdbcType="DATE" />
+        <result column="TXT" property="txt" jdbcType="VARCHAR"/>
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE"/>
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL"/>
+        <result column="LAST_UPDATE_DATE" property="lastUpdateDate" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectByShift" parameterType="java.lang.String" resultType="yj.core.shiftstime.dto.Shiftstime">
+        select *,START_TIME as startTime,END_TIME as endTime,BGS_TIME as bgsTime,BGE_TIME as bgeTime,
+                ZS_TIME as zsTime,ZE_TIME as zeTime,ZBGS_TIME as zbgsTime,ZBGE_TIME as zbgeTime
+        from sap_shiftstime
+        <where>
+            <if test="shifts != null">
+                shifts = #{shifts}
+            </if>
+        </where>
+        limit 1
+    </select>
+</mapper>

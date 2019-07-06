@@ -1,0 +1,306 @@
+<!--
+    流转卡明细
+-->
+<#include "../include/header.html" >
+    <style>
+        span[class='k-window-title'] {
+            user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .action_ok {
+            color: #5fb760;
+        }
+
+        .action_dangerous {
+            color: #eeac5f;
+        }
+
+
+
+    </style>
+    <script type="text/javascript">
+        /*   $(function(){
+         setInterval(function(){
+         $.ajax({
+         url: '${base.contextPath}/test/form',
+         async: false,
+         success: function(data) {
+         document.getElementById('s').innerHTML=JSON.stringify(data.rows[0]);
+         document.getElementById('e').innerHTML=JSON.stringify(data.rows[1]);
+
+         },
+         });
+         }, 1000);
+
+         });*/
+
+
+        //        function ajaxTest() {
+        //            $.ajax({
+        //                url: '${base.contextPath}/test/form',
+        //                async: false,
+        //                success: function (data) {
+        //                    document.getElementById('s').innerHTML = JSON.stringify(data.rows[0]);
+        //                    document.getElementById('e').innerHTML = JSON.stringify(data.rows[1]);
+        //
+        //                },
+        //            });
+        //        }
+
+        var viewModel = kendo.observable({
+            model: {},
+
+            resetForm: function () {
+                var formData = viewModel.model.toJSON();
+                for (var k in formData) {
+                    viewModel.model.set(k, null);
+                }
+                $('#Grid').data('kendoGrid').dataSource.read();
+            },
+            queryGrid: function (e) {
+                $('#Grid').data('kendoGrid').dataSource.page(1);
+            }
+
+
+        });
+    </script>
+
+    <div id="content-container">
+        <div id="page-content">
+            <div class="panel" style="padding: 0px;border:none;box-shadow: none;">
+                <form class="form-horizontal" id="myForm">
+                    <div class="panel-body">
+                        <div id="test">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">流转卡号</label>
+                                        <div class="col-sm-8">
+                                            <input id="queryType" class="k-textbox" data-bind="value:model.zpgdbar"
+                                                   style="width: 100%">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">工序条码号</label>
+                                        <div class="col-sm-8">
+                                            <input id="queryID" class="k-textbox" data-bind="value:model.zgxbar"
+                                                   style="width: 100%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">工序编号</label>
+                                        <div class="col-sm-8">
+                                            <input  type="text" style="width: 100%" data-bind="value:model.zgxbh" class="k-textbox">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="row" style="margin-right: -8px;">
+                            <!--<div class="pull-left" style="margin-right:15px;">-->
+                            <!--<div style="margin-top: 6px"><font size="3">-->
+                            <!--<div style="float: left">成功：</div>-->
+                            <!--<div id="s" style="float: left;">0</div>-->
+                            <!--<div style="float: left;margin-left: 20px">失败：</div>-->
+                            <!--<div style="float: left" id="e">0</div>-->
+                            <!--</font></div>-->
+                            <!--</div>-->
+                            <div class="pull-right" style="margin-right:15px">
+                                <span class="btn btn-primary" data-bind="click:queryGrid"
+                                      type="submit">
+                                <i class="fa fa-search" style="margin-right:3px;"></i>
+                            <@spring.message "hap.query"/></span>
+                                <span class="btn btn-default" type="button" data-bind="click:resetForm">
+                                <i class="fa fa-eraser" style="margin-right:3px;"></i>
+                            <@spring.message "hap.reset"/></span>
+                                <span class="btn btn-info" type="button" id="panel_hidden" onclick="test()">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_hidden"/></span>
+                                <span class="btn btn-info" type="button" id="panel_show" onclick="test()"
+                                      style="display: none">
+                                <i class="fa fa-joomla" style="margin-right:3px;"></i>
+                           <@spring.message "hap.panel_show"/></span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <div style="clear:both">
+                <div id="Grid"></div>
+            </div>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        kendo.bind($('#page-content'), viewModel);
+        function test() {
+            var apply = $("#test");
+            var button_hidden = $("#panel_hidden");
+            var button_show = $("#panel_show");
+            if (apply.is(":hidden")) {
+                button_hidden.show();
+                button_show.hide();
+                apply.show();    //如果元素为隐藏,则将它显现
+            } else {
+                button_hidden.hide();
+                button_show.show();
+                apply.hide();     //如果元素为显现,则将其隐藏
+            }
+            Hap.autoResizeGrid("#Grid");
+
+        }
+        var BaseUrl = _basePath;
+        dataSource = new kendo.data.DataSource({
+            transport: {
+                read: {
+                    url: BaseUrl + "/sap/cardt/queryAfterSort",
+                    type: "POST",
+                    dataType: "json"
+                },
+                parameterMap: function (options, type) {
+                    if (type !== "read" && options.models) {
+                        var datas = Hap.prepareSubmitParameter(options, type)
+
+                        return kendo.stringify(datas);
+                    } else if (type === "read") {
+                        return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                    }
+                }
+            },
+            batch: true,
+            serverPaging: true,
+            pageSize: 10,
+            schema: {
+                data: 'rows',
+                total: 'total',
+                model: {
+                    id: "id",
+                    fields: {
+                        zpgdbar: {type: "string"},
+                        zgxbar: {type: "string"},
+                        zgxbh: {type: "string"}
+                    }
+                }
+            }
+        });
+
+        var gird = $("#Grid").kendoGrid({
+            dataSource: dataSource,
+            autoBind:false,
+            height: '100%',
+            resizable: true,
+            scrollable: true,
+            navigatable: false,
+            pageable: {
+                pageSizes: [20, 50, 100, 500, 1000, 2000, 5000, "all"],
+                refresh: true,
+                buttonCount: 10
+            },
+
+            columns:[
+                {
+                    field: "werks",
+                    title: '工厂',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zgxbar",
+                    title: '工序条码号',
+                    width: 100,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zgxbh",
+                    title: '工序编号',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zpgdbar",
+                    title: '流转卡号',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zpgdbh",
+                    title: '流转卡编号',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "ktext",
+                    title: '工作中心',
+                    width: 120,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "ltxa1",
+                    title: '工序',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                },{
+                    field: "zsfdy",
+                    title: '是否打印',
+                    width: 70,
+                    headerAttributes: {
+                        style: "text-align: center;"
+                    },
+                    attributes: {
+                        style: "text-align: center;"
+                    }
+                }
+
+            ],
+            editable: false
+        });
+
+        Hap.autoResizeGrid("#Grid");
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.wiplines.mapper.LinesMapper">
+    <resultMap id="BaseResultMap" type="yj.core.wiplines.dto.Lines">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="LINE_CODE" property="lineCode" jdbcType="VARCHAR" />
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR" />
+        <result column="PLINE_ID" property="plineId" jdbcType="DECIMAL" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR" />
+        <result column="EXECOFF_FLAG" property="execoffFlag" jdbcType="VARCHAR" />
+        <result column="START_DATE" property="startDate" jdbcType="DATE" />
+        <result column="END_DATE" property="endDate" jdbcType="DATE" />
+        <result column="TAKT_TIME" property="taktTime" jdbcType="DECIMAL" />
+        <result column="ONLINETYPE" property="onlinetype" jdbcType="VARCHAR" />
+        <result column="SEG_OPR_NAME" property="segOprName" jdbcType="VARCHAR"/>
+        <result column="LINEHEADER" property="lineHeader" jdbcType="VARCHAR"/>
+        <result column="LINEHEADER_EN" property="lineHeaderEn" jdbcType="VARCHAR"/>
+        <result column="HEADERPHONE" property="headerPhone" jdbcType="VARCHAR"/>
+        <result column="OEERATE" property="oeerate" jdbcType="DECIMAL"/>
+        <result column="SEG_OPR_NAME" property="segOprName" jdbcType="VARCHAR"/>
+        <result column="POINT_NUM" property="pointNum" jdbcType="DECIMAL" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="yj.core.wiplines.dto.Lines">
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="DEPT_ID" property="deptId" jdbcType="VARCHAR" />
+        <result column="LINE_ID" property="lineId" jdbcType="DECIMAL" />
+        <result column="LINE_CODE" property="lineCode" jdbcType="VARCHAR" />
+        <result column="DESCRIPTIONS" property="descriptions" jdbcType="VARCHAR" />
+        <result column="PLINE_ID" property="plineId" jdbcType="DECIMAL" />
+        <result column="ARBPL" property="arbpl" jdbcType="VARCHAR" />
+        <result column="ENABLE_FLAG" property="enableFlag" jdbcType="VARCHAR" />
+        <result column="EXECOFF_FLAG" property="execoffFlag" jdbcType="VARCHAR" />
+        <result column="START_DATE" property="startDate" jdbcType="DATE" />
+        <result column="END_DATE" property="endDate" jdbcType="DATE" />
+        <result column="TAKT_TIME" property="taktTime" jdbcType="DECIMAL" />
+        <result column="ONLINETYPE" property="onlinetype" jdbcType="VARCHAR" />
+        <result column="PKGTYPE" property="pkgtype" jdbcType="VARCHAR"/>
+        <result column="SEG_OPR_NAME" property="segOprName" jdbcType="VARCHAR"/>
+        <result column="LINEHEADER" property="lineHeader" jdbcType="VARCHAR"/>
+        <result column="HEADERPHONE" property="headerPhone" jdbcType="VARCHAR"/>
+        <result column="PKG_BIND_FLAG" property="pkgBindFlag" jdbcType="VARCHAR"/>
+        <result column="CGROUP" property="cgroup" jdbcType="VARCHAR"/>
+        <result column="POINT_NUM" property="pointNum" jdbcType="DECIMAL" />
+        <result column="UNIT_ID" property="unitId" jdbcType="DECIMAL"/>
+        <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL"/>
+        <result column="UNIT_CODE" property="unitCode" jdbcType="VARCHAR"/>
+        <result column="CREATION_DATE" property="creationDate" jdbcType="DATE" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+        <result column="LAST_UPDATED_DATE" property="lastUpdatedDate" jdbcType="DATE" />
+        <result column="LAST_UPDATED_BY" property="lastUpdatedBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <select id="selectByUnitCode" parameterType="java.lang.String" resultType="java.lang.String">
+        select name from hr_org_unit_b
+        <where>
+            <if test="unitCode != null">
+                unit_code = #{unitCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDescription" parameterType="java.lang.String" resultType="java.lang.String">
+        select descriptions from wip_lines
+        <where>
+            line_id = #{plineId}
+        </where>
+    </select>
+
+    <select id="selectUnit" parameterType="java.lang.String" resultMap="BaseResultMap2">
+        select unit_id,parent_id,unit_code,name from hr_org_unit_b
+        <where>
+            ENABLED_FLAG = 'Y'
+            and UNIT_CATEGORY = 'B'
+            <if test="unitCode != null">
+                AND unit_id = (select parent_id FROM hr_org_unit_b where ENABLED_FLAG = 'Y' and UNIT_CATEGORY = 'B' and unit_code = #{unitCode})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDeptId" parameterType="java.lang.String" resultType="java.lang.String">
+        select unit_code from hr_org_unit_b
+        <where>
+            unit_id = #{unitId}
+        </where>
+    </select>
+
+    <select id="selectFromPage" parameterType="yj.core.wiplines.dto.Lines" resultMap="BaseResultMap2">
+        select distinct li.LINE_ID,li.dept_id,li.lineheader,li.headerphone,li.oeerate,
+        li.WERKS,
+        li.LINE_CODE,
+        li.DESCRIPTIONS,
+        li.PLINE_ID as plineId,
+        (select descriptions from wip_lines where line_id = plineId) as pdescriptions,
+        li.ARBPL,
+        li.ENABLE_FLAG,
+        li.END_DATE,
+        li.TAKT_TIME,
+        li.START_DATE,
+        li.ONLINETYPE,
+        li.PKGTYPE,
+        li.SEG_OPR_NAME,
+        li.POINT_NUM,
+        li.CREATION_DATE,
+        li.CREATED_BY,
+        li.LAST_UPDATED_DATE,
+        li.LAST_UPDATED_BY,
+        li.EXECOFF_FLAG,
+        li.PKG_BIND_FLAG,
+        li.cgroup,
+        un.unit_id,
+        un.parent_id,
+        un.UNIT_CODE,
+        un.NAME,
+        af.KTEXT
+        from  wip_lines li left join hr_org_unit_b un ON li.DEPT_ID=un.UNIT_CODE
+        left join sap_afvc af ON li.ARBPL=af.ARBPL
+        <where>
+            li.dept_id = un.unit_code
+            <if test="werks != null">
+                AND li.WERKS = #{werks}
+            </if>
+            <if test="lineId != null">
+                AND li.line_id = #{lineId}
+            </if>
+            <if test="deptId != null ">
+                AND li.dept_id = #{deptId}
+            </if>
+        </where>
+
+    </select>
+
+    <select id="selectLov" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select distinct li.line_id,li.dept_id,li.descriptions from wip_lines li,hr_org_unit_b b
+        <where>
+            li.dept_id = b.unit_code
+            <if test="deptId != null">
+                AND li.dept_id = #{deptId}
+            </if>
+            <if test="lineId != null">
+                AND li.line_id = #{lineId}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateLines" parameterType="yj.core.wiplines.dto.Lines" >
+        update wip_lines set WERKS=#{werks},DEPT_ID=#{deptId},LINE_ID=#{lineId},LINE_CODE = #{lineCode},
+        DESCRIPTIONS=#{descriptions},PLINE_ID=#{plineId},ARBPL=#{arbpl},TAKT_TIME=#{taktTime},
+        ENABLE_FLAG=#{enableFlag},START_DATE=#{startDate},PKG_BIND_FLAG=#{pkgBindFlag},CGROUP=#{cgroup},
+        END_DATE=#{endDate},ONLINETYPE=#{onlinetype},PKGTYPE=#{pkgtype},EXECOFF_FLAG=#{execoffFlag},
+        LINEHEADER = #{lineheader},HEADERPHONE = #{headerphone},LINEHEADER_EN = #{lineheaderEn},
+        OEERATE = #{oeerate},SEG_OPR_NAME=#{segOprName},POINT_NUM=#{pointNum},CREATION_DATE=#{creationDate},
+        CREATED_BY=#{createdBy},LAST_UPDATED_DATE=#{lastUpdatedDate},LAST_UPDATED_BY=#{lastUpdatedBy}
+        <where>
+            WERKS=#{werks}
+            and LINE_ID=#{lineId}
+            and LINE_CODE = #{lineCode}
+        </where>
+
+
+    </update>
+
+    <insert id="insertLines" parameterType="yj.core.wiplines.dto.Lines">
+        insert into wip_lines(WERKS,DEPT_ID,LINE_CODE,LINE_ID,DESCRIPTIONS,PLINE_ID,ARBPL,TAKT_TIME,
+        ENABLE_FLAG,START_DATE,END_DATE,ONLINETYPE,PKGTYPE,EXECOFF_FLAG,PKG_BIND_FLAG,CGROUP,OEERATE,
+        LINEHEADER,HEADERPHONE,LINEHEADER_EN,SEG_OPR_NAME,POINT_NUM,CREATION_DATE,CREATED_BY)
+        VALUES(#{werks},#{deptId},#{lineCode},#{lineId},#{descriptions},#{plineId},#{arbpl},#{taktTime},
+        #{enableFlag},#{startDate},#{endDate},#{onlinetype},#{pkgtype},#{execoffFlag},#{pkgBindFlag},#{cgroup},#{oeerate},
+        #{lineheader},#{headerphone},#{lineheaderEn},#{segOprName},#{pointNum},#{creationDate},#{createdBy})
+    </insert>
+
+
+    <select id="isExit" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(*) from wip_lines
+        <where>
+            LINE_ID=#{lineId}
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select * FROM  wip_lines
+        <where>
+            LINE_ID = #{line_id}
+        </where>
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        select LINE_ID,
+               LINE_CODE,
+               DESCRIPTIONS
+               FROM wip_lines
+         <where>
+             <if test="lineId != null">
+                 LINE_ID = #{lineId}
+             </if>
+         </where>
+    </select>
+
+    <select id="selectByPlineId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select * from wip_lines
+        <where>
+            PLINE_ID = #{plineId}
+        </where>
+    </select>
+
+    <select id="selectByWerksAndDeptid" resultMap="BaseResultMap" parameterType="java.lang.String">
+                select
+                WERKS,
+                DEPT_ID,
+                LINE_ID,
+               LINE_CODE,
+               DESCRIPTIONS
+               FROM wip_lines
+               <where>
+                   1 = 1
+                   <if test="werks != null">
+                       and WERKS = #{werks}
+                   </if>
+                   <if test="deptId != null">
+                       and DEPT_ID = #{deptId}
+                   </if>
+               </where>
+    </select>
+
+</mapper>

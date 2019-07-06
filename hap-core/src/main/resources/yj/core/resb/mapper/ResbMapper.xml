@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.resb.mapper.ResbMapper">
+    <resultMap id="BaseResultMap" type="yj.core.resb.dto.Resb">
+        <result column="RSNUM" property="rsnum" jdbcType="VARCHAR" />
+        <result column="RSPOS" property="rspos" jdbcType="VARCHAR" />
+        <result column="POSTP" property="postp" jdbcType="VARCHAR" />
+        <result column="POSNR" property="posnr" jdbcType="VARCHAR" />
+        <result column="XLOEK" property="xloek" jdbcType="VARCHAR" />
+        <result column="MATNR" property="matnr" jdbcType="VARCHAR" />
+        <result column="MAKTX" property="maktx" jdbcType="VARCHAR" />
+        <result column="WERKS" property="werks" jdbcType="VARCHAR" />
+        <result column="LGORT" property="lgort" jdbcType="VARCHAR" />
+        <result column="BDMNG" property="bdmng" jdbcType="DECIMAL" />
+        <result column="MEINS" property="meins" jdbcType="VARCHAR" />
+        <result column="RGEKZ" property="rgekz" jdbcType="VARCHAR" />
+        <result column="AUFPL" property="aufpl" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="APLZL" property="aplzl" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="isExit" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) FROM  sap_resb
+              <where>
+                  RSNUM = #{rsnum}
+                  and RSPOS = #{rspos}
+              </where>
+    </select>
+
+    <update id="updateByRsnum" parameterType="yj.core.resb.dto.Resb">
+        UPDATE sap_resb set RSNUM = #{rsnum},
+                            RSPOS = #{rspos},
+                            POSTP = #{postp},
+                            POSNR = #{posnr},
+                            XLOEK = #{xloek},
+                            MATNR = #{matnr},
+                            MAKTX = #{maktx},
+                            WERKS = #{werks},
+                            LGORT = #{lgort},
+                            BDMNG = #{bdmng},
+                            MEINS = #{meins},
+                            RGEKZ = #{rgekz},
+                            AUFPL = #{aufpl},
+                            VORNR = #{vornr},
+                            APLZL = #{aplzl},
+                            LAST_UPDATE_DATE = #{lastUpdatedDate}
+                            <where>
+                                RSNUM = #{rsnum}
+                                and RSPOS = #{rspos}
+                            </where>
+
+    </update>
+    <insert id="insertByRsnum" parameterType="yj.core.resb.dto.Resb">
+        INSERT INTO sap_resb(RSNUM,RSPOS,POSTP,POSNR,XLOEK,MATNR,MAKTX,WERKS,LGORT,BDMNG,MEINS,RGEKZ,AUFPL,VORNR,APLZL,CREATION_DATE)VALUES
+                                (#{rsnum},#{rspos},#{postp},#{posnr},#{xloek},#{matnr},#{maktx},#{werks},#{lgort},#{bdmng},#{meins},#{rgekz},#{aufpl},#{vornr},#{aplzl},#{creationDate});
+    </insert>
+
+    <select id="selectByRsnum" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_resb
+        <where>
+            RSNUM = #{rsnum}
+        </where>
+    </select>
+
+    <select id="selectByRsnumForzpjsx" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from sap_resb
+        <where>
+            RSNUM = #{rsnum}
+            AND  (RGEKZ != 'X' OR RGEKZ IS NULL )
+            AND  (XLOEK != 'X' OR XLOEK IS NULL )
+        </where>
+    </select>
+
+    <delete id="deleteByAufpl" parameterType="java.lang.String">
+        delete FROM sap_resb where AUFPL = #{aufpl}
+    </delete>
+</mapper>

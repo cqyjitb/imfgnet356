@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.imfpmrecheckplan.mapper.RecheckplanMapper">
+    <resultMap id="BaseResultMap" type="yj.core.imfpmrecheckplan.dto.Recheckplan">
+        <result column="CHECKDOC" property="checkdoc" jdbcType="VARCHAR"/>
+        <result column="MPOBJ" property="mpobj" jdbcType="VARCHAR"/>
+        <result column="POINT" property="point" jdbcType="VARCHAR"/>
+        <result column="CHECKDATE" property="checkdate" jdbcType="DATE"/>
+        <result column="CHECKTIME" property="checktime" jdbcType="TIME"/>
+        <result column="CHECKCYCLE" property="checkcycle" jdbcType="VARCHAR"/>
+        <result column="CHECKSHIFT" property="checkshift" jdbcType="VARCHAR"/>
+        <result column="CODCT" property="codct" jdbcType="VARCHAR"/>
+        <result column="CODGR" property="codgr" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT1" property="kurztext1" jdbcType="VARCHAR"/>
+        <result column="CODE" property="code" jdbcType="VARCHAR"/>
+        <result column="KURZTEXT2" property="kurztext2" jdbcType="VARCHAR"/>
+        <result column="ATINN" property="atinn" jdbcType="VARCHAR"/>
+        <result column="ATBEZ" property="atbez" jdbcType="VARCHAR"/>
+        <result column="READG" property="readg" jdbcType="VARCHAR"/>
+        <result column="MRMIN" property="mrmin" jdbcType="VARCHAR"/>
+        <result column="MRMAX" property="mrmax" jdbcType="VARCHAR"/>
+        <result column="MRNGU" property="mrngu" jdbcType="DECIMAL"/>
+        <result column="MDTXT" property="mdtxt" jdbcType="VARCHAR"/>
+        <result column="RECHECK_STATE" property="recheckState" jdbcType="VARCHAR"/>
+        <result column="RECHECKDATE" property="recheckdate" jdbcType="DATE"/>
+        <result column="RECHECKTIME" property="rechecktime" jdbcType="TIME"/>
+        <result column="RECHECKSHIFT" property="recheckshift" jdbcType="VARCHAR"/>
+        <result column="RECHECKUSER" property="recheckuser" jdbcType="VARCHAR"/>
+        <result column="RECHECKDOC" property="recheckdoc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>

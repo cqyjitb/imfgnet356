@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.cardhlock.mapper.CardhlockMapper">
+    <resultMap id="BaseResultMap" type="yj.core.cardhlock.dto.Cardhlock">
+        <result column="ZPGDBAR" property="zpgdbar" jdbcType="VARCHAR" />
+        <result column="VORNR" property="vornr" jdbcType="VARCHAR" />
+        <result column="ATTR1" property="attr1" jdbcType="VARCHAR" />
+        <result column="ATTR2" property="attr2" jdbcType="VARCHAR" />
+        <result column="ATTR3" property="attr3" jdbcType="VARCHAR" />
+        <result column="ATTR4" property="attr4" jdbcType="VARCHAR" />
+        <result column="CREATION_DATE" property="creationDate" jdbcType="VARCHAR" />
+        <result column="CREATED_BY" property="createdBy" jdbcType="DECIMAL" />
+    </resultMap>
+
+    <insert id="insertCardhlock" parameterType="yj.core.cardhlock.dto.Cardhlock">
+        INSERT INTO sap_cardhlock (ZPGDBAR,VORNR,ATTR1,ATTR2,ATTR3,ATTR4,CREATION_DATE,CREATED_BY)
+        VALUES (#{zpgdbar},#{vornr},#{attr1},#{attr2},#{attr3},#{attr4},#{creationDate},#{createdBy})
+    </insert>
+
+    <select id="selectByZpgdbar" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * FROM  sap_cardhlock
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and VORNR = #{vornr}
+        </where>
+    </select>
+
+    <delete id="deleteCardhlock" parameterType="java.lang.String">
+        delete FROM sap_cardhlock
+        <where>
+            ZPGDBAR = #{zpgdbar}
+            and VORNR = #{vornr}
+        </where>
+    </delete>
+</mapper>

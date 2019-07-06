@@ -1,0 +1,220 @@
+<!--
+    暂存区维护
+-->
+<#include "../include/header.html">
+<script type="text/javascript">
+    var viewModel = kendo.observable({
+        model: {},
+        createFunction: function () {
+            $('#Grid').data('kendoGrid').addRow();
+        },
+        saveFunction: function () {
+            $('#Grid').data('kendoGrid').saveChanges();
+        },
+        queryResource: function (e) {
+            $('#Grid').data('kendoGrid').dataSource.page(1);
+        }
+    });
+</script>
+<body>
+<div id="page-content">
+    <div class="pull-left" id="toolbar-btn" style="padding-bottom:10px;">
+        <span class="btn btn-primary k-grid-add" style="float:left;margin-right:5px;" data-bind="click:createFunction"><@spring.message "hap.new"/></span>
+        <span class="btn btn-success k-grid-save-changes" data-bind="click:saveFunction" style="float:left;margin-right:5px;"><@spring.message "hap.save"/></span>
+        <span onclick="deleteData()" class="btn btn-danger" style="float:left;"><@spring.message "hap.delete"/></span>
+    </div>
+    <script>kendo.bind($('#toolbar-btn'), viewModel);</script>
+    <div class="pull-right" id="query-form" style="padding-bottom:10px;">
+        <span class="btn btn-primary" style="float:left;width:70px" data-bind="click:queryResource" type="submit"><@spring.message "hap.query"/></span>
+        <div style="clear:both"></div>
+    </div>
+    <script>kendo.bind($('#query-form'), viewModel);</script>
+    <div style="clear:both">
+        <div id="Grid"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var BaseUrl = _basePath;
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: BaseUrl + "/wip/area/query",
+                type: "POST",
+                dataType: "json"
+            },
+            update: {
+                url: BaseUrl + "/wip/area/submit",
+                type: "POST",
+                contentType: "application/json"
+            },
+            destroy: {
+                url: BaseUrl + "/wip/area/remove",
+                type: "POST",
+                contentType: "application/json"
+            },
+            create: {
+                url: BaseUrl + "/wip/area/submit",
+                type: "POST",
+                contentType: "application/json"
+            },
+            parameterMap: function (options, type) {
+                if (type !== "read" && options.models) {
+                    var datas = Hap.prepareSubmitParameter(options, type)
+                    return kendo.stringify(datas);
+                } else if (type === "read") {
+                    return Hap.prepareQueryParameter(viewModel.model.toJSON(), options)
+                }
+            }
+        },
+        batch: true,
+        serverPaging: true,
+        pageSize: 10,
+        schema: {
+            data: 'rows',
+            total: 'total',
+            model: {
+                id: "werks",
+                fields: {
+                    werks:{type:"string",editable:true},
+                    areano:{type:"string",editable:true},
+                    areatxt:{type:"string",editable:true},
+                    location:{type:"string",editable:true},
+                    stwks:{type:"string",editable:true},
+                    capacity:{type:"string",editable:true},
+                    capunit:{type:"string",editable:true},
+                    quota:{type:"string",editable:true},
+                    qtaunit:{type:"string",editable:true},
+                    avgtrastm:{type:"string",editable:true},
+                    tmunit:{type:"string",editable:true},
+                    cycletm:{type:"string",editable:true},
+                    isconfirm:{defaultValue: 'N', type: 'boolean', checkedValue: 'Y', uncheckedValue: 'N', editable:true},
+                    remark:{type:"string",editable:true},
+
+                }
+            }
+        }
+    });
+
+    $("#Grid").kendoGrid({
+        dataSource: dataSource,
+        height: '100%',
+        resizable: true,
+        scrollable: true,
+        navigatable: false,
+        selectable: 'multiple, rowbox',
+        pageable: {
+            pageSizes: [5, 10, 20, 50],
+            refresh: true,
+            buttonCount: 5
+        },
+        columns: [
+            {
+                field: "werks",
+                title: "工厂",
+                editable:true,
+                width: 120
+            },
+                    {
+                field: "areano",
+                title: "暂存区代号",
+                        editable:true,
+                width: 120
+            },
+                    {
+                field: "areatxt",
+                title: "暂存区名称",
+                        editable:true,
+                width: 120
+            },
+                    {
+                field: "location",
+                title: "暂存区地点",
+                        editable:true,
+                width: 120
+            },
+                    {
+                field: "stwks",
+                title: "工作中心",
+                        editable:true,
+                width: 120
+            },
+                    {
+                field: "manager",
+                title: "责任人",
+                        editable:true,
+                width: 120
+            },
+                    {
+                field: "capacity",
+                title: "容量",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "capunit",
+                title: "容量单位",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "quota",
+                title: "定额库存量",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "qtaunit",
+                title: "定额库存单位",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "avgtrastm",
+                title: "平均转运时间",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "tmunit",
+                title: "转运时间单位",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "cycletm",
+                title: "盘点周期",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "isconfirm",
+                title: "转入是否确认",
+                        editable:false,
+                width: 120
+            },
+                    {
+                field: "remark",
+                title: "备注",
+                        editable:true,
+                width: 120
+            },
+        ],
+        editable: true
+    });
+
+    function deleteData() {
+
+        Hap.deleteGridSelection({
+            grid: $('#Grid')
+        });
+
+    }
+
+    Hap.autoResizeGrid("#Grid");
+
+
+</script>
+</body>
+</html>

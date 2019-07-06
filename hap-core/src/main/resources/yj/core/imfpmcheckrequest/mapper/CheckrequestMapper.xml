@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="yj.core.imfpmcheckrequest.mapper.CheckrequestMapper">
+    <resultMap id="BaseResultMap" type="yj.core.imfpmcheckrequest.dto.Checkrequest">
+        <result column="ID" property="id" jdbcType="DECIMAL"/>
+        <result column="CHECKREQ" property="checkreq" jdbcType="VARCHAR"/>
+        <result column="CRDATE" property="crdate" jdbcType="DATE"/>
+        <result column="CRTIME" property="crtime" jdbcType="TIME"/>
+        <result column="CRUSER" property="cruser" jdbcType="VARCHAR"/>
+        <result column="DELETE_FLAG" property="deleteFlag" jdbcType="VARCHAR"/>
+        <result column="UPDATE" property="update" jdbcType="DATE"/>
+        <result column="UPTIME" property="uptime" jdbcType="TIME"/>
+        <result column="UPUSER" property="upuser" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectCheckrequest" parameterType="yj.core.imfpmcheckrequest.dto.Checkrequest" resultMap="BaseResultMap">
+        select * from imf_pm_checkrequest
+        <where>
+            1 = 1
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="checkreq != null">
+                and checkreq = #{checkreq}
+            </if>
+        </where>
+        order by id asc
+    </select>
+    <select id="selectMaxCheckrequest" resultType="java.lang.Integer">
+        select COALESCE(Max(id),0) from imf_pm_checkrequest
+    </select>
+    <update id="updateCheckrequest" parameterType="yj.core.imfpmcheckrequest.dto.Checkrequest">
+        UPDATE imf_pm_checkrequest SET ID=#{id},CHECKREQ=#{checkreq},DELETE_FLAG=#{deleteFlag},CHDATE=#{chdate},CHTIME=#{chtime},CHUSER=#{chuser}
+        <where>
+            ID = #{id}
+        </where>
+    </update>
+    <insert id="insertCheckrequest" parameterType="yj.core.imfpmcheckrequest.dto.Checkrequest">
+        INSERT INTO imf_pm_checkrequest (ID,CHECKREQ,CRDATE,CRTIME,CRUSER)
+        VALUES (#{id},#{checkreq},#{crdate},#{crtime},#{cruser})
+    </insert>
+</mapper>
