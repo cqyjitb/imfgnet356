@@ -1,7 +1,5 @@
-package yj.core.TaskJob;
+package com.hand.hap.job;
 
-import com.hand.hap.job.AbstractJob;
-import com.hand.hap.job.KanbGetDataJob;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;
@@ -25,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PassRateDateJob extends AbstractJob {
-    private static Logger log = LoggerFactory.getLogger(KanbGetDataJob.class);
+    private static Logger log = LoggerFactory.getLogger(PassRateDateJob.class);
     @Autowired
     private IInOutRecordService inOutRecordService;
     @Autowired

@@ -1,6 +1,5 @@
-package yj.core.TaskJob;
+package com.hand.hap.job;
 
-import com.hand.hap.job.AbstractJob;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobKey;

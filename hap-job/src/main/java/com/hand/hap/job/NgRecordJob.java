@@ -1,6 +1,5 @@
-package yj.core.TaskJob;
+package com.hand.hap.job;
 
-import com.hand.hap.job.AbstractJob;
 import com.hand.hap.job.dto.SimpleTriggerDto;
 import com.hand.hap.job.service.IQuartzService;
 import org.quartz.JobDetail;

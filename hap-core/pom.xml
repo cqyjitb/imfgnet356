@@ -353,6 +353,12 @@
             <artifactId>freemarker</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>RELEASE</version>
+        </dependency>
+
         <!--cxf-->
         <dependency>
             <groupId>org.apache.cxf</groupId>

@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -77,6 +78,16 @@ public class EmployeeController extends BaseController {
     public ResponseData queryUsers(HttpServletRequest request, @ModelAttribute User user) {
         IRequest iRequest = createRequestContext(request);
         return new ResponseData(employeeService.selectExistingUser(iRequest, user));
+    }
+
+    @RequestMapping(value = "/hr/employee/queryByCode",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseData queryByCode(HttpServletRequest request){
+        String code = request.getParameter("code");
+        List<Employee> list = new ArrayList<Employee>();
+        Employee employee = this.employeeService.queryByCode(code);
+        list.add(employee);
+        return new ResponseData(list);
     }
 
 }

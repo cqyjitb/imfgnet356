@@ -92,4 +92,6 @@ public interface IEmployeeService extends IBaseService<Employee>, ProxySelf<IEmp
      * @return 用户信息
      */
     List<User> selectExistingUser(IRequest request, User user);
+
+    Employee queryByCode(String code);
 }

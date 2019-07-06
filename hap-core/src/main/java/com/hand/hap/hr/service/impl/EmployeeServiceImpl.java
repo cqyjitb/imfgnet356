@@ -165,4 +165,9 @@ public class EmployeeServiceImpl extends BaseServiceImpl<Employee> implements IE
         employeeAssignMapper.deleteByEmployeeId(employee.getEmployeeId());
         return result;
     }
+
+    @Override
+    public Employee queryByCode(String code) {
+        return employeeMapper.queryByCode(code);
+    }
 }
