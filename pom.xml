@@ -67,7 +67,7 @@
         <!--<project.build.version>3.5-SNAPSHOT</project.build.version>-->
         <project.buildDate>${maven.build.timestamp}</project.buildDate>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.security.version>4.0.4.RELEASE</spring.security.version>
+        <spring.security.version>4.2.13.RELEASE</spring.security.version>
         <spring.version>4.3.11.RELEASE</spring.version>
         <freemarker.version>2.3.21</freemarker.version>
         <junit.version>4.12</junit.version>
